@@ -1,0 +1,64 @@
+name: "✨ Feature Request"
+description: 新機能の提案・改善要望を起票します
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 機能要望を投稿する前に
+        - [ ] [既存の Issue](../../issues) を検索して重複がないか確認しましたか？
+        - [ ] この要望がプロジェクトのスコープに合っていると思いますか？
+
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景・課題
+      description: なぜこの機能が必要ですか？現在どのような問題や不便があるか説明してください。
+      placeholder: |
+        例：〇〇をしようとすると、毎回△△という手順を踏む必要があり不便です。
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 提案する解決策
+      description: どのような機能・UX を想定していますか？できるだけ具体的に記述してください。
+      placeholder: |
+        例：〇〇ボタンを追加し、クリックすると△△が自動的に実行されるようにしてほしい。
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 検討した代替案
+      description: 他に考えた解決策があれば記述してください。（任意）
+      placeholder: |
+        例：ブラウザ拡張機能で代替できるが、ネイティブ対応が望ましい。
+
+  - type: textarea
+    id: mockup
+    attributes:
+      label: モックアップ・参考資料
+      description: UI イメージ、スクリーンショット、参考 URL などがあれば添付してください。（任意）
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 優先度（主観）
+      description: あなたにとってこの機能はどのくらい重要ですか？
+      options:
+        - "低 — あると嬉しい"
+        - "中 — 定期的に困っている"
+        - "高 — 現在の作業がブロックされている"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: コントリビューション
+      options:
+        - label: 自分でこの機能を実装する PR を提出したい

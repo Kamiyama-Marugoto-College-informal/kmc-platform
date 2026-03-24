@@ -1,0 +1,110 @@
+name: 🐛 Bug Report
+description: 再現可能なバグを報告する
+title: "fix: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        バグ報告ありがとうございます。
+        起票前に **既存の Issue と重複していないか** 検索してください。
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: 事前確認
+      options:
+        - label: 既存の Issue を検索し、重複がないことを確認した
+          required: true
+        - label: 最新の `develop` ブランチで問題が再現することを確認した
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: バグの概要
+      description: 何が起きているか、一言で説明してください。
+      placeholder: 例）ログインボタンを押すと画面が真っ白になる
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 再現手順
+      description: バグを再現するための具体的なステップを記載してください。
+      placeholder: |
+        1. トップページにアクセスする
+        2. 「ログイン」ボタンをクリックする
+        3. メールアドレスとパスワードを入力して送信する
+        4. 画面が真っ白になる
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待する動作
+      description: 本来どのように動くべきか説明してください。
+      placeholder: 例）ログイン後、ダッシュボードページにリダイレクトされる
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: 実際の動作
+      description: 実際に何が起きているか説明してください。
+      placeholder: 例）画面が真っ白になり、コンソールに TypeError が表示される
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: エラーログ / スクリーンショット
+      description: |
+        ブラウザのコンソールに表示されるエラーログや、スクリーンショットがあれば貼り付けてください。
+        コードブロックで囲むと読みやすくなります。
+      render: shell
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: OS
+      multiple: true
+      options:
+        - macOS
+        - Windows
+        - Linux
+        - iOS
+        - Android
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: ブラウザ
+      multiple: true
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - その他
+    validations:
+      required: true
+
+  - type: input
+    id: node_version
+    attributes:
+      label: Node.js バージョン
+      description: "`node -v` の出力を貼り付けてください（開発者の場合）"
+      placeholder: 例）v22.3.0
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 補足情報
+      description: 再現条件・関連する Issue・試した回避策など、追加で共有したい情報があれば記載してください。
