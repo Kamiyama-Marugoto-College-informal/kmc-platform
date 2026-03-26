@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { authClient } from "./lib/auth-client";
 import { UserAvatar } from "./components/UserAvatar";
 import "./App.css";
 
 function App() {
   const { data: session, isPending } = authClient.useSession();
+  const [authError, setAuthError] = useState<string | null>(null);
 
   if (isPending) {
     return (
@@ -19,14 +21,19 @@ function App() {
         <div className="auth-card">
           <h1>KMC Platform</h1>
           <p>kamiyama.ac.jp アカウントでログインしてください</p>
+          {authError && (
+            <p style={{ color: "red", fontSize: 13, marginBottom: 12 }}>{authError}</p>
+          )}
           <button
             className="google-signin"
-            onClick={() =>
-              authClient.signIn.social({
+            onClick={async () => {
+              setAuthError(null);
+              const { error } = await authClient.signIn.social({
                 provider: "google",
-                callbackURL: "/",
-              })
-            }
+                callbackURL: window.location.origin,
+              });
+              if (error) setAuthError(error.message ?? "ログインに失敗しました");
+            }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
