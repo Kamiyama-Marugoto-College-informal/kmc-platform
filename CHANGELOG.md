@@ -6,8 +6,13 @@
 - `server/` ディレクトリを追加し、Honoベースのサーバーを構築
   - `server/index.ts`: Hono + `@hono/node-server` によるHTTPサーバーエントリポイント
   - `server/db/index.ts`: `@neondatabase/serverless` + `drizzle-orm/neon-http` によるDBクライアント
-  - `server/db/schema.ts`: Drizzleスキーマ定義ファイル（テーブルは今後追加）
-- `drizzle.config.ts`: drizzle-kitの設定（schema: `server/db/schema.ts`, dialect: postgresql）
+  - `server/db/schema/`: Drizzleスキーマをドメイン別に分割
+    - `enums.ts`: 全enum定義（ChallengeFundCategory, ChallengeFundStatus, NotificationType, UserRole）
+    - `auth.ts`: 認証関連テーブル（User, Account, Session, Verification, RateLimit）
+    - `challenge.ts`: チャレンジファンド関連テーブル（ChallengeFund, BudgetItem, CalendarEvent, PitchScore, BudgetConfig）
+    - `notification.ts`: 通知テーブル（Notification）
+    - `index.ts`: 全テーブルのre-export
+- `drizzle.config.ts`: drizzle-kitの設定（schema: `server/db/schema/index.ts`, dialect: postgresql）
 - `.env.example`: `DATABASE_URL`, `PORT` のテンプレート追加
 
 ### Changed
