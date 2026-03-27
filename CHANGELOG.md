@@ -22,6 +22,8 @@
 
 ### Fixed
 
+- CI: `bun.lock` をリポジトリに含め、`.gitignore` のロック除外をやめて `bun install --frozen-lockfile` がクリーンクローンで通るようにした
+- Drizzle: 旧 better-auth 向けの `0000_milky_toxin` をやめ、`profiles` と `profile_role` enum のみの初期マイグレーション `0000_init` に差し替え（`useAuth` の `profiles` upsert と整合）
 - `Header`: `UserAvatar` に委譲して重複を解消、`AppUser` を渡す形に統一
 - `App`: `useAuth` の import 欠落を修正し、ログインユーザーを `Header` に渡すよう修正
 
