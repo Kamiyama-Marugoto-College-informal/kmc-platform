@@ -1,11 +1,11 @@
 import { Link, NavLink } from 'react-router-dom'
 
-import { UserAvatar } from '@/components/UserAvatar'
+import { HeaderAccountMenu } from '@/components/HeaderAccountMenu'
 import { cn } from '@/lib/utils'
 import type { AppUser } from '@/lib/supabase'
 
 interface HeaderProps {
-  user: Pick<AppUser, 'name' | 'image' | 'role'>
+  user: Pick<AppUser, 'name' | 'role'>
 }
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -33,15 +33,9 @@ export function Header({ user }: HeaderProps) {
           <NavLink to="/" end className={navLinkClass}>
             ダッシュボード
           </NavLink>
-          <NavLink to="/notifications" className={navLinkClass}>
-            通知
-          </NavLink>
-          <NavLink to="/profile/settings" className={navLinkClass}>
-            設定
-          </NavLink>
         </nav>
       </div>
-      <UserAvatar name={user.name} image={user.image} role={user.role} />
+      <HeaderAccountMenu user={user} />
     </header>
   )
 }

@@ -4,11 +4,17 @@
 
 ### Added
 
+- shadcn `dropdown-menu`（[`src/components/ui/dropdown-menu.tsx`](src/components/ui/dropdown-menu.tsx)）
+- [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx): アイコンボタンから設定・通知・ログアウト（Supabase `signOut`）のドロップダウン
 - `react-router-dom` を導入し、ログイン後のみ `BrowserRouter` でルーティング
 - `AppShell`（[`src/components/layout/AppShell.tsx`](src/components/layout/AppShell.tsx)）: ヘッダー + メイン領域 + `Outlet`
 - ルート: `/` ダッシュボード、`/notifications`、`/profile/settings`、`/dashboard` → `/` へリダイレクト
 - [`src/pages/dashboard`](src/pages/dashboard/index.tsx) / [`notifications`](src/pages/notifications/index.tsx) / [`profile/settings`](src/pages/profile/settings/index.tsx): タイトル + `Card` のプレースホルダー
-- [`Header`](src/components/Header.tsx): `Link` / `NavLink` によるトップナビ（ダッシュボード・通知・設定）
+- [`Header`](src/components/Header.tsx): ロゴ・ダッシュボードの `Link` / `NavLink` と [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx)
+
+### Changed
+
+- [`Header`](src/components/Header.tsx): 通知・設定は `HeaderAccountMenu` に集約（トップナビはダッシュボードのみ）
 
 ### Fixed
 
