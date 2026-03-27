@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx): ドロップダウンのトリガーを `UserAvatar`（プロフィール画像・イニシャル）に変更
+
 ### Added
 
 - shadcn `dropdown-menu`（[`src/components/ui/dropdown-menu.tsx`](src/components/ui/dropdown-menu.tsx)）

@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import type { AppUser } from '@/lib/supabase'
 
 interface HeaderProps {
-  user: Pick<AppUser, 'name' | 'role'>
+  user: Pick<AppUser, 'name' | 'image' | 'role'>
 }
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
