@@ -4,6 +4,7 @@
 
 ### Added
 
+- `.cursor/skills/github-pr-creator/SKILL.md`: GitHub CLI で PR を作成する際に `.github/PULL_REQUEST_TEMPLATE.md` に沿って本文を組み立てる Cursor 用スキル
 - `server/` ディレクトリを追加し、Honoベースのサーバーを構築
   - `server/index.ts`: Hono + `@hono/node-server` によるHTTPサーバーエントリポイント
   - `server/db/index.ts`: `@neondatabase/serverless` + `drizzle-orm/neon-http` によるDBクライアント
