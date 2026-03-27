@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Added
+
 - `server/` ディレクトリを追加し、Honoベースのサーバーを構築
   - `server/index.ts`: Hono + `@hono/node-server` によるHTTPサーバーエントリポイント
   - `server/db/index.ts`: `@neondatabase/serverless` + `drizzle-orm/neon-http` によるDBクライアント
@@ -16,6 +17,7 @@
 - `.env.example`: `DATABASE_URL`, `PORT` のテンプレート追加
 
 ### Changed
+
 - `package.json` にサーバー・DB関連スクリプト追加
   - `dev:server`: Bunのwatchモードでサーバー起動
   - `db:generate`: マイグレーションファイル生成
@@ -24,5 +26,6 @@
   - `db:studio`: Drizzle Studio起動
 
 ### Dependencies
+
 - Added: `hono`, `@hono/node-server`, `@neondatabase/serverless`, `drizzle-orm`
 - Added (dev): `drizzle-kit`
