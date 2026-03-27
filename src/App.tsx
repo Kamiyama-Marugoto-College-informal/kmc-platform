@@ -47,13 +47,29 @@ const messages = {
   },
 } as const
 
+function isLanguage(value: string): value is Language {
+  return value === 'ja' || value === 'en'
+}
+
+function ignoreStorageError() {
+  return
+}
+
 function detectInitialLanguage(): Language {
-  const savedLanguage = window.localStorage.getItem(LANG_STORAGE_KEY)
-  if (savedLanguage === 'ja' || savedLanguage === 'en') {
-    return savedLanguage
+  if (typeof window !== 'undefined') {
+    try {
+      const savedLanguage = window.localStorage.getItem(LANG_STORAGE_KEY)
+      if (savedLanguage && isLanguage(savedLanguage)) {
+        return savedLanguage
+      }
+    } catch {
+      ignoreStorageError()
+    }
+
+    return window.navigator.language.toLowerCase().startsWith('ja') ? 'ja' : 'en'
   }
 
-  return navigator.language.toLowerCase().startsWith('ja') ? 'ja' : 'en'
+  return 'en'
 }
 
 function App() {
@@ -62,7 +78,11 @@ function App() {
   const t = messages[language]
 
   useEffect(() => {
-    window.localStorage.setItem(LANG_STORAGE_KEY, language)
+    try {
+      window.localStorage.setItem(LANG_STORAGE_KEY, language)
+    } catch {
+      ignoreStorageError()
+    }
     document.documentElement.lang = language
   }, [language])
 
@@ -99,7 +119,12 @@ function App() {
           <select
             id="main-language"
             value={language}
-            onChange={(event) => setLanguage(event.target.value as Language)}
+            onChange={(event) => {
+              const nextLanguage = event.target.value
+              if (isLanguage(nextLanguage)) {
+                setLanguage(nextLanguage)
+              }
+            }}
           >
             <option value="ja">{t.japanese}</option>
             <option value="en">{t.english}</option>
