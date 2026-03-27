@@ -27,15 +27,9 @@ function App() {
       <Routes>
         <Route path="/" element={<AppShell user={user} />}>
           <Route index element={<DashboardPage />} />
-          <Route
-            path="dashboard"
-            element={<Navigate to="/" replace />}
-          />
+          <Route path="dashboard" element={<Navigate to="/" replace />} />
           <Route path="notifications" element={<NotificationsPage />} />
-          <Route
-            path="profile/settings"
-            element={<ProfileSettingsPage />}
-          />
+          <Route path="profile/settings" element={<ProfileSettingsPage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

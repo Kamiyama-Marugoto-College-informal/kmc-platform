@@ -11,9 +11,7 @@ interface HeaderProps {
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   cn(
     'rounded-md px-2 py-1 text-sm transition-colors hover:text-foreground',
-    isActive
-      ? 'font-medium text-foreground'
-      : 'text-muted-foreground',
+    isActive ? 'font-medium text-foreground' : 'text-muted-foreground',
   )
 
 export function Header({ user }: HeaderProps) {
