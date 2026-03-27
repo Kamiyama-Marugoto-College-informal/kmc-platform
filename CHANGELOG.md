@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- `Header`: `UserAvatar` に委譲して重複を解消、`AppUser` を渡す形に統一
+- `App`: `useAuth` の import 欠落を修正し、ログインユーザーを `Header` に渡すよう修正
+
 ### Added (feat: #3 デザインシステム)
 
 - Tailwind CSS v4（`@tailwindcss/vite`）と shadcn/ui（`components.json`、radix-nova スタイル）を導入
