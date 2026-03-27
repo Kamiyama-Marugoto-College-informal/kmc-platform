@@ -2,6 +2,22 @@
 
 ## [Unreleased]
 
+### Added (feat: #3 デザインシステム)
+
+- Tailwind CSS v4（`@tailwindcss/vite`）と shadcn/ui（`components.json`、radix-nova スタイル）を導入
+- `src/components/ui/` に Button / Card / Avatar / Separator、`src/lib/utils.ts` に `cn()` を追加
+- `src/index.css` にセマンティックトークン（`--primary` 等）とロール用 `--role-*` を整理し、`prefers-color-scheme: dark` で shadcn 変数を切替
+- `tsconfig.json` / `tsconfig.app.json` と `vite.config.ts` に import エイリアス `@/*` → `src/*` を追加
+- `docs/design-system.md`（コンポーネント規約）と `.cursor/skills/kmc-design-system/SKILL.md`（AI 向けガイド）を追加
+- `eslint.config.js`: `src/components/ui/**` で `react-refresh/only-export-components` を無効化（shadcn の variant エクスポート用）
+
+### Changed (feat: #3 デザインシステム)
+
+- `src/App.tsx` / `src/(auth)/login/index.tsx` を shadcn + Tailwind に移行（ヘッダー・ログインカード・ログアウトボタン）
+- `src/components/UserAvatar.tsx` を shadcn Avatar + ロール色リングに変更
+- `src/App.css` を削除（スタイルはトークン + Tailwind に集約）
+- `#root` の強制 `text-align: center` をやめ、各画面で整列を指定
+
 ### Changed (refactor: better-auth → Supabase Auth)
 
 - 認証基盤を `better-auth` から Supabase Auth (`@supabase/supabase-js`) に全面移行
