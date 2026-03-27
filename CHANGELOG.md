@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+### Added
+
+- `react-router-dom` を導入し、ログイン後のみ `BrowserRouter` でルーティング
+- `AppShell`（[`src/components/layout/AppShell.tsx`](src/components/layout/AppShell.tsx)）: ヘッダー + メイン領域 + `Outlet`
+- ルート: `/` ダッシュボード、`/notifications`、`/profile/settings`、`/dashboard` → `/` へリダイレクト
+- [`src/pages/dashboard`](src/pages/dashboard/index.tsx) / [`notifications`](src/pages/notifications/index.tsx) / [`profile/settings`](src/pages/profile/settings/index.tsx): タイトル + `Card` のプレースホルダー
+- [`Header`](src/components/Header.tsx): `Link` / `NavLink` によるトップナビ（ダッシュボード・通知・設定）
+
 ### Fixed
 
 - `Header`: `UserAvatar` に委譲して重複を解消、`AppUser` を渡す形に統一
