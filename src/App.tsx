@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
@@ -11,8 +11,7 @@ const LANG_STORAGE_KEY = 'mainLanguage'
 const messages = {
   ja: {
     getStarted: 'はじめに',
-    editHintPrefix: '編集して保存すると',
-    editHintSuffix: 'を確認できます',
+    editHintTemplate: '編集して保存すると {file} で {feature} を確認できます',
     countLabel: 'カウント',
     documentation: 'ドキュメント',
     docsSubtext: '質問への回答をまとめています',
@@ -29,8 +28,7 @@ const messages = {
   },
   en: {
     getStarted: 'Get started',
-    editHintPrefix: 'Edit',
-    editHintSuffix: 'and save to test',
+    editHintTemplate: 'Edit {file} and save to test {feature}',
     countLabel: 'Count is',
     documentation: 'Documentation',
     docsSubtext: 'Your questions, answered',
@@ -51,8 +49,14 @@ function isLanguage(value: string): value is Language {
   return value === 'ja' || value === 'en'
 }
 
-function ignoreStorageError() {
-  return
+function ignoreStorageError(error: unknown) {
+  void error
+}
+
+function detectBrowserLanguage(): Language {
+  return (window.navigator.language ?? '').toLowerCase().startsWith('ja')
+    ? 'ja'
+    : 'en'
 }
 
 function detectInitialLanguage(): Language {
@@ -62,11 +66,11 @@ function detectInitialLanguage(): Language {
       if (savedLanguage && isLanguage(savedLanguage)) {
         return savedLanguage
       }
-    } catch {
-      ignoreStorageError()
+    } catch (error) {
+      ignoreStorageError(error)
     }
 
-    return window.navigator.language.toLowerCase().startsWith('ja') ? 'ja' : 'en'
+    return detectBrowserLanguage()
   }
 
   return 'en'
@@ -80,11 +84,28 @@ function App() {
   useEffect(() => {
     try {
       window.localStorage.setItem(LANG_STORAGE_KEY, language)
-    } catch {
-      ignoreStorageError()
+    } catch (error) {
+      ignoreStorageError(error)
     }
     document.documentElement.lang = language
   }, [language])
+
+  const editHintTemplateParts = useMemo(() => {
+    const fileToken = '{file}'
+    const featureToken = '{feature}'
+    const fileIndex = t.editHintTemplate.indexOf(fileToken)
+    const featureIndex = t.editHintTemplate.indexOf(featureToken)
+    const isTemplateValid =
+      fileIndex >= 0 && featureIndex > fileIndex + fileToken.length
+
+    return {
+      fileToken,
+      featureToken,
+      fileIndex,
+      featureIndex,
+      isTemplateValid,
+    }
+  }, [t.editHintTemplate])
 
   return (
     <>
@@ -97,8 +118,27 @@ function App() {
         <div>
           <h1>{t.getStarted}</h1>
           <p>
-            <span>{t.editHintPrefix}</span> <code>src/App.tsx</code>{' '}
-            <span>{t.editHintSuffix}</span> <code>HMR</code>
+            {editHintTemplateParts.isTemplateValid ? (
+              <>
+                <span>{t.editHintTemplate.slice(0, editHintTemplateParts.fileIndex)}</span>
+                <code>src/App.tsx</code>
+                <span>
+                  {t.editHintTemplate.slice(
+                    editHintTemplateParts.fileIndex + editHintTemplateParts.fileToken.length,
+                    editHintTemplateParts.featureIndex,
+                  )}
+                </span>
+                <code>HMR</code>
+                <span>
+                  {t.editHintTemplate.slice(
+                    editHintTemplateParts.featureIndex +
+                      editHintTemplateParts.featureToken.length,
+                  )}
+                </span>
+              </>
+            ) : (
+              <span>{t.editHintTemplate}</span>
+            )}
           </p>
         </div>
         <button
