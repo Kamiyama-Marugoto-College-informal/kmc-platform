@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { supabase } from "../../lib/supabase";
+import { useState } from 'react'
+import { supabase } from '../../lib/supabase'
 
 interface LoginPageProps {
-  error?: string | null;
+  error?: string | null
 }
 
 export function LoginPage({ error: externalError }: LoginPageProps) {
-  const [error, setError] = useState<string | null>(externalError ?? null);
+  const [error, setError] = useState<string | null>(externalError ?? null)
 
   return (
     <div className="auth-center">
@@ -14,17 +14,19 @@ export function LoginPage({ error: externalError }: LoginPageProps) {
         <h1>KMC Platform</h1>
         <p>kamiyama.ac.jp アカウントでログインしてください</p>
         {error && (
-          <p style={{ color: "red", fontSize: 13, marginBottom: 12 }}>{error}</p>
+          <p style={{ color: 'red', fontSize: 13, marginBottom: 12 }}>
+            {error}
+          </p>
         )}
         <button
           className="google-signin"
           onClick={async () => {
-            setError(null);
+            setError(null)
             const { error } = await supabase.auth.signInWithOAuth({
-              provider: "google",
+              provider: 'google',
               options: { redirectTo: window.location.origin },
-            });
-            if (error) setError(error.message ?? "ログインに失敗しました");
+            })
+            if (error) setError(error.message ?? 'ログインに失敗しました')
           }}
         >
           <svg
@@ -54,5 +56,5 @@ export function LoginPage({ error: externalError }: LoginPageProps) {
         </button>
       </div>
     </div>
-  );
+  )
 }

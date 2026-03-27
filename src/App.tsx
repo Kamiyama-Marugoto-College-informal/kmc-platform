@@ -1,22 +1,22 @@
-import { useAuth } from "./hooks/useAuth";
-import { UserAvatar } from "./components/UserAvatar";
-import { LoginPage } from "./(auth)/login";
-import { supabase } from "./lib/supabase";
-import "./App.css";
+import { useAuth } from './hooks/useAuth'
+import { UserAvatar } from './components/UserAvatar'
+import { LoginPage } from './(auth)/login'
+import { supabase } from './lib/supabase'
+import './App.css'
 
 function App() {
-  const { user, loading, authError } = useAuth();
+  const { user, loading, authError } = useAuth()
 
   if (loading) {
     return (
       <div className="auth-center">
         <p>読み込み中...</p>
       </div>
-    );
+    )
   }
 
   if (!user) {
-    return <LoginPage error={authError} />;
+    return <LoginPage error={authError} />
   }
 
   return (
@@ -41,7 +41,7 @@ function App() {
         <p>ようこそ、{user.name} さん</p>
       </main>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
