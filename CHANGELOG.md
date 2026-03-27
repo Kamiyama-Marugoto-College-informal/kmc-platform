@@ -2,6 +2,19 @@
 
 ## [Unreleased]
 
+### Changed (refactor: better-auth → Supabase Auth)
+- 認証基盤を `better-auth` から Supabase Auth (`@supabase/supabase-js`) に全面移行
+  - `server/auth.ts` 削除: better-auth 設定を撤去
+  - `server/db/schema/auth.ts` 削除: better-auth 用 Drizzle スキーマ（user, session, account, verification）を撤去
+  - `server/db/schema/profiles.ts` 追加: ユーザーのロール管理用 `profiles` テーブル（`auth.users.id` と対応）
+  - `server/index.ts`: `/api/auth/**` ルートを削除（Supabase Auth はフロントエンドから直接呼び出すため）
+  - `src/lib/auth-client.ts` 削除・`src/lib/supabase.ts` 追加: `createClient` による Supabase クライアント
+  - `src/App.tsx`: `authClient.useSession()` → `supabase.auth.getSession()` + `onAuthStateChange` に変更
+    - ドメイン制限 (`@kamiyama.ac.jp`) を `onAuthStateChange` 内でチェック、違反時は `signOut()`
+    - Google OAuth: `authClient.signIn.social()` → `supabase.auth.signInWithOAuth({ provider: 'google' })` に変更
+  - `.env.example`: `BETTER_AUTH_*` を削除、`VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` を追加
+- Dependencies: `better-auth` を削除、`@supabase/supabase-js` を追加
+
 ### Added (feat: #1 認証機能)
 - `better-auth` v1 を導入し、Google OAuth 認証を実装
   - `server/auth.ts`: better-auth 設定（Google provider, `@kamiyama.ac.jp` ドメイン制限, ロール additionalField）

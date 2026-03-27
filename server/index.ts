@@ -1,12 +1,11 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { serve } from "@hono/node-server";
-import { auth } from "./auth";
 
 const app = new Hono();
 
 app.use(
-  "/api/auth/*",
+  "/api/*",
   cors({
     origin: process.env.FRONTEND_URL ?? "http://localhost:5173",
     allowHeaders: ["Content-Type", "Authorization"],
@@ -14,8 +13,6 @@ app.use(
     credentials: true,
   })
 );
-
-app.on(["GET", "POST"], "/api/auth/**", (c) => auth.handler(c.req.raw));
 
 app.get("/", (c) => c.json({ status: "ok" }));
 
