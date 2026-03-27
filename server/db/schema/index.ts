@@ -1,4 +1,4 @@
-// Please add drizzle schema.
-// **.ts
+// データベース名は大文字から始めること。
 
-export * from "./";
+export * from './enums'
+export * from './profiles'

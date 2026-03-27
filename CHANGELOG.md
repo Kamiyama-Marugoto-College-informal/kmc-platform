@@ -2,7 +2,44 @@
 
 ## [Unreleased]
 
+### Changed (refactor: better-auth → Supabase Auth)
+
+- 認証基盤を `better-auth` から Supabase Auth (`@supabase/supabase-js`) に全面移行
+  - `server/auth.ts` 削除: better-auth 設定を撤去
+  - `server/db/schema/auth.ts` 削除: better-auth 用 Drizzle スキーマ（user, session, account, verification）を撤去
+  - `server/db/schema/profiles.ts` 追加: ユーザーのロール管理用 `profiles` テーブル（`auth.users.id` と対応）
+  - `server/index.ts`: `/api/auth/**` ルートを削除（Supabase Auth はフロントエンドから直接呼び出すため）
+  - `src/lib/auth-client.ts` 削除・`src/lib/supabase.ts` 追加: `createClient` による Supabase クライアント
+  - `src/App.tsx`: `authClient.useSession()` → `supabase.auth.getSession()` + `onAuthStateChange` に変更
+    - ドメイン制限 (`@kamiyama.ac.jp`) を `onAuthStateChange` 内でチェック、違反時は `signOut()`
+    - Google OAuth: `authClient.signIn.social()` → `supabase.auth.signInWithOAuth({ provider: 'google' })` に変更
+  - `.env.example`: `BETTER_AUTH_*` を削除、`VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` を追加
+- Dependencies: `better-auth` を削除、`@supabase/supabase-js` を追加
+
+### Added (feat: #1 認証機能)
+
+- `better-auth` v1 を導入し、Google OAuth 認証を実装
+  - `server/auth.ts`: better-auth 設定（Google provider, `@kamiyama.ac.jp` ドメイン制限, ロール additionalField）
+  - `databaseHooks.user.create.before` で `@kamiyama.ac.jp` 以外のアドレスを `FORBIDDEN` エラーで拒否
+  - `server/db/schema/auth.ts`: better-auth 用の Drizzle スキーマ（user, session, account, verification テーブル）
+    - `user` テーブルに `role` カラム追加（デフォルト: `"student"`）
+  - `server/index.ts`: `/api/auth/**` に auth handler をマウント、CORS 設定追加
+- `src/lib/auth-client.ts`: `better-auth/react` の `createAuthClient` によるクライアント設定
+- `src/components/UserAvatar.tsx`: ロール別ボーダー色のユーザーアバターコンポーネント
+  - student: 青, staff: 緑, admin: オレンジ
+- `src/App.tsx`: ログイン画面（Google サインインボタン）とダッシュボード画面に刷新
+- `src/App.css`: 認証 UI とダッシュボードのスタイル
+- `drizzle/0000_milky_toxin.sql`: 初期マイグレーションファイル（drizzle-kit generate で生成）
+
+### Changed
+
+- `server/db/schema/index.ts`: 自己参照エクスポートを修正し `./auth` を正しくエクスポート
+- `vite.config.ts`: `/api` を `http://localhost:3000` にプロキシする設定を追加
+- `.env.example`: `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `FRONTEND_URL` を追加
+
 ### Added
+
+- `.cursor/skills/github-pr-creator/SKILL.md`: GitHub CLI で PR を作成する際に `.github/PULL_REQUEST_TEMPLATE.md` に沿って本文を組み立てる Cursor 用スキル
 - `server/` ディレクトリを追加し、Honoベースのサーバーを構築
   - `server/index.ts`: Hono + `@hono/node-server` によるHTTPサーバーエントリポイント
   - `server/db/index.ts`: `@neondatabase/serverless` + `drizzle-orm/neon-http` によるDBクライアント
@@ -16,6 +53,7 @@
 - `.env.example`: `DATABASE_URL`, `PORT` のテンプレート追加
 
 ### Changed
+
 - `package.json` にサーバー・DB関連スクリプト追加
   - `dev:server`: Bunのwatchモードでサーバー起動
   - `db:generate`: マイグレーションファイル生成
@@ -24,5 +62,6 @@
   - `db:studio`: Drizzle Studio起動
 
 ### Dependencies
+
 - Added: `hono`, `@hono/node-server`, `@neondatabase/serverless`, `drizzle-orm`
 - Added (dev): `drizzle-kit`
