@@ -1,18 +1,22 @@
 import { useState } from 'react'
 import { supabase } from '../../lib/supabase'
+import { useTranslation } from '../../i18n/useTranslation'
 
 interface LoginPageProps {
   error?: string | null
 }
 
 export function LoginPage({ error: externalError }: LoginPageProps) {
-  const [error, setError] = useState<string | null>(externalError ?? null)
+  const [internalError, setInternalError] = useState<string | null>(null)
+  const { t } = useTranslation()
+
+  const error = externalError ?? internalError
 
   return (
     <div className="auth-center">
       <div className="auth-card">
-        <h1>KMC Platform</h1>
-        <p>kamiyama.ac.jp アカウントでログインしてください</p>
+        <h1>{t('loginTitle')}</h1>
+        <p>{t('loginSubtitle')}</p>
         {error && (
           <p style={{ color: 'red', fontSize: 13, marginBottom: 12 }}>
             {error}
@@ -21,12 +25,12 @@ export function LoginPage({ error: externalError }: LoginPageProps) {
         <button
           className="google-signin"
           onClick={async () => {
-            setError(null)
+            setInternalError(null)
             const { error } = await supabase.auth.signInWithOAuth({
               provider: 'google',
               options: { redirectTo: window.location.origin },
             })
-            if (error) setError(error.message ?? 'ログインに失敗しました')
+            if (error) setInternalError(error.message ?? t('loginFailed'))
           }}
         >
           <svg
@@ -52,7 +56,7 @@ export function LoginPage({ error: externalError }: LoginPageProps) {
               d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
             />
           </svg>
-          Google でログイン
+          {t('loginWithGoogle')}
         </button>
       </div>
     </div>
