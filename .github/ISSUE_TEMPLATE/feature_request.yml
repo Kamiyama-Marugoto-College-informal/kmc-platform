@@ -1,7 +1,7 @@
-name: "✨ Feature Request"
+name: '✨ Feature Request'
 description: 新機能の提案・改善要望を起票します
-title: "feat: "
-labels: ["enhancement"]
+title: 'feat: '
+labels: ['enhancement']
 body:
   - type: markdown
     attributes:
@@ -50,10 +50,10 @@ body:
       label: 優先度（主観）
       description: あなたにとってこの機能はどのくらい重要ですか？
       options:
-        - "P0 — 現在の作業がブロックされている"
-        - "P1 — 定期的に困っている"
-        - "P2 — あると嬉しい"
-        - "P3 — いつか対応できれば十分"
+        - 'P0 — 現在の作業がブロックされている'
+        - 'P1 — 定期的に困っている'
+        - 'P2 — あると嬉しい'
+        - 'P3 — いつか対応できれば十分'
     validations:
       required: true
 
