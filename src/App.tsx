@@ -2,21 +2,28 @@ import { useAuth } from './hooks/useAuth'
 import { UserAvatar } from './components/UserAvatar'
 import { LoginPage } from './(auth)/login'
 import { supabase } from './lib/supabase'
+import { useTranslation } from './i18n/useTranslation'
 import './App.css'
 
 function App() {
   const { user, loading, authError } = useAuth()
+  const { t } = useTranslation()
 
   if (loading) {
     return (
       <div className="auth-center">
-        <p>読み込み中...</p>
+        <p>{t('loading')}</p>
       </div>
     )
   }
 
+  const translatedAuthError =
+    authError?.type === 'domain_not_allowed'
+      ? t('emailDomainNotAllowed', { domain: authError.domain })
+      : null
+
   if (!user) {
-    return <LoginPage error={authError} />
+    return <LoginPage error={translatedAuthError} />
   }
 
   return (
@@ -33,12 +40,12 @@ function App() {
             className="signout-btn"
             onClick={() => supabase.auth.signOut()}
           >
-            ログアウト
+            {t('logout')}
           </button>
         </div>
       </header>
       <main>
-        <p>ようこそ、{user.name} さん</p>
+        <p>{t('welcome', { name: user.name })}</p>
       </main>
     </div>
   )

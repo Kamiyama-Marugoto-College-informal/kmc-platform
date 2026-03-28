@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { supabase, type AppUser } from '../lib/supabase'
 
+export type AuthError = { type: 'domain_not_allowed'; domain: string }
+
 export function useAuth() {
   const [user, setUser] = useState<AppUser | null>(null)
   const [loading, setLoading] = useState(true)
-  const [authError, setAuthError] = useState<string | null>(null)
+  const [authError, setAuthError] = useState<AuthError | null>(null)
 
   useEffect(() => {
     const {
@@ -33,7 +35,7 @@ async function applySession(
     user_metadata?: Record<string, string>
   },
   setUser: (u: AppUser | null) => void,
-  _setAuthError: (e: string | null) => void,
+  _setAuthError: (e: AuthError | null) => void,
 ) {
   let role: AppUser['role'] = 'student'
   try {
@@ -61,7 +63,7 @@ async function applySession(
     !email.endsWith(`@${allowedDomain}`)
   ) {
     await supabase.auth.signOut()
-    _setAuthError(`${allowedDomain} のメールアドレスのみ許可されています`)
+    _setAuthError({ type: 'domain_not_allowed', domain: allowedDomain })
     return
   }
 
