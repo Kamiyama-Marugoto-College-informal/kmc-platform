@@ -116,6 +116,47 @@ body {
   background: #f3f4f6;
 }
 
-main {
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   padding: 32px 24px;
+}
+
+.profile-settings {
+  max-width: 420px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+  padding: 16px;
+}
+
+.profile-settings h2 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.profile-settings p {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.language-row {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.language-row label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.language-row select {
+  font: inherit;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 6px 8px;
+  background: #fff;
 }
