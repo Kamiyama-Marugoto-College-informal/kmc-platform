@@ -1,12 +1,8 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-
-import { AppShell } from './components/layout/AppShell'
 import { useEffect, useState } from 'react'
 import { useAuth } from './hooks/useAuth'
 import { LoginPage } from './pages/(auth)/login'
-import { DashboardPage } from './pages/dashboard'
-import { NotificationsPage } from './pages/notifications'
-import { ProfileSettingsPage } from './pages/profile/settings'
+import { UserAvatar } from './components/UserAvatar'
+import { supabase } from './lib/supabase'
 
 type Language = 'ja' | 'en'
 

@@ -11,9 +11,9 @@ export function t(
   locale: string,
 ): string {
   const keys = key.split(".");
-  let value: any = translations[locale];
+  let value: unknown = translations[locale as keyof typeof translations];
   for (const k of keys) {
-    value = value[k];
+    value = (value as Record<string, unknown>)[k];
   }
   return value as string;
 }
