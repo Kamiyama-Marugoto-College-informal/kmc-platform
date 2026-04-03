@@ -2,10 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 import { AppShell } from '@/components/layout/AppShell'
 import { MainLanguageProvider } from '@/context/MainLanguageContext'
-import {
-  detectBrowserLanguage,
-  mainLanguageMessages,
-} from '@/lib/mainLanguage'
+import { detectBrowserLanguage, mainLanguageMessages } from '@/lib/mainLanguage'
 import { useAuth } from '@/hooks/useAuth'
 import { LoginPage } from '@/pages/(auth)/login'
 import { DashboardPage } from '@/pages/dashboard'
@@ -41,10 +38,7 @@ function App() {
           <Route path="/" element={<AppShell user={shellUser} />}>
             <Route index element={<DashboardPage />} />
             <Route path="notifications" element={<NotificationsPage />} />
-            <Route
-              path="profile/settings"
-              element={<ProfileSettingsPage />}
-            />
+            <Route path="profile/settings" element={<ProfileSettingsPage />} />
             <Route path="dashboard" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>

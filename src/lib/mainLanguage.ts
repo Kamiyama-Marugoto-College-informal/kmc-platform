@@ -7,8 +7,7 @@ export const mainLanguageMessages = {
     loading: '読み込み中...',
     welcome: 'ようこそ、{name} さん',
     profileSettings: 'プロフィール設定',
-    settingsPageIntro:
-      '表示名や通知の受け取り方などをここで変更します。',
+    settingsPageIntro: '表示名や通知の受け取り方などをここで変更します。',
     mainLanguage: 'メイン言語',
     languageDescription:
       '表示言語を選択できます。選択内容はブラウザに保存されます。',
