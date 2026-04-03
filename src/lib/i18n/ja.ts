@@ -9,5 +9,5 @@ export const ja: Record<string, unknown> = {
   language: {
     japanese: '日本語',
     english: 'English',
-  }
+  },
 }
