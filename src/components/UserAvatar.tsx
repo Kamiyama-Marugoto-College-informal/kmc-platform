@@ -1,9 +1,12 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { cn } from '@/lib/utils'
+
 type Role = 'student' | 'staff' | 'admin'
 
-const roleBorderColor: Record<Role, string> = {
-  student: '#3b82f6', // blue
-  staff: '#22c55e', // green
-  admin: '#f97316', // orange
+const roleRing: Record<Role, string> = {
+  student: 'ring-[var(--role-student)]',
+  staff: 'ring-[var(--role-staff)]',
+  admin: 'ring-[var(--role-admin)]',
 }
 
 interface UserAvatarProps {
@@ -13,36 +16,13 @@ interface UserAvatarProps {
 }
 
 export function UserAvatar({ name, image, role }: UserAvatarProps) {
-  const borderColor =
-    roleBorderColor[(role as Role) ?? 'student'] ?? roleBorderColor.student
+  const ring = roleRing[(role as Role) ?? 'student'] ?? roleRing.student
   const initial = name.charAt(0).toUpperCase()
 
   return (
-    <div
-      style={{
-        width: 40,
-        height: 40,
-        borderRadius: '50%',
-        border: `3px solid ${borderColor}`,
-        overflow: 'hidden',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#e5e7eb',
-        flexShrink: 0,
-      }}
-    >
-      {image ? (
-        <img
-          src={image}
-          alt={name}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
-      ) : (
-        <span style={{ fontWeight: 600, fontSize: 16, color: '#374151' }}>
-          {initial}
-        </span>
-      )}
-    </div>
+    <Avatar className={cn('ring-2 ring-offset-2 ring-offset-background', ring)}>
+      {image ? <AvatarImage src={image} alt={name} /> : null}
+      <AvatarFallback className="font-semibold">{initial}</AvatarFallback>
+    </Avatar>
   )
 }

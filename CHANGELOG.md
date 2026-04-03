@@ -2,6 +2,47 @@
 
 ## [Unreleased]
 
+### Changed
+
+- [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx): ドロップダウンのトリガーを `UserAvatar`（プロフィール画像・イニシャル）に変更
+
+### Added
+
+- shadcn `dropdown-menu`（[`src/components/ui/dropdown-menu.tsx`](src/components/ui/dropdown-menu.tsx)）
+- [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx): アイコンボタンから設定・通知・ログアウト（Supabase `signOut`）のドロップダウン
+- `react-router-dom` を導入し、ログイン後のみ `BrowserRouter` でルーティング
+- `AppShell`（[`src/components/layout/AppShell.tsx`](src/components/layout/AppShell.tsx)）: ヘッダー + メイン領域 + `Outlet`
+- ルート: `/` ダッシュボード、`/notifications`、`/profile/settings`、`/dashboard` → `/` へリダイレクト
+- [`src/pages/dashboard`](src/pages/dashboard/index.tsx) / [`notifications`](src/pages/notifications/index.tsx) / [`profile/settings`](src/pages/profile/settings/index.tsx): タイトル + `Card` のプレースホルダー
+- [`Header`](src/components/Header.tsx): ロゴ・ダッシュボードの `Link` / `NavLink` と [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx)
+
+### Changed
+
+- [`Header`](src/components/Header.tsx): 通知・設定は `HeaderAccountMenu` に集約（トップナビはダッシュボードのみ）
+
+### Fixed
+
+- CI: `bun.lock` をリポジトリに含め、`.gitignore` のロック除外をやめて `bun install --frozen-lockfile` がクリーンクローンで通るようにした
+- Drizzle: 旧 better-auth 向けの `0000_milky_toxin` をやめ、`profiles` と `profile_role` enum のみの初期マイグレーション `0000_init` に差し替え（`useAuth` の `profiles` upsert と整合）
+- `Header`: `UserAvatar` に委譲して重複を解消、`AppUser` を渡す形に統一
+- `App`: `useAuth` の import 欠落を修正し、ログインユーザーを `Header` に渡すよう修正
+
+### Added (feat: #3 デザインシステム)
+
+- Tailwind CSS v4（`@tailwindcss/vite`）と shadcn/ui（`components.json`、radix-nova スタイル）を導入
+- `src/components/ui/` に Button / Card / Avatar / Separator、`src/lib/utils.ts` に `cn()` を追加
+- `src/index.css` にセマンティックトークン（`--primary` 等）とロール用 `--role-*` を整理し、`prefers-color-scheme: dark` で shadcn 変数を切替
+- `tsconfig.json` / `tsconfig.app.json` と `vite.config.ts` に import エイリアス `@/*` → `src/*` を追加
+- `docs/design-system.md`（コンポーネント規約）と `.cursor/skills/kmc-design-system/SKILL.md`（AI 向けガイド）を追加
+- `eslint.config.js`: `src/components/ui/**` で `react-refresh/only-export-components` を無効化（shadcn の variant エクスポート用）
+
+### Changed (feat: #3 デザインシステム)
+
+- `src/App.tsx` / `src/(auth)/login/index.tsx` を shadcn + Tailwind に移行（ヘッダー・ログインカード・ログアウトボタン）
+- `src/components/UserAvatar.tsx` を shadcn Avatar + ロール色リングに変更
+- `src/App.css` を削除（スタイルはトークン + Tailwind に集約）
+- `#root` の強制 `text-align: center` をやめ、各画面で整列を指定
+
 ### Changed (refactor: better-auth → Supabase Auth)
 
 - 認証基盤を `better-auth` から Supabase Auth (`@supabase/supabase-js`) に全面移行

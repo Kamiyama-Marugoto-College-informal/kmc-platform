@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from './hooks/useAuth'
+import { LoginPage } from './pages/(auth)/login'
 import { UserAvatar } from './components/UserAvatar'
-import { LoginPage } from './(auth)/login'
 import { supabase } from './lib/supabase'
-import './App.css'
 
 type Language = 'ja' | 'en'
 

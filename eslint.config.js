@@ -20,4 +20,11 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    files: ['src/components/ui/**/*.{ts,tsx}'],
+    rules: {
+      // shadcn: CVA variants are exported alongside components
+      'react-refresh/only-export-components': 'off',
+    },
+  },
 ])

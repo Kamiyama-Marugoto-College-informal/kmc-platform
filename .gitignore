@@ -23,9 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
-# bun
-bun.lock
-bun.lockb
+# bun: bun.lock は CI の `--frozen-lockfile` 用にコミットする
 
 # env
 .env
