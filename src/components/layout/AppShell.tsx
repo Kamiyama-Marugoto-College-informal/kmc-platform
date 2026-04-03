@@ -6,15 +6,15 @@ import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import type { AppUser } from '@/lib/supabase'
 
 interface AppShellProps {
-  user: Pick<AppUser, 'name' | 'image' | 'role'>
+  user: Pick<AppUser, 'name' | 'image' | 'role' | 'email'>
 }
 
 export function AppShell({ user }: AppShellProps) {
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar user={user} />
       <SidebarInset>
-        <Header user={user} />
+        <Header />
         <div className="flex flex-1 flex-col bg-background">
           <div className="container mx-auto max-w-6xl flex-1 px-4 py-6">
             <Outlet />

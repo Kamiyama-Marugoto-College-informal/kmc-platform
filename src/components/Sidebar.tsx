@@ -1,9 +1,23 @@
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { Bell, GalleryVerticalEnd, LayoutDashboard, Settings } from 'lucide-react'
+import {
+  Bell,
+  ChevronsUpDown,
+  GalleryVerticalEnd,
+  LayoutDashboard,
+  Settings,
+} from 'lucide-react'
 
+import { AccountMenuContent } from '@/components/HeaderAccountMenu'
+import { UserAvatar } from '@/components/UserAvatar'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -12,7 +26,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  SidebarSeparator,
 } from '@/components/ui/sidebar'
+import type { AppUser } from '@/lib/supabase'
 
 function useNavActive() {
   const { pathname } = useLocation()
@@ -24,7 +40,11 @@ function useNavActive() {
   }
 }
 
-export function AppSidebar() {
+interface AppSidebarProps {
+  user: Pick<AppUser, 'name' | 'image' | 'role' | 'email'>
+}
+
+export function AppSidebar({ user }: AppSidebarProps) {
   const active = useNavActive()
 
   return (
@@ -90,6 +110,47 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarSeparator className="mx-0" />
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton
+                  size="lg"
+                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                  tooltip={user.name}
+                >
+                  <UserAvatar
+                    name={user.name}
+                    image={user.image}
+                    role={user.role}
+                    className="size-8 shrink-0"
+                  />
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-semibold">
+                      {user.name}
+                    </span>
+                    {user.email ? (
+                      <span className="truncate text-xs text-sidebar-foreground/70">
+                        {user.email}
+                      </span>
+                    ) : null}
+                  </div>
+                  <ChevronsUpDown className="ml-auto size-4 shrink-0 text-sidebar-foreground/70" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                className="min-w-56 rounded-lg"
+                side="top"
+                align="start"
+              >
+                <AccountMenuContent user={user} />
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   )
