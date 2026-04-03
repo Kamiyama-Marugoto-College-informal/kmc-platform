@@ -9,7 +9,7 @@ export function NotificationsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+        <h1 className="my-0 mb-2 text-2xl font-semibold tracking-tight text-foreground">
           通知
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">

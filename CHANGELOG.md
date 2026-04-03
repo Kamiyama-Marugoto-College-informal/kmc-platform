@@ -4,7 +4,16 @@
 
 ### Changed
 
+- [`App.tsx`](src/App.tsx): ログイン後を `BrowserRouter` + [`AppShell`](src/components/layout/AppShell.tsx) + 各ページルートに接続（`/dashboard` → `/` リダイレクト、ローディングは Tailwind に統一）
+- メイン言語の保持・`document.documentElement.lang` を [`MainLanguageProvider`](src/context/MainLanguageContext.tsx) に集約し、UI は [`プロフィール設定`](src/pages/profile/settings/index.tsx) に配置（[`mainLanguage.ts`](src/lib/mainLanguage.ts) で文言を共有）
+- [`DashboardPage`](src/pages/dashboard/index.tsx): 選択言語に応じたウェルカム文を表示
+- [`index.css`](src/index.css): デザインシステム優先に再構成。レガシー（`--text` / `--text-h` / `--bg` / 未使用のソーシャル・アクセント補助変数）をやめ、shadcn トークンのみを `:root` に定義。見出し・`code`・`html`/`body` のベースを `@layer base` でトークン＋`@apply` に統一
+- [`eslint.config.js`](eslint.config.js): `src/context/**` で `react-refresh/only-export-components` を無効化（`MainLanguageProvider` と `useMainLanguage` の同時エクスポート用）
 - [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx): ドロップダウンのトリガーを `UserAvatar`（プロフィール画像・イニシャル）に変更
+
+### Removed
+
+- [`src/App.css`](src/App.css): 未 import のまま残っていたレガシースタイルを削除（Tailwind + トークンに統一）
 
 ### Added
 
