@@ -2,8 +2,16 @@
 
 ## [Unreleased]
 
+### Added
+
+- shadcn `sidebar` ブロック（[`src/components/ui/sidebar.tsx`](src/components/ui/sidebar.tsx)、依存として `sheet` / `tooltip` / `skeleton` / `input`、`use-mobile` フック）
+- [`AppSidebar`](src/components/Sidebar.tsx): 左サイドバーにダッシュボード・通知・設定への `NavLink`（折りたたみ `icon` モード対応）
+
 ### Changed
 
+- [`AppShell`](src/components/layout/AppShell.tsx): `SidebarProvider` + `AppSidebar` + `SidebarInset` のサイドバーレイアウトに変更
+- [`Header`](src/components/Header.tsx): `SidebarTrigger` と `HeaderAccountMenu` のみ（メインナビはサイドバーへ集約）
+- [`App.tsx`](src/App.tsx): ログイン後ルートを `TooltipProvider` でラップ（サイドバー折りたたみ時のツールチップ用）
 - [`App.tsx`](src/App.tsx): ログイン後を `BrowserRouter` + [`AppShell`](src/components/layout/AppShell.tsx) + 各ページルートに接続（`/dashboard` → `/` リダイレクト、ローディングは Tailwind に統一）
 - メイン言語の保持・`document.documentElement.lang` を [`MainLanguageProvider`](src/context/MainLanguageContext.tsx) に集約し、UI は [`プロフィール設定`](src/pages/profile/settings/index.tsx) に配置（[`mainLanguage.ts`](src/lib/mainLanguage.ts) で文言を共有）
 - [`DashboardPage`](src/pages/dashboard/index.tsx): 選択言語に応じたウェルカム文を表示
@@ -20,14 +28,10 @@
 - shadcn `dropdown-menu`（[`src/components/ui/dropdown-menu.tsx`](src/components/ui/dropdown-menu.tsx)）
 - [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx): アイコンボタンから設定・通知・ログアウト（Supabase `signOut`）のドロップダウン
 - `react-router-dom` を導入し、ログイン後のみ `BrowserRouter` でルーティング
-- `AppShell`（[`src/components/layout/AppShell.tsx`](src/components/layout/AppShell.tsx)）: ヘッダー + メイン領域 + `Outlet`
+- `AppShell`（[`src/components/layout/AppShell.tsx`](src/components/layout/AppShell.tsx)）: レイアウトラッパ（現行は上記 Changed のサイドバー構成）
 - ルート: `/` ダッシュボード、`/notifications`、`/profile/settings`、`/dashboard` → `/` へリダイレクト
 - [`src/pages/dashboard`](src/pages/dashboard/index.tsx) / [`notifications`](src/pages/notifications/index.tsx) / [`profile/settings`](src/pages/profile/settings/index.tsx): タイトル + `Card` のプレースホルダー
-- [`Header`](src/components/Header.tsx): ロゴ・ダッシュボードの `Link` / `NavLink` と [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx)
-
-### Changed
-
-- [`Header`](src/components/Header.tsx): 通知・設定は `HeaderAccountMenu` に集約（トップナビはダッシュボードのみ）
+- [`Header`](src/components/Header.tsx): （当初）ロゴ・トップナビと [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx)（現行は上記 Changed を参照）
 
 ### Fixed
 

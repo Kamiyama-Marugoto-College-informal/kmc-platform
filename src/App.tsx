@@ -1,6 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 import { AppShell } from '@/components/layout/AppShell'
+import { TooltipProvider } from '@/components/ui/tooltip'
 import { MainLanguageProvider } from '@/context/MainLanguageContext'
 import { detectBrowserLanguage, mainLanguageMessages } from '@/lib/mainLanguage'
 import { useAuth } from '@/hooks/useAuth'
@@ -33,16 +34,18 @@ function App() {
 
   return (
     <BrowserRouter>
-      <MainLanguageProvider>
-        <Routes>
-          <Route path="/" element={<AppShell user={shellUser} />}>
-            <Route index element={<DashboardPage />} />
-            <Route path="notifications" element={<NotificationsPage />} />
-            <Route path="profile/settings" element={<ProfileSettingsPage />} />
-            <Route path="dashboard" element={<Navigate to="/" replace />} />
-          </Route>
-        </Routes>
-      </MainLanguageProvider>
+      <TooltipProvider>
+        <MainLanguageProvider>
+          <Routes>
+            <Route path="/" element={<AppShell user={shellUser} />}>
+              <Route index element={<DashboardPage />} />
+              <Route path="notifications" element={<NotificationsPage />} />
+              <Route path="profile/settings" element={<ProfileSettingsPage />} />
+              <Route path="dashboard" element={<Navigate to="/" replace />} />
+            </Route>
+          </Routes>
+        </MainLanguageProvider>
+      </TooltipProvider>
     </BrowserRouter>
   )
 }
