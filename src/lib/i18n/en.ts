@@ -1,11 +1,16 @@
-export const en: Record<string, unknown> = {
+import type { AppTranslation } from './index'
+
+export const en: AppTranslation = {
   loading: 'Loading...',
   signOut: 'Sign out',
-  welcome: 'Welcome, {name}',
   profileSettings: 'Profile settings',
   mainLanguage: 'Main language',
   languageDescription:
     'Choose your display language. The selection is saved in your browser.',
-  japanese: 'Japanese',
-  english: 'English',
+  languageJapanese: 'Japanese',
+  languageEnglish: 'English',
+  dashboard: 'Dashboard',
+  settings: 'Settings',
+  notifications: 'Notifications',
+  openAccountMenu: 'Open account menu',
 }

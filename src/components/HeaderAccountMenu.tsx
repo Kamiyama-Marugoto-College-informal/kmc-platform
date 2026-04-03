@@ -16,9 +16,15 @@ import { supabase } from '@/lib/supabase'
 
 interface HeaderAccountMenuProps {
   user: Pick<AppUser, 'name' | 'image' | 'role'>
+  labels: {
+    settings: string
+    notifications: string
+    signOut: string
+    openAccountMenu: string
+  }
 }
 
-export function HeaderAccountMenu({ user }: HeaderAccountMenuProps) {
+export function HeaderAccountMenu({ user, labels }: HeaderAccountMenuProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -28,7 +34,7 @@ export function HeaderAccountMenu({ user }: HeaderAccountMenuProps) {
             'rounded-full outline-none transition-opacity hover:opacity-90',
             'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
           )}
-          aria-label="アカウントメニューを開く"
+          aria-label={labels.openAccountMenu}
         >
           <UserAvatar name={user.name} image={user.image} role={user.role} />
         </button>
@@ -43,13 +49,13 @@ export function HeaderAccountMenu({ user }: HeaderAccountMenuProps) {
         <DropdownMenuItem asChild>
           <Link to="/profile/settings">
             <Settings2 />
-            設定
+            {labels.settings}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link to="/notifications">
             <Bell />
-            通知
+            {labels.notifications}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
@@ -60,7 +66,7 @@ export function HeaderAccountMenu({ user }: HeaderAccountMenuProps) {
           }}
         >
           <LogOut />
-          ログアウト
+          {labels.signOut}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

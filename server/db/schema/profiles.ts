@@ -1,5 +1,11 @@
 import { pgTable, text, timestamp } from 'drizzle-orm/pg-core'
-import { profileRoleEnum } from './enums'
+import { pgEnum } from 'drizzle-orm/pg-core';
+
+export const profileRoleEnum = pgEnum('profile_role', [
+  'admin',
+  'student',
+  'staff',
+])
 
 export const Profiles = pgTable('profiles', {
   id: text('id').primaryKey(), // auth.users.id と対応

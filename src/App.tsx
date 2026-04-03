@@ -1,95 +1,67 @@
+import { useEffect, useMemo, useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
-import { AppShell } from './components/layout/AppShell'
-import { useEffect, useState } from 'react'
-import { useAuth } from './hooks/useAuth'
-import { LoginPage } from './pages/(auth)/login'
-import { DashboardPage } from './pages/dashboard'
-import { NotificationsPage } from './pages/notifications'
-import { ProfileSettingsPage } from './pages/profile/settings'
+import { AppShell } from '@/components/layout/AppShell'
+import { useAuth } from '@/hooks/useAuth'
+import { isLocale, t, type Locale } from '@/lib/i18n'
+import { LoginPage } from '@/pages/(auth)/login'
+import { DashboardPage } from '@/pages/dashboard'
+import { NotificationsPage } from '@/pages/notifications'
+import { ProfileSettingsPage } from '@/pages/profile/settings'
 
-type Language = 'ja' | 'en'
+const LOCALE_STORAGE_KEY = 'kmc.locale'
 
-const LANG_STORAGE_KEY = 'mainLanguage'
-
-const messages = {
-  ja: {
-    loading: '読み込み中...',
-    signOut: 'ログアウト',
-    welcome: 'ようこそ、{name} さん',
-    profileSettings: 'プロフィール設定',
-    mainLanguage: 'メイン言語',
-    languageDescription:
-      '表示言語を選択できます。選択内容はブラウザに保存されます。',
-    japanese: '日本語',
-    english: 'English',
-  },
-  en: {
-    loading: 'Loading...',
-    signOut: 'Sign out',
-    welcome: 'Welcome, {name}',
-    profileSettings: 'Profile settings',
-    mainLanguage: 'Main language',
-    languageDescription:
-      'Choose your display language. The selection is saved in your browser.',
-    japanese: 'Japanese',
-    english: 'English',
-  },
-} as const
-
-function isLanguage(value: string): value is Language {
-  return value === 'ja' || value === 'en'
-}
-
-function ignoreStorageError(error: unknown) {
-  void error
-}
-
-function detectBrowserLanguage(): Language {
+function detectBrowserLocale(): Locale {
   return (window.navigator.language ?? '').toLowerCase().startsWith('ja')
     ? 'ja'
     : 'en'
 }
 
-function detectInitialLanguage(): Language {
-  if (typeof window !== 'undefined') {
-    try {
-      const savedLanguage = window.localStorage.getItem(LANG_STORAGE_KEY)
-      if (savedLanguage && isLanguage(savedLanguage)) {
-        return savedLanguage
-      }
-    } catch (error) {
-      ignoreStorageError(error)
-    }
-
-    return detectBrowserLanguage()
+function detectInitialLocale(): Locale {
+  if (typeof window === 'undefined') {
+    return 'en'
   }
 
-  return 'en'
-}
+  try {
+    const savedLocale = window.localStorage.getItem(LOCALE_STORAGE_KEY)
+    if (savedLocale && isLocale(savedLocale)) {
+      return savedLocale
+    }
+  } catch {
+    // localStorage can be unavailable in some browser modes.
+  }
 
-function formatWelcome(language: Language, name: string): string {
-  return messages[language].welcome.replace('{name}', name)
+  return detectBrowserLocale()
 }
 
 function App() {
   const { user, loading, authError } = useAuth()
-  const [language, setLanguage] = useState<Language>(detectInitialLanguage)
-  const t = messages[language]
+  const [locale, setLocale] = useState<Locale>(detectInitialLocale)
 
   useEffect(() => {
     try {
-      window.localStorage.setItem(LANG_STORAGE_KEY, language)
-    } catch (error) {
-      ignoreStorageError(error)
+      window.localStorage.setItem(LOCALE_STORAGE_KEY, locale)
+    } catch {
+      // localStorage can be unavailable in some browser modes.
     }
-    document.documentElement.lang = language
-  }, [language])
+    document.documentElement.lang = locale
+  }, [locale])
+
+  const headerLabels = useMemo(
+    () => ({
+      dashboard: t('dashboard', locale),
+      settings: t('settings', locale),
+      notifications: t('notifications', locale),
+      signOut: t('signOut', locale),
+      openAccountMenu: t('openAccountMenu', locale),
+    }),
+    [locale],
+  )
 
   if (loading) {
     return (
-      <div className="auth-center">
-        <p>{t.loading}</p>
+      <div className="flex min-h-svh items-center justify-center p-4">
+        <p>{t('loading', locale)}</p>
       </div>
     )
   }
@@ -99,47 +71,24 @@ function App() {
   }
 
   return (
-    <div className="dashboard">
-      <header className="dashboard-header">
-        <h1>KMC Platform</h1>
-        <div className="user-info">
-          <UserAvatar name={user.name} image={user.image} role={user.role} />
-          <div className="user-details">
-            <span className="user-name">{user.name}</span>
-            <span className="user-role">{user.role}</span>
-          </div>
-          <button
-            className="signout-btn"
-            onClick={() => supabase.auth.signOut()}
-          >
-            {t.signOut}
-          </button>
-        </div>
-      </header>
-      <main className="dashboard-main">
-        <p>{formatWelcome(language, user.name)}</p>
-        <section className="profile-settings">
-          <h2>{t.profileSettings}</h2>
-          <p>{t.languageDescription}</p>
-          <div className="language-row">
-            <label htmlFor="main-language">{t.mainLanguage}</label>
-            <select
-              id="main-language"
-              value={language}
-              onChange={(event) => {
-                const nextLanguage = event.target.value
-                if (isLanguage(nextLanguage)) {
-                  setLanguage(nextLanguage)
-                }
-              }}
-            >
-              <option value="ja">{t.japanese}</option>
-              <option value="en">{t.english}</option>
-            </select>
-          </div>
-        </section>
-      </main>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<AppShell user={user} labels={headerLabels} />}>
+          <Route index element={<DashboardPage />} />
+          <Route path="notifications" element={<NotificationsPage />} />
+          <Route
+            path="profile/settings"
+            element={
+              <ProfileSettingsPage
+                locale={locale}
+                onLocaleChange={setLocale}
+              />
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 

@@ -6,6 +6,13 @@ import type { AppUser } from '@/lib/supabase'
 
 interface HeaderProps {
   user: Pick<AppUser, 'name' | 'image' | 'role'>
+  labels: {
+    dashboard: string
+    settings: string
+    notifications: string
+    signOut: string
+    openAccountMenu: string
+  }
 }
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
@@ -14,7 +21,7 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     isActive ? 'font-medium text-foreground' : 'text-muted-foreground',
   )
 
-export function Header({ user }: HeaderProps) {
+export function Header({ user, labels }: HeaderProps) {
   return (
     <header className="flex w-full flex-wrap items-center justify-between gap-3 border-b border-border bg-background px-4 py-3">
       <div className="flex min-w-0 flex-1 items-center gap-6">
@@ -29,11 +36,11 @@ export function Header({ user }: HeaderProps) {
           aria-label="メイン"
         >
           <NavLink to="/" end className={navLinkClass}>
-            ダッシュボード
+            {labels.dashboard}
           </NavLink>
         </nav>
       </div>
-      <HeaderAccountMenu user={user} />
+      <HeaderAccountMenu user={user} labels={labels} />
     </header>
   )
 }

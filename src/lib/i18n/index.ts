@@ -1,24 +1,34 @@
-import { ja } from "./ja.ts";
-import { en } from "./en.ts";
+import { en } from './en'
+import { ja } from './ja'
 
-const translations = {
-  ja,
-  en,
-};
+export type Locale = 'ja' | 'en'
 
-export function t(
-  key: string,
-  locale: string,
-): string {
-  const keys = key.split(".");
-  let value: any = translations[locale];
-  for (const k of keys) {
-    value = value[k];
-  }
-  return value as string;
+export interface AppTranslation {
+  loading: string
+  signOut: string
+  profileSettings: string
+  mainLanguage: string
+  languageDescription: string
+  languageJapanese: string
+  languageEnglish: string
+  dashboard: string
+  settings: string
+  notifications: string
+  openAccountMenu: string
 }
 
-export {
+export const translations: Record<Locale, AppTranslation> = {
   ja,
   en,
+}
+
+export function isLocale(value: string): value is Locale {
+  return value === 'ja' || value === 'en'
+}
+
+export function t<Key extends keyof AppTranslation>(
+  key: Key,
+  locale: Locale,
+): AppTranslation[Key] {
+  return translations[locale][key]
 }

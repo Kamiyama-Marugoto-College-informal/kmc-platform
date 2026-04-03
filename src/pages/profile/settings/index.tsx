@@ -4,23 +4,50 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { isLocale, t, type Locale } from '@/lib/i18n'
 
-export function ProfileSettingsPage() {
+interface ProfileSettingsPageProps {
+  locale: Locale
+  onLocaleChange: (locale: Locale) => void
+}
+
+export function ProfileSettingsPage({
+  locale,
+  onLocaleChange,
+}: ProfileSettingsPageProps) {
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-          プロフィール設定
+          {t('profileSettings', locale)}
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          表示名や通知の受け取り方などをここで変更します。
+          {t('languageDescription', locale)}
         </p>
       </div>
       <Card>
         <CardHeader>
-          <CardTitle>設定項目</CardTitle>
+          <CardTitle>{t('mainLanguage', locale)}</CardTitle>
           <CardDescription>
-            フォームやトグルは、要件が固まり次第ここに追加します。
+            <label className="flex items-center gap-3" htmlFor="main-language">
+              <span className="text-sm text-foreground">
+                {t('mainLanguage', locale)}
+              </span>
+              <select
+                id="main-language"
+                className="rounded-md border border-border bg-background px-2 py-1 text-sm"
+                value={locale}
+                onChange={(event) => {
+                  const nextLocale = event.target.value
+                  if (isLocale(nextLocale)) {
+                    onLocaleChange(nextLocale)
+                  }
+                }}
+              >
+                <option value="ja">{t('languageJapanese', locale)}</option>
+                <option value="en">{t('languageEnglish', locale)}</option>
+              </select>
+            </label>
           </CardDescription>
         </CardHeader>
       </Card>
