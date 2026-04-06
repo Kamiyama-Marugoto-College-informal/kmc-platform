@@ -4,12 +4,19 @@
 
 ### Added
 
+- shadcn `badge`（[`src/components/ui/badge.tsx`](src/components/ui/badge.tsx)）、`empty`（[`src/components/ui/empty.tsx`](src/components/ui/empty.tsx)）
+- [`SiteFooter`](src/components/layout/SiteFooter.tsx): メイン列下部のコピーライト・プレースホルダリンク（利用規約 / プライバシー）
+- [`src/data/mockDashboard.ts`](src/data/mockDashboard.ts): 当日スケジュール・課題締切の型とモックビルダー（`buildTodayScheduleItems` / `buildAssignmentItems`）
+- [`mainLanguage.ts`](src/lib/mainLanguage.ts): ダッシュボード各セクション・締切バッジ・フッター文言（ja/en）と `formatFooterCopyright`
 - shadcn `sidebar` ブロック（[`src/components/ui/sidebar.tsx`](src/components/ui/sidebar.tsx)、依存として `sheet` / `tooltip` / `skeleton` / `input`、`use-mobile` フック）
 - [`AppSidebar`](src/components/Sidebar.tsx): 左サイドバーにダッシュボード・通知・設定への `NavLink`（折りたたみ `icon` モード対応）
 - [`AppSidebar`](src/components/Sidebar.tsx): フッターにユーザー行（アバター・名前・メール・`ChevronsUpDown`）と上方向の `DropdownMenu`（設定・通知・ログアウト）
 
 ### Changed
 
+- [`DashboardPage`](src/pages/dashboard/index.tsx): 今日の日付・2 カラム（スケジュール / 課題）、shadcn `Empty` / `Separator` / `Badge` による空状態・区切り・締切区分（期限超過・今日・今週・この先）
+- [`SiteFooter`](src/components/layout/SiteFooter.tsx): リンクを `Button` の `variant="link"` で表示
+- [`AppShell`](src/components/layout/AppShell.tsx): メイン列コンテンツ下に [`SiteFooter`](src/components/layout/SiteFooter.tsx) を配置
 - [`AppShell`](src/components/layout/AppShell.tsx): `SidebarProvider` + `AppSidebar` + `SidebarInset` のサイドバーレイアウトに変更（`AppSidebar` に `email` を含む `user` を渡す）
 - [`Header`](src/components/Header.tsx): `SidebarTrigger` のみ（アカウントはサイドバーフッターへ集約）
 - [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx): `AccountMenuContent` を切り出し（サイドバーと共有）。表示ラベルにメールを任意表示
@@ -18,7 +25,6 @@
 - [`App.tsx`](src/App.tsx): ログイン後ルートを `TooltipProvider` でラップ（サイドバー折りたたみ時のツールチップ用）
 - [`App.tsx`](src/App.tsx): ログイン後を `BrowserRouter` + [`AppShell`](src/components/layout/AppShell.tsx) + 各ページルートに接続（`/dashboard` → `/` リダイレクト、ローディングは Tailwind に統一）
 - メイン言語の保持・`document.documentElement.lang` を [`MainLanguageProvider`](src/context/MainLanguageContext.tsx) に集約し、UI は [`プロフィール設定`](src/pages/profile/settings/index.tsx) に配置（[`mainLanguage.ts`](src/lib/mainLanguage.ts) で文言を共有）
-- [`DashboardPage`](src/pages/dashboard/index.tsx): 選択言語に応じたウェルカム文を表示
 - [`index.css`](src/index.css): デザインシステム優先に再構成。レガシー（`--text` / `--text-h` / `--bg` / 未使用のソーシャル・アクセント補助変数）をやめ、shadcn トークンのみを `:root` に定義。見出し・`code`・`html`/`body` のベースを `@layer base` でトークン＋`@apply` に統一
 - [`eslint.config.js`](eslint.config.js): `src/context/**` で `react-refresh/only-export-components` を無効化（`MainLanguageProvider` と `useMainLanguage` の同時エクスポート用）
 

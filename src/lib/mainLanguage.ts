@@ -13,6 +13,21 @@ export const mainLanguageMessages = {
       '表示言語を選択できます。選択内容はブラウザに保存されます。',
     japanese: '日本語',
     english: 'English',
+    dashboardTitle: 'ダッシュボード',
+    dashboardSubtitle: '今日の予定と締切をひと目で確認できます。',
+    sectionTodaySchedule: '今日のスケジュール',
+    sectionAssignments: '課題・締切',
+    assignmentsCardDescription:
+      '未完了の課題を締切が近い順に表示しています。',
+    scheduleEmpty: '今日の予定はありません。',
+    assignmentsEmpty: '表示する課題はありません。',
+    assignmentDueOverdue: '期限超過',
+    assignmentDueToday: '今日',
+    assignmentDueThisWeek: '今週',
+    assignmentDueLater: 'この先',
+    footerCopyright: '© {year} KMC Platform',
+    footerTerms: '利用規約',
+    footerPrivacy: 'プライバシー',
   },
   en: {
     loading: 'Loading...',
@@ -25,6 +40,21 @@ export const mainLanguageMessages = {
       'Choose your display language. The selection is saved in your browser.',
     japanese: 'Japanese',
     english: 'English',
+    dashboardTitle: 'Dashboard',
+    dashboardSubtitle: 'See today’s schedule and assignment deadlines at a glance.',
+    sectionTodaySchedule: 'Today’s schedule',
+    sectionAssignments: 'Assignments',
+    assignmentsCardDescription:
+      'Incomplete assignments sorted by nearest due date.',
+    scheduleEmpty: 'No events scheduled for today.',
+    assignmentsEmpty: 'No assignments to show.',
+    assignmentDueOverdue: 'Overdue',
+    assignmentDueToday: 'Today',
+    assignmentDueThisWeek: 'This week',
+    assignmentDueLater: 'Later',
+    footerCopyright: '© {year} KMC Platform',
+    footerTerms: 'Terms',
+    footerPrivacy: 'Privacy',
   },
 } as const
 
@@ -59,4 +89,14 @@ export function detectInitialLanguage(): MainLanguage {
 
 export function formatWelcome(language: MainLanguage, name: string): string {
   return mainLanguageMessages[language].welcome.replace('{name}', name)
+}
+
+export function formatFooterCopyright(
+  language: MainLanguage,
+  year: number,
+): string {
+  return mainLanguageMessages[language].footerCopyright.replace(
+    '{year}',
+    String(year),
+  )
 }
