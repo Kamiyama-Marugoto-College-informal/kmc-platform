@@ -1,6 +1,5 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 
-import { AppShell } from '@/components/layout/AppShell'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { MainLanguageProvider } from '@/context/MainLanguageContext'
 import { detectBrowserLanguage, mainLanguageMessages } from '@/lib/mainLanguage'
@@ -9,6 +8,15 @@ import { LoginPage } from '@/pages/(auth)/login'
 import { DashboardPage } from '@/pages/dashboard'
 import { NotificationsPage } from '@/pages/notifications'
 import { ProfileSettingsPage } from '@/pages/profile/settings'
+
+/** 固定 Sidebar（`Sidebar.tsx`）分の左余白 */
+function AppMainLayout() {
+  return (
+    <div className="min-h-svh pl-28 lg:pl-72 pr-4 py-4">
+      <Outlet />
+    </div>
+  )
+}
 
 function App() {
   const { user, loading, authError } = useAuth()
@@ -22,33 +30,46 @@ function App() {
     )
   }
 
-  if (!user) {
-    return <LoginPage error={authError} />
-  }
-
-  const shellUser = {
-    name: user.name,
-    email: user.email,
-    image: user.image,
-    role: user.role,
-  }
-
   return (
-    <TooltipProvider>
-      <MainLanguageProvider>
-        <Routes>
-          <Route path="/" element={<AppShell user={shellUser} />}>
-            <Route index element={<DashboardPage />} />
-            <Route path="notifications" element={<NotificationsPage />} />
-            <Route
-              path="profile/settings"
-              element={<ProfileSettingsPage />}
-            />
-            <Route path="dashboard" element={<Navigate to="/" replace />} />
-          </Route>
-        </Routes>
-      </MainLanguageProvider>
-    </TooltipProvider>
+    <Routes>
+      <Route
+        path="/login"
+        element={
+          user ? (
+            <Navigate to="/dashboard" replace />
+          ) : (
+            <LoginPage error={authError} />
+          )
+        }
+      />
+      <Route
+        path="/"
+        element={
+          <Navigate to={user ? '/dashboard' : '/login'} replace />
+        }
+      />
+      <Route
+        element={
+          user ? (
+            <TooltipProvider>
+              <MainLanguageProvider>
+                <AppMainLayout />
+              </MainLanguageProvider>
+            </TooltipProvider>
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
+      >
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/notifications" element={<NotificationsPage />} />
+        <Route path="/profile/settings" element={<ProfileSettingsPage />} />
+      </Route>
+      <Route
+        path="*"
+        element={<Navigate to={user ? '/dashboard' : '/login'} replace />}
+      />
+    </Routes>
   )
 }
 

@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+### Changed
+
+- [`UserAvatar`](src/components/UserAvatar.tsx): ロール別リングをやめ、`Badge`（1 文字ラベル）をアバター右上に重ねて `--role-*` を表示
+- [`Sidebar`](src/components/Sidebar.tsx): ナビ項目に任意の `isActive`（`false` で無効・クリック不可）を付けられるようにした。選択中かどうかは `isSelected` に分離
+- [`App.tsx`](src/App.tsx): 未ログインは `/login` のみ（それ以外は `/login` へ）、ログイン済みは `/` を `/dashboard` へリダイレクト。ダッシュボード・通知・プロフィールは認証後ルート（`AppMainLayout` で固定 Sidebar 分の余白）。削除済みの `AppShell` 依存を除去
+- [`main.tsx`](src/main.tsx): ログイン済みのときだけ [`Sidebar`](src/components/Sidebar.tsx) を表示（ログイン画面は全幅）
+
 ### Fixed
 
 - [`Sidebar`](src/components/Sidebar.tsx): 未定義だった `user` / `isMobile` を `useAuth` / `useIsMobile` で補い、`DropdownMenuTrigger` を追加。`AppUser` の `image` を `UserAvatar` に渡し、アカウントメニューは [`AccountMenuContent`](src/components/HeaderAccountMenu.tsx) を再利用。`Link` が効くよう [`BrowserRouter`](src/main.tsx) をエントリで [`App`](src/App.tsx) と共有（`App` 内の重複ラッパーを削除）
@@ -17,6 +24,7 @@
 
 ### Added
 
+- [`@fontsource/zen-kaku-gothic-antique`](package.json): Google Fonts 由来の日本語ウェブフォント（400 / 500 / 700）を Fontsource でバンドル。[`src/index.css`](src/index.css) の `--font-sans` で Geist の直後に置き、欧文は Geist・日本語は Zen Kaku Gothic Antique にフォールバック
 - shadcn `badge`（[`src/components/ui/badge.tsx`](src/components/ui/badge.tsx)）、`empty`（[`src/components/ui/empty.tsx`](src/components/ui/empty.tsx)）
 - [`SiteFooter`](src/components/layout/SiteFooter.tsx): メイン列下部のコピーライト・プレースホルダリンク（利用規約 / プライバシー）
 - [`src/data/mockDashboard.ts`](src/data/mockDashboard.ts): 当日スケジュール・課題締切の型とモックビルダー（`buildTodayScheduleItems` / `buildAssignmentItems`）

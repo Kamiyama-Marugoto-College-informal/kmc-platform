@@ -5,12 +5,16 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 import Sidebar from './components/Sidebar'
+import { useAuth } from './hooks/useAuth'
 
 function Root() {
   const [activeTab, setActiveTab] = useState('dashboard')
+  const { user } = useAuth()
   return (
     <BrowserRouter>
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      {user ? (
+        <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      ) : null}
       <App />
     </BrowserRouter>
   )

@@ -1,10 +1,10 @@
+import type { LucideIcon } from 'lucide-react'
 import {
   LayoutGrid,
   Book,
   CheckSquare,
   CalendarDays,
   MessageCircle,
-  Settings,
   Hexagon,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -26,16 +26,24 @@ interface SidebarProps {
   setActiveTab: (tab: string) => void
 }
 
+type MenuItem = {
+  id: string
+  label: string
+  icon: LucideIcon
+  /** false のとき項目を無効化（クリック不可）。省略時は有効 */
+  isActive?: boolean
+}
+
 export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   const { user } = useAuth()
   const isMobile = useIsMobile()
 
-  const menuItems = [
+  const menuItems: MenuItem[] = [
     { id: 'dashboard', label: 'Overview', icon: LayoutGrid },
     { id: 'courses', label: 'Courses', icon: Book },
     { id: 'assignments', label: 'Tasks', icon: CheckSquare },
     { id: 'calendar', label: 'Schedule', icon: CalendarDays },
-    { id: 'messages', label: 'Chat', icon: MessageCircle },
+    { id: 'messages', label: 'Chat', icon: MessageCircle, isActive: false },
   ]
 
   return (
@@ -55,22 +63,25 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
         <nav className="py-6 space-y-2 flex flex-col items-center lg:items-stretch">
           {menuItems.map((item) => {
             const Icon = item.icon
-            const isActive = activeTab === item.id
+            const isSelected = activeTab === item.id
+            const isEnabled = item.isActive !== false
             return (
               <Button
                 key={item.id}
                 variant="ghost"
-                onClick={() => setActiveTab(item.id)}
+                disabled={!isEnabled}
+                onClick={() => isEnabled && setActiveTab(item.id)}
                 className={cn(
-                  'w-12 h-12 lg:w-full lg:h-auto flex items-center gap-3 px-0 lg:px-4 py-6 rounded-2xl transition-all duration-200 group relative justify-center lg:justify-start hover:bg-white/10 hover:text-white',
-                  isActive &&
+                  'w-12 h-12 lg:w-full lg:h-auto flex items-center gap-3 px-0 lg:px-4 py-3 rounded-2xl transition-all duration-200 group relative justify-center lg:justify-start hover:bg-white/10 hover:text-white',
+                  isSelected &&
+                    isEnabled &&
                     'bg-white text-zinc-900 shadow-lg shadow-white/10 hover:bg-white hover:text-zinc-900',
                 )}
               >
                 <Icon
                   className={cn(
                     'w-5 h-5 transition-transform group-hover:scale-110',
-                    isActive && 'text-zinc-900',
+                    isSelected && isEnabled && 'text-zinc-900',
                   )}
                 />
                 <span className="font-medium hidden lg:block">
@@ -90,19 +101,6 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
       {/* Footer Actions */}
       <div className="p-4 space-y-2 flex flex-col items-center lg:items-stretch">
         <Separator className="bg-white/10 mb-2" />
-        <Button
-          variant="ghost"
-          onClick={() => setActiveTab('settings')}
-          className={cn(
-            'w-12 h-12 lg:w-full lg:h-auto flex items-center gap-3 px-0 lg:px-4 py-6 rounded-2xl transition-colors justify-center lg:justify-start hover:bg-white/5 hover:text-white text-zinc-500',
-            activeTab === 'settings' && 'bg-white/10 text-white',
-          )}
-        >
-          <Settings className="w-5 h-5" />
-          <span className="font-medium hidden lg:block">Settings</span>
-        </Button>
-
-        <Separator className="bg-white/5 my-2" />
 
         {user ? (
           <DropdownMenu>
@@ -111,7 +109,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
                 type="button"
                 variant="ghost"
                 className={cn(
-                  'w-12 h-12 lg:w-full lg:h-auto flex items-center gap-3 px-0 lg:px-4 py-6 rounded-2xl transition-colors justify-center lg:justify-start hover:bg-white/5 hover:text-white text-zinc-400',
+                  'w-12 h-12 lg:w-full lg:h-auto flex items-center gap-3 px-0 lg:px-4 py-2 rounded-2xl transition-colors justify-center lg:justify-start hover:bg-white/5 hover:text-white text-zinc-400',
                   'focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900',
                 )}
                 aria-label="アカウントメニューを開く"
