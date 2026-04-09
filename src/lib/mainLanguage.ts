@@ -17,8 +17,7 @@ export const mainLanguageMessages = {
     dashboardSubtitle: '今日の予定と締切をひと目で確認できます。',
     sectionTodaySchedule: '今日のスケジュール',
     sectionAssignments: '課題・締切',
-    assignmentsCardDescription:
-      '未完了の課題を締切が近い順に表示しています。',
+    assignmentsCardDescription: '未完了の課題を締切が近い順に表示しています。',
     scheduleEmpty: '今日の予定はありません。',
     assignmentsEmpty: '表示する課題はありません。',
     assignmentDueOverdue: '期限超過',
@@ -41,7 +40,8 @@ export const mainLanguageMessages = {
     japanese: 'Japanese',
     english: 'English',
     dashboardTitle: 'Dashboard',
-    dashboardSubtitle: 'See today’s schedule and assignment deadlines at a glance.',
+    dashboardSubtitle:
+      'See today’s schedule and assignment deadlines at a glance.',
     sectionTodaySchedule: 'Today’s schedule',
     sectionAssignments: 'Assignments',
     assignmentsCardDescription:

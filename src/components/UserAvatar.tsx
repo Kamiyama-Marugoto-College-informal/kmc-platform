@@ -22,7 +22,11 @@ export function UserAvatar({ name, image, role, className }: UserAvatarProps) {
 
   return (
     <Avatar
-      className={cn('ring-2 ring-offset-2 ring-offset-background', ring, className)}
+      className={cn(
+        'ring-2 ring-offset-2 ring-offset-background',
+        ring,
+        className,
+      )}
     >
       {image ? <AvatarImage src={image} alt={name} /> : null}
       <AvatarFallback className="font-semibold">{initial}</AvatarFallback>

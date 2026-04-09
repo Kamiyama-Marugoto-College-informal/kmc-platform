@@ -19,7 +19,7 @@ export function LoginPage({ error: externalError }: LoginPageProps) {
 
   return (
     <div className="flex min-h-svh items-center justify-center p-4">
-      <Card className="w-full max-w-md text-center shadow-lg">
+      <Card className="w-full max-w-md text-center">
         <CardHeader>
           <CardTitle className="text-2xl font-bold">KMC Platform</CardTitle>
           <CardDescription>

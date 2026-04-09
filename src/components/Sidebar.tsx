@@ -128,9 +128,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
                     className="size-8 shrink-0"
                   />
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">
-                      {user.name}
-                    </span>
+                    <span className="truncate font-semibold">{user.name}</span>
                     {user.email ? (
                       <span className="truncate text-xs text-sidebar-foreground/70">
                         {user.email}

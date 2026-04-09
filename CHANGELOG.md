@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+### Changed
+
+- [`src/index.css`](src/index.css): Google 系ウェブ UI（公開の Material / Google カラー）に寄せたセマンティックトークン（ライトは `#f8f9fa` 背景・Google Blue 系 `#1a73e8` プライマリ、`prefers-color-scheme: dark` でダークサーフェス）。`--role-*` を定義して [`UserAvatar`](src/components/UserAvatar.tsx) のリングと整合。ベースタイポを 1rem / line-height 1.5 に調整
+- [`src/components/ui/card.tsx`](src/components/ui/card.tsx): Material 風の薄いエレベーション（シャドウ + `ring-border`）
+- [`src/components/Header.tsx`](src/components/Header.tsx): ヘッダーを `bg-card` + 軽いシャドウに
+- [`index.html`](index.html): `lang="ja"`（アプリの主言語に合わせる）
+- [`src/pages/(auth)/login/index.tsx`](src/pages/(auth)/login/index.tsx): ログインカードの `shadow-lg` をやめ、カード共通のエレベーションに統一
+
 ### Added
 
 - shadcn `badge`（[`src/components/ui/badge.tsx`](src/components/ui/badge.tsx)）、`empty`（[`src/components/ui/empty.tsx`](src/components/ui/empty.tsx)）

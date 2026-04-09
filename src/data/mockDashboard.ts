@@ -55,11 +55,31 @@ const mockAssignmentSeeds: Array<{
   dueOffsetDays: number
   done?: boolean
 }> = [
-  { title: '第5回レポート提出', course: '物理学概論', dueOffsetDays: -2, done: false },
-  { title: '中間課題（プログラム）', course: 'アルゴリズム', dueOffsetDays: 0, done: false },
+  {
+    title: '第5回レポート提出',
+    course: '物理学概論',
+    dueOffsetDays: -2,
+    done: false,
+  },
+  {
+    title: '中間課題（プログラム）',
+    course: 'アルゴリズム',
+    dueOffsetDays: 0,
+    done: false,
+  },
   { title: '読書感想文', course: '国語II', dueOffsetDays: 2, done: false },
-  { title: 'グループ発表スライド', course: '英語コミュニケーション', dueOffsetDays: 5, done: false },
-  { title: '期末レポート仮稿', course: '社会学入門', dueOffsetDays: 12, done: false },
+  {
+    title: 'グループ発表スライド',
+    course: '英語コミュニケーション',
+    dueOffsetDays: 5,
+    done: false,
+  },
+  {
+    title: '期末レポート仮稿',
+    course: '社会学入門',
+    dueOffsetDays: 12,
+    done: false,
+  },
 ]
 
 function atTime(reference: Date, hour: number, minute: number): Date {
