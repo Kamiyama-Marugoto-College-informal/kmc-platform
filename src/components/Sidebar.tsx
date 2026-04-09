@@ -1,155 +1,158 @@
-import { Link, NavLink, useLocation } from 'react-router-dom'
 import {
-  Bell,
-  ChevronsUpDown,
-  GalleryVerticalEnd,
-  LayoutDashboard,
+  LayoutGrid,
+  Book,
+  CheckSquare,
+  CalendarDays,
+  MessageCircle,
   Settings,
+  Hexagon,
 } from 'lucide-react'
-
-import { AccountMenuContent } from '@/components/HeaderAccountMenu'
-import { UserAvatar } from '@/components/UserAvatar'
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Separator } from '@/components/ui/separator'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarRail,
-  SidebarSeparator,
-} from '@/components/ui/sidebar'
-import type { AppUser } from '@/lib/supabase'
+import { AccountMenuContent } from '@/components/HeaderAccountMenu'
+import { UserAvatar } from '@/components/UserAvatar'
+import { useAuth } from '@/hooks/useAuth'
+import { useIsMobile } from '@/hooks/use-mobile'
 
-function useNavActive() {
-  const { pathname } = useLocation()
-
-  return {
-    dashboard: pathname === '/',
-    notifications: pathname === '/notifications',
-    settings: pathname.startsWith('/profile/settings'),
-  }
+interface SidebarProps {
+  activeTab: string
+  setActiveTab: (tab: string) => void
 }
 
-interface AppSidebarProps {
-  user: Pick<AppUser, 'name' | 'image' | 'role' | 'email'>
-}
+export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
+  const { user } = useAuth()
+  const isMobile = useIsMobile()
 
-export function AppSidebar({ user }: AppSidebarProps) {
-  const active = useNavActive()
+  const menuItems = [
+    { id: 'dashboard', label: 'Overview', icon: LayoutGrid },
+    { id: 'courses', label: 'Courses', icon: Book },
+    { id: 'assignments', label: 'Tasks', icon: CheckSquare },
+    { id: 'calendar', label: 'Schedule', icon: CalendarDays },
+    { id: 'messages', label: 'Chat', icon: MessageCircle },
+  ]
 
   return (
-    <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b border-sidebar-border">
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild tooltip="KMC Platform">
-              <Link to="/">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
-                  <GalleryVerticalEnd className="size-4" />
-                </div>
-                <span className="truncate font-semibold tracking-tight">
-                  KMC Platform
-                </span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>メイン</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={active.dashboard}
-                  tooltip="ダッシュボード"
-                >
-                  <NavLink to="/" end>
-                    <LayoutDashboard />
-                    <span>ダッシュボード</span>
-                  </NavLink>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={active.notifications}
-                  tooltip="通知"
-                >
-                  <NavLink to="/notifications">
-                    <Bell />
-                    <span>通知</span>
-                  </NavLink>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={active.settings}
-                  tooltip="設定"
-                >
-                  <NavLink to="/profile/settings">
-                    <Settings />
-                    <span>設定</span>
-                  </NavLink>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-      <SidebarSeparator className="mx-0" />
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton
-                  size="lg"
-                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                  tooltip={user.name}
-                >
-                  <UserAvatar
-                    name={user.name}
-                    image={user.image}
-                    role={user.role}
-                    className="size-8 shrink-0"
-                  />
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">{user.name}</span>
-                    {user.email ? (
-                      <span className="truncate text-xs text-sidebar-foreground/70">
-                        {user.email}
-                      </span>
-                    ) : null}
-                  </div>
-                  <ChevronsUpDown className="ml-auto size-4 shrink-0 text-sidebar-foreground/70" />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                className="min-w-56 rounded-lg"
-                side="top"
-                align="start"
+    <aside className="fixed left-4 top-4 bottom-4 w-20 lg:w-64 bg-zinc-900 text-white rounded-3xl flex flex-col shadow-2xl shadow-zinc-900/20 z-50 transition-all duration-300 overflow-hidden">
+      {/* Logo Area */}
+      <div className="p-6 flex items-center gap-4 justify-center lg:justify-start">
+        <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm shrink-0">
+          <Hexagon className="w-6 h-6 text-white fill-white/20" />
+        </div>
+        <span className="font-display font-bold text-xl tracking-tight hidden lg:block">
+          Campus
+        </span>
+      </div>
+
+      {/* Navigation */}
+      <ScrollArea className="flex-1 px-3">
+        <nav className="py-6 space-y-2 flex flex-col items-center lg:items-stretch">
+          {menuItems.map((item) => {
+            const Icon = item.icon
+            const isActive = activeTab === item.id
+            return (
+              <Button
+                key={item.id}
+                variant="ghost"
+                onClick={() => setActiveTab(item.id)}
+                className={cn(
+                  'w-12 h-12 lg:w-full lg:h-auto flex items-center gap-3 px-0 lg:px-4 py-6 rounded-2xl transition-all duration-200 group relative justify-center lg:justify-start hover:bg-white/10 hover:text-white',
+                  isActive &&
+                    'bg-white text-zinc-900 shadow-lg shadow-white/10 hover:bg-white hover:text-zinc-900',
+                )}
               >
-                <AccountMenuContent user={user} />
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
-      <SidebarRail />
-    </Sidebar>
+                <Icon
+                  className={cn(
+                    'w-5 h-5 transition-transform group-hover:scale-110',
+                    isActive && 'text-zinc-900',
+                  )}
+                />
+                <span className="font-medium hidden lg:block">
+                  {item.label}
+                </span>
+
+                {/* Tooltip for mobile/collapsed */}
+                <div className="absolute left-14 bg-zinc-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 lg:hidden pointer-events-none transition-opacity whitespace-nowrap z-50">
+                  {item.label}
+                </div>
+              </Button>
+            )
+          })}
+        </nav>
+      </ScrollArea>
+
+      {/* Footer Actions */}
+      <div className="p-4 space-y-2 flex flex-col items-center lg:items-stretch">
+        <Separator className="bg-white/10 mb-2" />
+        <Button
+          variant="ghost"
+          onClick={() => setActiveTab('settings')}
+          className={cn(
+            'w-12 h-12 lg:w-full lg:h-auto flex items-center gap-3 px-0 lg:px-4 py-6 rounded-2xl transition-colors justify-center lg:justify-start hover:bg-white/5 hover:text-white text-zinc-500',
+            activeTab === 'settings' && 'bg-white/10 text-white',
+          )}
+        >
+          <Settings className="w-5 h-5" />
+          <span className="font-medium hidden lg:block">Settings</span>
+        </Button>
+
+        <Separator className="bg-white/5 my-2" />
+
+        {user ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                type="button"
+                variant="ghost"
+                className={cn(
+                  'w-12 h-12 lg:w-full lg:h-auto flex items-center gap-3 px-0 lg:px-4 py-6 rounded-2xl transition-colors justify-center lg:justify-start hover:bg-white/5 hover:text-white text-zinc-400',
+                  'focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900',
+                )}
+                aria-label="アカウントメニューを開く"
+              >
+                <UserAvatar
+                  name={user.name}
+                  image={user.image}
+                  role={user.role}
+                  className="size-8 rounded-lg"
+                />
+                <span className="font-medium hidden lg:block truncate text-left text-white">
+                  {user.name}
+                </span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="min-w-56 rounded-lg"
+              side={isMobile ? 'bottom' : 'right'}
+              align="end"
+              sideOffset={4}
+            >
+              <AccountMenuContent user={user} />
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <div
+            className="w-12 h-12 lg:w-full lg:min-h-12 flex items-center justify-center lg:justify-start lg:px-4 rounded-2xl text-zinc-500 text-xs"
+            aria-hidden
+          >
+            …
+          </div>
+        )}
+        
+        {/*<Button
+          variant="ghost"
+          className="flex items-center gap-3 px-0 lg:px-4 py-2 text-zinc-500 hover:text-red-400 hover:bg-red-400/10 w-full justify-center lg:justify-start"
+        >
+          <LogOut className="w-5 h-5" />
+          <span className="font-medium hidden lg:block text-sm">Sign Out</span>
+        </Button>*/}
+      </div>
+    </aside>
   )
 }

@@ -2,13 +2,18 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- [`Sidebar`](src/components/Sidebar.tsx): 未定義だった `user` / `isMobile` を `useAuth` / `useIsMobile` で補い、`DropdownMenuTrigger` を追加。`AppUser` の `image` を `UserAvatar` に渡し、アカウントメニューは [`AccountMenuContent`](src/components/HeaderAccountMenu.tsx) を再利用。`Link` が効くよう [`BrowserRouter`](src/main.tsx) をエントリで [`App`](src/App.tsx) と共有（`App` 内の重複ラッパーを削除）
+- [`main.tsx`](src/main.tsx): `Sidebar` に必須の `activeTab` / `setActiveTab` を渡す `Root` を追加
+
 ### Changed
 
+- [`AppShell`](src/components/layout/AppShell.tsx): 左サイドバー（`SidebarProvider` / `AppSidebar`）をやめ、上段の [`AppToolbar`](src/components/AppToolbar.tsx)（`role="toolbar"` の `NavLink` + [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx)）を主ナビに変更。`Sidebar.tsx` と旧 `Header.tsx` は削除してツールバーに集約
 - [`src/index.css`](src/index.css): Google 系ウェブ UI（公開の Material / Google カラー）に寄せたセマンティックトークン（ライトは `#f8f9fa` 背景・Google Blue 系 `#1a73e8` プライマリ、`prefers-color-scheme: dark` でダークサーフェス）。`--role-*` を定義して [`UserAvatar`](src/components/UserAvatar.tsx) のリングと整合。ベースタイポを 1rem / line-height 1.5 に調整
 - [`src/components/ui/card.tsx`](src/components/ui/card.tsx): Material 風の薄いエレベーション（シャドウ + `ring-border`）
-- [`src/components/Header.tsx`](src/components/Header.tsx): ヘッダーを `bg-card` + 軽いシャドウに
 - [`index.html`](index.html): `lang="ja"`（アプリの主言語に合わせる）
-- [`src/pages/(auth)/login/index.tsx`](src/pages/(auth)/login/index.tsx): ログインカードの `shadow-lg` をやめ、カード共通のエレベーションに統一
+- [`src/pages/(auth)/login/index.tsx`](<src/pages/(auth)/login/index.tsx>): ログインカードの `shadow-lg` をやめ、カード共通のエレベーションに統一
 
 ### Added
 
@@ -17,16 +22,14 @@
 - [`src/data/mockDashboard.ts`](src/data/mockDashboard.ts): 当日スケジュール・課題締切の型とモックビルダー（`buildTodayScheduleItems` / `buildAssignmentItems`）
 - [`mainLanguage.ts`](src/lib/mainLanguage.ts): ダッシュボード各セクション・締切バッジ・フッター文言（ja/en）と `formatFooterCopyright`
 - shadcn `sidebar` ブロック（[`src/components/ui/sidebar.tsx`](src/components/ui/sidebar.tsx)、依存として `sheet` / `tooltip` / `skeleton` / `input`、`use-mobile` フック）
-- [`AppSidebar`](src/components/Sidebar.tsx): 左サイドバーにダッシュボード・通知・設定への `NavLink`（折りたたみ `icon` モード対応）
-- [`AppSidebar`](src/components/Sidebar.tsx): フッターにユーザー行（アバター・名前・メール・`ChevronsUpDown`）と上方向の `DropdownMenu`（設定・通知・ログアウト）
 
 ### Changed
 
 - [`DashboardPage`](src/pages/dashboard/index.tsx): 今日の日付・2 カラム（スケジュール / 課題）、shadcn `Empty` / `Separator` / `Badge` による空状態・区切り・締切区分（期限超過・今日・今週・この先）
 - [`SiteFooter`](src/components/layout/SiteFooter.tsx): リンクを `Button` の `variant="link"` で表示
 - [`AppShell`](src/components/layout/AppShell.tsx): メイン列コンテンツ下に [`SiteFooter`](src/components/layout/SiteFooter.tsx) を配置
-- [`AppShell`](src/components/layout/AppShell.tsx): `SidebarProvider` + `AppSidebar` + `SidebarInset` のサイドバーレイアウトに変更（`AppSidebar` に `email` を含む `user` を渡す）
-- [`Header`](src/components/Header.tsx): `SidebarTrigger` のみ（アカウントはサイドバーフッターへ集約）
+- [`AppShell`](src/components/layout/AppShell.tsx): `SidebarProvider` + `AppSidebar` + `SidebarInset` のサイドバーレイアウトに変更（`AppSidebar` に `email` を含む `user` を渡す）（現行は上記 Unreleased のツールバー構成に置換）
+- `Header`: `SidebarTrigger` のみ（アカウントはサイドバーフッターへ集約）（現行は `AppToolbar` に統合）
 - [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx): `AccountMenuContent` を切り出し（サイドバーと共有）。表示ラベルにメールを任意表示
 - [`UserAvatar`](src/components/UserAvatar.tsx): 任意の `className`（サイドバー行で `size-8` など）
 - [`App.tsx`](src/App.tsx): `shellUser` に `email` を渡すよう変更

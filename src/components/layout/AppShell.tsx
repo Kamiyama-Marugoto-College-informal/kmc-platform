@@ -1,9 +1,7 @@
 import { Outlet } from 'react-router-dom'
 
-import { AppSidebar } from '@/components/Sidebar'
-import { Header } from '@/components/Header'
+import { AppToolbar } from '@/components/AppToolbar'
 import { SiteFooter } from '@/components/layout/SiteFooter'
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import type { AppUser } from '@/lib/supabase'
 
 interface AppShellProps {
@@ -12,17 +10,14 @@ interface AppShellProps {
 
 export function AppShell({ user }: AppShellProps) {
   return (
-    <SidebarProvider>
-      <AppSidebar user={user} />
-      <SidebarInset>
-        <Header />
-        <div className="flex flex-1 flex-col bg-background">
-          <div className="container mx-auto max-w-6xl flex-1 px-4 py-6">
-            <Outlet />
-          </div>
-          <SiteFooter />
+    <div className="flex min-h-svh flex-col bg-background">
+      <AppToolbar user={user} />
+      <div className="flex flex-1 flex-col">
+        <div className="container mx-auto max-w-6xl flex-1 px-4 py-6">
+          <Outlet />
         </div>
-      </SidebarInset>
-    </SidebarProvider>
+        <SiteFooter />
+      </div>
+    </div>
   )
 }
