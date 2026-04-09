@@ -142,7 +142,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
             …
           </div>
         )}
-        
+
         {/*<Button
           variant="ghost"
           className="flex items-center gap-3 px-0 lg:px-4 py-2 text-zinc-500 hover:text-red-400 hover:bg-red-400/10 w-full justify-center lg:justify-start"

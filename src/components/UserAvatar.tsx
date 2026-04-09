@@ -4,10 +4,7 @@ import { cn } from '@/lib/utils'
 
 type Role = 'student' | 'staff' | 'admin'
 
-const roleBadge: Record<
-  Role,
-  { label: string; className: string }
-> = {
+const roleBadge: Record<Role, { label: string; className: string }> = {
   student: {
     label: '学',
     className: 'bg-[var(--role-student)] text-white border-transparent',

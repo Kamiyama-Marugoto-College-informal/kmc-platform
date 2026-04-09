@@ -2,17 +2,24 @@
 
 ## [Unreleased]
 
+### Added
+
+- [`ThemeToggle`](src/components/ThemeToggle.tsx): メイン列右上からライト / ダーク / システムを選べるテーマ切替（[`next-themes`](package.json) + [`ThemeProvider`](src/components/theme-provider.tsx)）
+- [`index.html`](index.html): 初回ペイント前に `localStorage.theme` と `prefers-color-scheme` で `html.dark` を同期し、フラッシュを抑えるインラインスクリプト
+
 ### Changed
 
+- [`src/index.css`](src/index.css): ダーク用セマンティックトークンを `prefers-color-scheme` のメディアクエリから `html.dark` へ移行（手動テーマと Tailwind `dark:` を一致させる）
+- [`App.tsx`](src/App.tsx): 認証後メイン列右上に [`ThemeToggle`](src/components/ThemeToggle.tsx)。未ログインは `/login` のみ（それ以外は `/login` へ）、ログイン済みは `/` を `/dashboard` へリダイレクト。ダッシュボード・通知・プロフィールは認証後ルート（`AppMainLayout` で固定 Sidebar 分の余白）。削除済みの `AppShell` 依存を除去
+- [`main.tsx`](src/main.tsx): [`ThemeProvider`](src/components/theme-provider.tsx) でラップ
+- [`Root.tsx`](src/Root.tsx): [`BrowserRouter`](src/main.tsx) とログイン時のみ [`Sidebar`](src/components/Sidebar.tsx)（ログイン画面は全幅）をここに集約（`main.tsx` の Fast Refresh 用）
 - [`UserAvatar`](src/components/UserAvatar.tsx): ロール別リングをやめ、`Badge`（1 文字ラベル）をアバター右上に重ねて `--role-*` を表示
 - [`Sidebar`](src/components/Sidebar.tsx): ナビ項目に任意の `isActive`（`false` で無効・クリック不可）を付けられるようにした。選択中かどうかは `isSelected` に分離
-- [`App.tsx`](src/App.tsx): 未ログインは `/login` のみ（それ以外は `/login` へ）、ログイン済みは `/` を `/dashboard` へリダイレクト。ダッシュボード・通知・プロフィールは認証後ルート（`AppMainLayout` で固定 Sidebar 分の余白）。削除済みの `AppShell` 依存を除去
-- [`main.tsx`](src/main.tsx): ログイン済みのときだけ [`Sidebar`](src/components/Sidebar.tsx) を表示（ログイン画面は全幅）
 
 ### Fixed
 
 - [`Sidebar`](src/components/Sidebar.tsx): 未定義だった `user` / `isMobile` を `useAuth` / `useIsMobile` で補い、`DropdownMenuTrigger` を追加。`AppUser` の `image` を `UserAvatar` に渡し、アカウントメニューは [`AccountMenuContent`](src/components/HeaderAccountMenu.tsx) を再利用。`Link` が効くよう [`BrowserRouter`](src/main.tsx) をエントリで [`App`](src/App.tsx) と共有（`App` 内の重複ラッパーを削除）
-- [`main.tsx`](src/main.tsx): `Sidebar` に必須の `activeTab` / `setActiveTab` を渡す `Root` を追加
+- [`Root.tsx`](src/Root.tsx): `Sidebar` に必須の `activeTab` / `setActiveTab` を渡す `Root` を追加（当初は [`main.tsx`](src/main.tsx) にあった）
 
 ### Changed
 

@@ -1,5 +1,6 @@
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 
+import { ThemeToggle } from '@/components/ThemeToggle'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { MainLanguageProvider } from '@/context/MainLanguageContext'
 import { detectBrowserLanguage, mainLanguageMessages } from '@/lib/mainLanguage'
@@ -13,6 +14,9 @@ import { ProfileSettingsPage } from '@/pages/profile/settings'
 function AppMainLayout() {
   return (
     <div className="min-h-svh pl-28 lg:pl-72 pr-4 py-4">
+      <div className="mb-4 flex justify-end">
+        <ThemeToggle />
+      </div>
       <Outlet />
     </div>
   )
@@ -44,9 +48,7 @@ function App() {
       />
       <Route
         path="/"
-        element={
-          <Navigate to={user ? '/dashboard' : '/login'} replace />
-        }
+        element={<Navigate to={user ? '/dashboard' : '/login'} replace />}
       />
       <Route
         element={
