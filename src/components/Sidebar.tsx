@@ -52,11 +52,11 @@ export default function Sidebar({
   ]
 
   return (
-    <aside className="fixed left-4 top-4 bottom-4 w-20 lg:w-64 bg-zinc-900 text-white rounded-3xl flex flex-col shadow-2xl shadow-zinc-900/20 z-50 transition-all duration-300 overflow-hidden">
+    <aside className="fixed left-4 top-4 bottom-4 z-50 flex w-20 flex-col overflow-hidden rounded-3xl bg-sidebar text-sidebar-foreground shadow-2xl shadow-black/20 transition-all duration-300 lg:w-64">
       {/* Logo Area */}
       <div className="p-6 flex items-center gap-4 justify-center lg:justify-start">
-        <div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm shrink-0">
-          <Hexagon className="w-6 h-6 text-white fill-white/20" />
+        <div className="h-10 w-10 shrink-0 rounded-xl bg-sidebar-accent flex items-center justify-center backdrop-blur-sm">
+          <Hexagon className="h-6 w-6 text-sidebar-accent-foreground fill-sidebar-accent-foreground/20" />
         </div>
         <span className="font-display font-bold text-xl tracking-tight hidden lg:block">
           Campus
@@ -77,16 +77,18 @@ export default function Sidebar({
                   disabled={!isEnabled}
                   onClick={() => isEnabled && setActiveTab(item.id)}
                   className={cn(
-                    'w-12 h-12 lg:w-full lg:h-auto flex items-center gap-3 px-0 lg:px-4 py-3 rounded-2xl transition-all duration-200 group relative justify-center lg:justify-start hover:bg-white/10 hover:text-white',
+                    'w-12 h-12 lg:w-full lg:h-auto flex items-center gap-3 px-0 lg:px-4 py-3 rounded-2xl transition-all duration-200 group relative justify-center lg:justify-start hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
                     isSelected &&
                       isEnabled &&
-                      'bg-white text-zinc-900 shadow-lg shadow-white/10 hover:bg-white hover:text-zinc-900',
+                      'bg-sidebar-primary text-sidebar-primary-foreground shadow-lg shadow-sidebar-primary/20 hover:bg-sidebar-primary hover:text-sidebar-primary-foreground',
                   )}
                 >
                   <Icon
                     className={cn(
                       'w-5 h-5 transition-transform group-hover:scale-110',
-                      isSelected && isEnabled && 'text-zinc-900',
+                      isSelected &&
+                        isEnabled &&
+                        'text-sidebar-primary-foreground',
                     )}
                   />
                   <span className="font-medium hidden lg:block">
@@ -94,7 +96,7 @@ export default function Sidebar({
                   </span>
 
                   {/* Tooltip for mobile/collapsed */}
-                  <div className="absolute left-14 bg-zinc-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 lg:hidden pointer-events-none transition-opacity whitespace-nowrap z-50">
+                  <div className="absolute left-14 z-50 rounded border border-sidebar-border bg-sidebar px-2 py-1 text-xs whitespace-nowrap text-sidebar-foreground opacity-0 group-hover:opacity-100 lg:hidden pointer-events-none transition-opacity">
                     {item.label}
                   </div>
                 </Button>
@@ -106,7 +108,7 @@ export default function Sidebar({
 
       {/* Footer Actions */}
       <div className="p-4 space-y-2 flex flex-col items-center lg:items-stretch">
-        <Separator className="bg-white/10 mb-2" />
+        <Separator className="mb-2 bg-sidebar-border" />
 
         {user ? (
           <DropdownMenu>
@@ -115,8 +117,8 @@ export default function Sidebar({
                 type="button"
                 variant="ghost"
                 className={cn(
-                  'w-12 h-12 lg:w-full lg:h-auto flex items-center gap-3 px-0 lg:px-4 py-2 rounded-2xl transition-colors justify-center lg:justify-start hover:bg-white/5 hover:text-white text-zinc-400',
-                  'focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900',
+                  'w-12 h-12 lg:w-full lg:h-auto flex items-center gap-3 px-0 lg:px-4 py-2 rounded-2xl transition-colors justify-center lg:justify-start hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sidebar-foreground/70',
+                  'focus-visible:ring-2 focus-visible:ring-sidebar-ring/40 focus-visible:ring-offset-2 focus-visible:ring-offset-sidebar',
                 )}
                 aria-label="アカウントメニューを開く"
               >
@@ -126,7 +128,7 @@ export default function Sidebar({
                   role={user.role}
                   className="size-8 rounded-lg"
                 />
-                <span className="font-medium hidden lg:block truncate text-left text-white">
+                <span className="font-medium hidden lg:block truncate text-left text-sidebar-foreground">
                   {user.name}
                 </span>
               </Button>
@@ -142,7 +144,7 @@ export default function Sidebar({
           </DropdownMenu>
         ) : (
           <div
-            className="w-12 h-12 lg:w-full lg:min-h-12 flex items-center justify-center lg:justify-start lg:px-4 rounded-2xl text-zinc-500 text-xs"
+            className="w-12 h-12 lg:w-full lg:min-h-12 flex items-center justify-center lg:justify-start lg:px-4 rounded-2xl text-sidebar-foreground/50 text-xs"
             aria-hidden
           >
             …

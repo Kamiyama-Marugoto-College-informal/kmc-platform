@@ -1,30 +1,20 @@
-name: 🐛 Bug Report
-description: 再現可能なバグを報告する
-title: 'fix: '
-labels: ['bug', 'triage']
+name: Bug report
+description: 不具合の報告
+title: '[Bug]: '
+labels: ['bug']
 body:
   - type: markdown
     attributes:
       value: |
-        バグ報告ありがとうございます。
-        起票前に **既存の Issue と重複していないか** 検索してください。
-
-  - type: checkboxes
-    id: preflight
-    attributes:
-      label: 事前確認
-      options:
-        - label: 既存の Issue を検索し、重複がないことを確認した
-          required: true
-        - label: 最新の `develop` ブランチで問題が再現することを確認した
-          required: true
+        バグ報告ありがとう。
+        再現しやすいように、できるだけ具体的に書いてください。
 
   - type: textarea
-    id: description
+    id: summary
     attributes:
-      label: バグの概要
-      description: 何が起きているか、一言で説明してください。
-      placeholder: 例）ログインボタンを押すと画面が真っ白になる
+      label: 概要
+      description: 何が起きたかを簡潔に書いてください
+      placeholder: 例) ログインボタンを押しても反応しない
     validations:
       required: true
 
@@ -32,12 +22,12 @@ body:
     id: steps
     attributes:
       label: 再現手順
-      description: バグを再現するための具体的なステップを記載してください。
+      description: バグを再現する手順
       placeholder: |
-        1. トップページにアクセスする
-        2. 「ログイン」ボタンをクリックする
-        3. メールアドレスとパスワードを入力して送信する
-        4. 画面が真っ白になる
+        1. `/login` にアクセス
+        2. メールアドレスを入力
+        3. ログインボタンを押す
+        4. 何も起きない
     validations:
       required: true
 
@@ -45,79 +35,43 @@ body:
     id: expected
     attributes:
       label: 期待する動作
-      description: 本来どのように動くべきか説明してください。
-      placeholder: 例）ログイン後、ダッシュボードページにリダイレクトされる
-    validations:
-      required: true
-
-  - type: textarea
-    id: actual
-    attributes:
-      label: 実際の動作
-      description: 実際に何が起きているか説明してください。
-      placeholder: 例）画面が真っ白になり、コンソールに TypeError が表示される
-    validations:
-      required: true
-
-  - type: textarea
-    id: logs
-    attributes:
-      label: エラーログ / スクリーンショット
-      description: |
-        ブラウザのコンソールに表示されるエラーログや、スクリーンショットがあれば貼り付けてください。
-        コードブロックで囲むと読みやすくなります。
-      render: shell
-
-  - type: dropdown
-    id: os
-    attributes:
-      label: OS
-      multiple: true
-      options:
-        - macOS
-        - Windows
-        - Linux
-        - iOS
-        - Android
+      placeholder: 例) ダッシュボードに遷移する
     validations:
       required: true
 
   - type: dropdown
-    id: browser
+    id: severity
     attributes:
-      label: ブラウザ
-      multiple: true
+      label: 影響度
       options:
-        - Chrome
-        - Firefox
-        - Safari
-        - Edge
-        - その他
+        - low
+        - medium
+        - high
+        - critical
     validations:
       required: true
 
   - type: input
-    id: node_version
+    id: environment
     attributes:
-      label: Node.js バージョン
-      description: '`node -v` の出力を貼り付けてください（開発者の場合）'
-      placeholder: 例）v22.3.0
-
-  - type: dropdown
-    id: priority
-    attributes:
-      label: 優先度（主観）
-      description: あなたにとってこのバグはどのくらい深刻ですか？
-      options:
-        - 'P0 — 現在の作業がブロックされている'
-        - 'P1 — 定期的に困っている'
-        - 'P2 — あると嬉しい'
-        - 'P3 — いつか対応できれば十分'
-    validations:
-      required: true
+      label: 環境
+      description: OS / Browser / App version など
+      placeholder: 例) macOS 15 / Chrome 135 / v1.2.3
 
   - type: textarea
-    id: additional
+    id: logs
     attributes:
-      label: 補足情報
-      description: 再現条件・関連する Issue・試した回避策など、追加で共有したい情報があれば記載してください。
+      label: スクリーンショット・ログ
+      description: エラー文や画像があれば貼ってください
+      placeholder: エラーログやスクショをここに貼る
+      render: shell
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: 確認事項
+      options:
+        - label: 既存Issueを確認しました
+          required: true
+        - label: 再現手順をできるだけ具体的に書きました
+          required: true

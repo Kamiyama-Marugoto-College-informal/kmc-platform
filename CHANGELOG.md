@@ -18,6 +18,7 @@
 
 ### Fixed
 
+- [`Sidebar`](src/components/Sidebar.tsx): サイドバーの配色を固定の `zinc`/`white` から `sidebar` 系トークンに変更し、ライト/ダーク切替時に背景・文字色がテーマへ追従するよう修正
 - [`Sidebar`](src/components/Sidebar.tsx): 未定義だった `user` / `isMobile` を `useAuth` / `useIsMobile` で補い、`DropdownMenuTrigger` を追加。`AppUser` の `image` を `UserAvatar` に渡し、アカウントメニューは [`AccountMenuContent`](src/components/HeaderAccountMenu.tsx) を再利用。`Link` が効くよう [`BrowserRouter`](src/main.tsx) をエントリで [`App`](src/App.tsx) と共有（`App` 内の重複ラッパーを削除）
 - [`Root.tsx`](src/Root.tsx): `Sidebar` に必須の `activeTab` / `setActiveTab` を渡す `Root` を追加（当初は [`main.tsx`](src/main.tsx) にあった）
 
