@@ -19,12 +19,13 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { AccountMenuContent } from '@/components/HeaderAccountMenu'
 import { UserAvatar } from '@/components/UserAvatar'
-import { useAuth } from '@/hooks/useAuth'
 import { useIsMobile } from '@/hooks/use-mobile'
+import type { AppUser } from '@/lib/supabase'
 
 interface SidebarProps {
   activeTab: string
   setActiveTab: (tab: string) => void
+  user: AppUser | null
 }
 
 type MenuItem = {
@@ -35,8 +36,11 @@ type MenuItem = {
   isActive?: boolean
 }
 
-export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
-  const { user } = useAuth()
+export default function Sidebar({
+  activeTab,
+  setActiveTab,
+  user,
+}: SidebarProps) {
   const isMobile = useIsMobile()
 
   const menuItems: MenuItem[] = [

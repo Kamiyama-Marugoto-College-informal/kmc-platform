@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 
+import Sidebar from '@/components/Sidebar'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { MainLanguageProvider, detectBrowserLanguage, t } from '@/lib/i18n'
@@ -23,6 +25,7 @@ function AppMainLayout() {
 }
 
 function App() {
+  const [activeTab, setActiveTab] = useState('dashboard')
   const { user, loading, authError } = useAuth()
 
   if (loading) {
@@ -35,44 +38,53 @@ function App() {
   }
 
   return (
-    <Routes>
-      <Route
-        path="/login"
-        element={
-          user ? (
-            <Navigate to="/dashboard" replace />
-          ) : (
-            <LoginPage error={authError} />
-          )
-        }
-      />
-      <Route
-        path="/"
-        element={<Navigate to={user ? '/dashboard' : '/login'} replace />}
-      />
-      <Route
-        element={
-          user ? (
-            <TooltipProvider>
-              <MainLanguageProvider>
-                <AppMainLayout />
-              </MainLanguageProvider>
-            </TooltipProvider>
-          ) : (
-            <Navigate to="/login" replace />
-          )
-        }
-      >
-        <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/schedule" element={<SchedulePage />} />
-        <Route path="/notifications" element={<NotificationsPage />} />
-        <Route path="/profile/settings" element={<ProfileSettingsPage />} />
-      </Route>
-      <Route
-        path="*"
-        element={<Navigate to={user ? '/dashboard' : '/login'} replace />}
-      />
-    </Routes>
+    <>
+      {user ? (
+        <Sidebar
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          user={user}
+        />
+      ) : null}
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            user ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <LoginPage error={authError} />
+            )
+          }
+        />
+        <Route
+          path="/"
+          element={<Navigate to={user ? '/dashboard' : '/login'} replace />}
+        />
+        <Route
+          element={
+            user ? (
+              <TooltipProvider>
+                <MainLanguageProvider>
+                  <AppMainLayout />
+                </MainLanguageProvider>
+              </TooltipProvider>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
+        >
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/schedule" element={<SchedulePage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/profile/settings" element={<ProfileSettingsPage />} />
+        </Route>
+        <Route
+          path="*"
+          element={<Navigate to={user ? '/dashboard' : '/login'} replace />}
+        />
+      </Routes>
+    </>
   )
 }
 
