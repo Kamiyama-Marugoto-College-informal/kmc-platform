@@ -36,7 +36,23 @@ export const en = {
   },
   schelude: {
     title: 'Schedule',
-    subtitle: '予定を日付順に表示しています。',
+    subtitle: 'Review classes and assignment deadlines by week.',
+    weekCalendar: 'Weekly calendar',
+    prevWeek: 'Previous week',
+    nextWeek: 'Next week',
+    tabs: {
+      classes: 'Classes',
+      assignments: 'Assignments',
+    },
+    labels: {
+      location: 'Location',
+      remoteUrl: 'Remote URL',
+      dueAt: 'Due',
+      taskUrl: 'Task URL',
+    },
+    empty: 'No items for this day.',
+    keyboardHint:
+      'Tip: Focus the calendar and use Left/Right arrow keys to change weeks.',
   },
   footer: {
     copyright: '© {year} KMC Platform',

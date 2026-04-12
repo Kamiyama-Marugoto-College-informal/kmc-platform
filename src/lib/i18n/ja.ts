@@ -36,7 +36,22 @@ export const ja = {
   },
   schelude: {
     title: 'Schedule',
-    subtitle: '予定を日付順に表示しています。',
+    subtitle: '授業と課題の締め切りを週ごとに確認できます。',
+    weekCalendar: '週カレンダー',
+    prevWeek: '前週',
+    nextWeek: '次週',
+    tabs: {
+      classes: '授業',
+      assignments: '課題',
+    },
+    labels: {
+      location: '場所',
+      remoteUrl: 'リモートURL',
+      dueAt: '期限',
+      taskUrl: '課題URL',
+    },
+    empty: 'この日の予定はありません。',
+    keyboardHint: 'ヒント: カレンダーにフォーカスした状態で←→キーでも週を移動できます。',
   },
   footer: {
     copyright: '© {year} KMC Platform',
