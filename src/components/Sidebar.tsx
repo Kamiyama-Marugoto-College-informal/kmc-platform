@@ -37,7 +37,7 @@ type MenuItem = {
 }
 
 function getStudentNumber(email: string): string | null {
-  const match = email.match(/^kmc([^@]+)@kamiyama\.ac\.jp$/i)
+  const match = email.match(/^kmc(\d+)@kamiyama\.ac\.jp$/i)
   return match?.[1] ?? null
 }
 
