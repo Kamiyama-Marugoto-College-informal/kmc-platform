@@ -36,12 +36,21 @@ type MenuItem = {
   isActive?: boolean
 }
 
+function getStudentNumber(email: string): string | null {
+  const match = email.match(/^kmc(\d+)@kamiyama\.ac\.jp$/i)
+  return match?.[1] ?? null
+}
+
 export default function Sidebar({
   activeTab,
   setActiveTab,
   user,
 }: SidebarProps) {
   const isMobile = useIsMobile()
+  const studentNumber =
+    user?.role === 'student' && user.email
+      ? getStudentNumber(user.email)
+      : null
 
   const menuItems: MenuItem[] = [
     { id: 'dashboard', label: 'Overview', icon: LayoutGrid },
@@ -126,9 +135,16 @@ export default function Sidebar({
                   role={user.role}
                   className="size-8 rounded-lg"
                 />
-                <span className="font-medium hidden lg:block truncate text-left text-white">
-                  {user.name}
-                </span>
+                <div className="hidden lg:flex min-w-0 flex-col items-start text-left">
+                  <span className="w-full truncate font-medium text-white">
+                    {user.name}
+                  </span>
+                  {studentNumber ? (
+                    <span className="w-full truncate text-xs text-zinc-300">
+                      ID: {studentNumber}
+                    </span>
+                  ) : null}
+                </div>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent

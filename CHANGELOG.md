@@ -15,6 +15,7 @@
 - [`Root.tsx`](src/Root.tsx): [`BrowserRouter`](src/main.tsx) とログイン時のみ [`Sidebar`](src/components/Sidebar.tsx)（ログイン画面は全幅）をここに集約（`main.tsx` の Fast Refresh 用）
 - [`UserAvatar`](src/components/UserAvatar.tsx): ロール別リングをやめ、`Badge`（1 文字ラベル）をアバター右上に重ねて `--role-*` を表示
 - [`Sidebar`](src/components/Sidebar.tsx): ナビ項目に任意の `isActive`（`false` で無効・クリック不可）を付けられるようにした。選択中かどうかは `isSelected` に分離
+- [`Sidebar`](src/components/Sidebar.tsx): 学生ユーザー時のみ、サイドバーのアカウントボックスで名前の下に `ID: {学籍番号}` を表示（`kmc{xxxx}@kamiyama.ac.jp` の `xxxx` をメールから抽出）
 
 ### Fixed
 
