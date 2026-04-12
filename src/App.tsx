@@ -1,119 +1,89 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
+
+import Sidebar from '@/components/Sidebar'
+import { ThemeToggle } from '@/components/ThemeToggle'
+import { TooltipProvider } from '@/components/ui/tooltip'
+import { MainLanguageProvider, detectBrowserLanguage, t } from '@/lib/i18n'
+import { useAuth } from '@/hooks/useAuth'
+import { LoginPage } from '@/pages/(auth)/login'
+import { DashboardPage } from '@/pages/dashboard'
+import { NotificationsPage } from '@/pages/notifications'
+import { ProfileSettingsPage } from '@/pages/profile/settings'
+import SchedulePage from '@/pages/schedule'
+
+/** 固定 Sidebar（`Sidebar.tsx`）分の左余白 */
+function AppMainLayout() {
+  return (
+    <div className="min-h-svh pl-28 lg:pl-72 pr-4 py-4">
+      <div className="mb-4 flex justify-end">
+        <ThemeToggle />
+      </div>
+      <Outlet />
+    </div>
+  )
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [activeTab, setActiveTab] = useState('dashboard')
+  const { user, loading, authError } = useAuth()
+
+  if (loading) {
+    const loadingText = t('common.loading', detectBrowserLanguage())
+    return (
+      <div className="flex min-h-svh items-center justify-center p-4">
+        <p className="text-muted-foreground">{loadingText}</p>
+      </div>
+    )
+  }
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
+      {user ? (
+        <Sidebar
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          user={user}
+        />
+      ) : null}
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            user ? (
+              <Navigate to="/dashboard" replace />
+            ) : (
+              <LoginPage error={authError} />
+            )
+          }
+        />
+        <Route
+          path="/"
+          element={<Navigate to={user ? '/dashboard' : '/login'} replace />}
+        />
+        <Route
+          element={
+            user ? (
+              <TooltipProvider>
+                <MainLanguageProvider>
+                  <AppMainLayout />
+                </MainLanguageProvider>
+              </TooltipProvider>
+            ) : (
+              <Navigate to="/login" replace />
+            )
+          }
         >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/schedule" element={<SchedulePage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/profile/settings" element={<ProfileSettingsPage />} />
+        </Route>
+        <Route
+          path="*"
+          element={<Navigate to={user ? '/dashboard' : '/login'} replace />}
+        />
+      </Routes>
     </>
   )
 }

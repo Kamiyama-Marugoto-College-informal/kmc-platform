@@ -1,10 +1,16 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+
 import './index.css'
-import App from './App.tsx'
+import { ThemeProvider } from '@/components/theme-provider'
+import { Root } from '@/Root'
+import DevBar from '@/components/DevBar'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <DevBar />
+      <Root />
+    </ThemeProvider>
   </StrictMode>,
 )
