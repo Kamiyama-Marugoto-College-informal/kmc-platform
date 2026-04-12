@@ -70,7 +70,9 @@ function groupClassesByDay(
   days: Date[],
   classes: ClassCalendarItem[],
 ): ClassCalendarItem[][] {
-  return days.map((day) => classes.filter((item) => isSameCalendarDay(item.start, day)))
+  return days.map((day) =>
+    classes.filter((item) => isSameCalendarDay(item.start, day)),
+  )
 }
 
 function groupAssignmentsByDay(
@@ -92,7 +94,8 @@ export default function SchedulePage() {
   )
 
   const weekDays = useMemo(
-    () => Array.from({ length: 7 }, (_, index) => addDays(weekStartDate, index)),
+    () =>
+      Array.from({ length: 7 }, (_, index) => addDays(weekStartDate, index)),
     [weekStartDate],
   )
 

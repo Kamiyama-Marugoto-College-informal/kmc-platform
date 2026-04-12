@@ -17,10 +17,11 @@ type MainLanguageMessages = typeof ja
 
 export const LANG_STORAGE_KEY = 'mainLanguage'
 
-export const mainLanguageMessages: Record<MainLanguage, MainLanguageMessages> = {
-  ja,
-  en,
-}
+export const mainLanguageMessages: Record<MainLanguage, MainLanguageMessages> =
+  {
+    ja,
+    en,
+  }
 
 function ignoreStorageError(error: unknown) {
   void error
@@ -67,9 +68,8 @@ export function formatFooterCopyright(
 
 export function t(key: string, locale: string): string {
   const keys = key.split('.')
-  let value: unknown = mainLanguageMessages[
-    isMainLanguage(locale) ? locale : 'en'
-  ]
+  let value: unknown =
+    mainLanguageMessages[isMainLanguage(locale) ? locale : 'en']
   for (const k of keys) {
     if (!value || typeof value !== 'object') {
       return key

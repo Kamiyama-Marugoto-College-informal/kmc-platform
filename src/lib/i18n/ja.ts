@@ -8,8 +8,7 @@ export const ja = {
   },
   language: {
     main: 'メイン言語',
-    description:
-      '表示言語を選択できます。選択内容はブラウザに保存されます。',
+    description: '表示言語を選択できます。選択内容はブラウザに保存されます。',
     japanese: '日本語',
     english: 'English',
   },
@@ -51,7 +50,8 @@ export const ja = {
       taskUrl: '課題URL',
     },
     empty: 'この日の予定はありません。',
-    keyboardHint: 'ヒント: カレンダーにフォーカスした状態で←→キーでも週を移動できます。',
+    keyboardHint:
+      'ヒント: カレンダーにフォーカスした状態で←→キーでも週を移動できます。',
   },
   footer: {
     copyright: '© {year} KMC Platform',

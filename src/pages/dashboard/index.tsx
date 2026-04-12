@@ -25,7 +25,6 @@ import {
 import { useMainLanguage, useT } from '@/lib/i18n'
 import { formatDisplayDate, formatTimeRange } from '@/lib/utils'
 
-
 function startOfDay(d: Date): Date {
   const x = new Date(d)
   x.setHours(0, 0, 0, 0)
@@ -51,7 +50,6 @@ function isInSameCalendarWeek(date: Date, reference: Date): boolean {
   const t = startOfDay(date).getTime()
   return t >= weekStart && t < weekEnd
 }
-
 
 type DueKind = 'overdue' | 'today' | 'thisWeek' | 'later'
 
@@ -126,7 +124,9 @@ export function DashboardPage() {
                     {t('dashboard.sectionTodaySchedule')}
                   </EmptyTitle>
                 </EmptyHeader>
-                <EmptyDescription>{t('dashboard.scheduleEmpty')}</EmptyDescription>
+                <EmptyDescription>
+                  {t('dashboard.scheduleEmpty')}
+                </EmptyDescription>
               </Empty>
             ) : (
               <div className="flex flex-col" role="list">
@@ -171,7 +171,9 @@ export function DashboardPage() {
                     {t('dashboard.sectionAssignments')}
                   </EmptyTitle>
                 </EmptyHeader>
-                <EmptyDescription>{t('dashboard.assignmentsEmpty')}</EmptyDescription>
+                <EmptyDescription>
+                  {t('dashboard.assignmentsEmpty')}
+                </EmptyDescription>
               </Empty>
             ) : (
               <div className="flex flex-col" role="list">

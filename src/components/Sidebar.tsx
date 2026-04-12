@@ -88,7 +88,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
                   <span className="font-medium hidden lg:block">
                     {item.label}
                   </span>
-  
+
                   {/* Tooltip for mobile/collapsed */}
                   <div className="absolute left-14 bg-zinc-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 lg:hidden pointer-events-none transition-opacity whitespace-nowrap z-50">
                     {item.label}

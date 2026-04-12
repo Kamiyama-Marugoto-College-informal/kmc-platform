@@ -24,31 +24,31 @@ Material Design のセマンティックトークンに準拠し、情報密度�
 
 ### Light Mode (`:root`)
 
-| Token | Hex | 用途 |
-|---|---|---|
-| `--background` | `#f8f9fa` | ページ背景 |
-| `--foreground` | `#202124` | プライマリテキスト |
-| `--card` | `#ffffff` | カード・パネル背景 |
-| `--card-foreground` | `#202124` | カード内テキスト |
-| `--popover` | `#ffffff` | ポップオーバー・ドロップダウン背景 |
-| `--primary` | `#1a73e8` | Google Blue — CTA・フォーカスリング |
-| `--primary-foreground` | `#ffffff` | primary 背景上のテキスト |
-| `--secondary` | `#e8f0fe` | 薄い Blue — サブアクション・バッジ背景 |
-| `--secondary-foreground` | `#174ea6` | secondary 背景上のテキスト |
-| `--muted` | `#f1f3f4` | 非アクティブ背景・コードブロック |
-| `--muted-foreground` | `#5f6368` | セカンダリテキスト・プレースホルダ |
-| `--accent` | `#e8f0fe` | ホバー・選択状態のハイライト |
-| `--accent-foreground` | `#174ea6` | accent 背景上のテキスト |
-| `--destructive` | `#d93025` | エラー・削除 |
-| `--destructive-foreground` | `#ffffff` | destructive 背景上のテキスト |
-| `--border` | `#dadce0` | 境界線・区切り線 |
-| `--input` | `#dadce0` | 入力フィールドの枠線 |
-| `--ring` | `#1a73e8` | フォーカスリング |
+| Token                      | Hex       | 用途                                   |
+| -------------------------- | --------- | -------------------------------------- |
+| `--background`             | `#f8f9fa` | ページ背景                             |
+| `--foreground`             | `#202124` | プライマリテキスト                     |
+| `--card`                   | `#ffffff` | カード・パネル背景                     |
+| `--card-foreground`        | `#202124` | カード内テキスト                       |
+| `--popover`                | `#ffffff` | ポップオーバー・ドロップダウン背景     |
+| `--primary`                | `#1a73e8` | Google Blue — CTA・フォーカスリング    |
+| `--primary-foreground`     | `#ffffff` | primary 背景上のテキスト               |
+| `--secondary`              | `#e8f0fe` | 薄い Blue — サブアクション・バッジ背景 |
+| `--secondary-foreground`   | `#174ea6` | secondary 背景上のテキスト             |
+| `--muted`                  | `#f1f3f4` | 非アクティブ背景・コードブロック       |
+| `--muted-foreground`       | `#5f6368` | セカンダリテキスト・プレースホルダ     |
+| `--accent`                 | `#e8f0fe` | ホバー・選択状態のハイライト           |
+| `--accent-foreground`      | `#174ea6` | accent 背景上のテキスト                |
+| `--destructive`            | `#d93025` | エラー・削除                           |
+| `--destructive-foreground` | `#ffffff` | destructive 背景上のテキスト           |
+| `--border`                 | `#dadce0` | 境界線・区切り線                       |
+| `--input`                  | `#dadce0` | 入力フィールドの枠線                   |
+| `--ring`                   | `#1a73e8` | フォーカスリング                       |
 
 **チャートカラー（ライト）**:
 
-| Token | Hex |
-|---|---|
+| Token       | Hex       |
+| ----------- | --------- |
 | `--chart-1` | `#4285f4` |
 | `--chart-2` | `#ea4335` |
 | `--chart-3` | `#fbbc04` |
@@ -57,28 +57,28 @@ Material Design のセマンティックトークンに準拠し、情報密度�
 
 **ロールカラー（ライト）**:
 
-| Token | Hex | 役割 |
-|---|---|---|
-| `--role-student` | `#1a73e8` | 学生 |
-| `--role-staff` | `#188038` | スタッフ |
-| `--role-admin` | `#e37400` | 管理者 |
+| Token            | Hex       | 役割     |
+| ---------------- | --------- | -------- |
+| `--role-student` | `#1a73e8` | 学生     |
+| `--role-staff`   | `#188038` | スタッフ |
+| `--role-admin`   | `#e37400` | 管理者   |
 
 ### Dark Mode (`html.dark`)
 
-| Token | Hex |
-|---|---|
-| `--background` | `#131314` |
-| `--foreground` | `#e8eaed` |
-| `--card` | `#1e1f20` |
-| `--primary` | `#8ab4f8` |
-| `--secondary` | `#303134` |
+| Token                    | Hex       |
+| ------------------------ | --------- |
+| `--background`           | `#131314` |
+| `--foreground`           | `#e8eaed` |
+| `--card`                 | `#1e1f20` |
+| `--primary`              | `#8ab4f8` |
+| `--secondary`            | `#303134` |
 | `--secondary-foreground` | `#e8eaed` |
-| `--muted` | `#303134` |
-| `--muted-foreground` | `#9aa0a6` |
-| `--accent` | `#303134` |
-| `--destructive` | `#f28b82` |
-| `--border` | `#3c4043` |
-| `--ring` | `#8ab4f8` |
+| `--muted`                | `#303134` |
+| `--muted-foreground`     | `#9aa0a6` |
+| `--accent`               | `#303134` |
+| `--destructive`          | `#f28b82` |
+| `--border`               | `#3c4043` |
+| `--ring`                 | `#8ab4f8` |
 
 ロールカラー（ダーク）: student `#8ab4f8` / staff `#81c995` / admin `#fcbc51`
 
@@ -88,22 +88,22 @@ Material Design のセマンティックトークンに準拠し、情報密度�
 
 ### フォントファミリー
 
-| 変数 | スタック | 用途 |
-|---|---|---|
-| `--font-sans` (`--font-heading`) | `'Zen Kaku Gothic Antique', ui-sans-serif, system-ui, sans-serif` | 全テキスト・見出し |
-| Geist Variable | `@fontsource-variable/geist` | 英数字アクセント（必要に応じて） |
-| monospace | ブラウザデフォルト | `code` 要素 |
+| 変数                             | スタック                                                          | 用途                             |
+| -------------------------------- | ----------------------------------------------------------------- | -------------------------------- |
+| `--font-sans` (`--font-heading`) | `'Zen Kaku Gothic Antique', ui-sans-serif, system-ui, sans-serif` | 全テキスト・見出し               |
+| Geist Variable                   | `@fontsource-variable/geist`                                      | 英数字アクセント（必要に応じて） |
+| monospace                        | ブラウザデフォルト                                                | `code` 要素                      |
 
 ### タイポグラフィスケール
 
-| 要素 | サイズ | ウェイト | その他 |
-|---|---|---|---|
-| `h1` | `text-2xl` (1.5rem / 24px) | `font-medium` | `tracking-tight`, `leading-tight` |
-| `h2` | `text-xl` (1.25rem / 20px) | `font-medium` | `tracking-tight`, `leading-snug` |
-| `h3` | （h2 と同スタイル） | `font-medium` | |
-| body / default | `text-sm` (0.875rem / 14px) | regular | `leading-relaxed` |
-| card description | `text-sm` | regular | `text-muted-foreground` |
-| code | `text-[0.9375rem]` | monospace | `bg-muted`, `rounded-md`, `px-2 py-0.5` |
+| 要素             | サイズ                      | ウェイト      | その他                                  |
+| ---------------- | --------------------------- | ------------- | --------------------------------------- |
+| `h1`             | `text-2xl` (1.5rem / 24px)  | `font-medium` | `tracking-tight`, `leading-tight`       |
+| `h2`             | `text-xl` (1.25rem / 20px)  | `font-medium` | `tracking-tight`, `leading-snug`        |
+| `h3`             | （h2 と同スタイル）         | `font-medium` |                                         |
+| body / default   | `text-sm` (0.875rem / 14px) | regular       | `leading-relaxed`                       |
+| card description | `text-sm`                   | regular       | `text-muted-foreground`                 |
+| code             | `text-[0.9375rem]`          | monospace     | `bg-muted`, `rounded-md`, `px-2 py-0.5` |
 
 - ベースフォントサイズ: `1rem` (16px)
 - ベース行高: `1.5`
@@ -117,14 +117,14 @@ Material Design のセマンティックトークンに準拠し、情報密度�
 
 バリアント:
 
-| variant | スタイル |
-|---|---|
-| `default` | `bg-primary text-primary-foreground` |
-| `outline` | `border-border bg-background hover:bg-muted` |
-| `secondary` | `bg-secondary text-secondary-foreground` |
-| `ghost` | `hover:bg-muted hover:text-foreground` |
+| variant       | スタイル                                                     |
+| ------------- | ------------------------------------------------------------ |
+| `default`     | `bg-primary text-primary-foreground`                         |
+| `outline`     | `border-border bg-background hover:bg-muted`                 |
+| `secondary`   | `bg-secondary text-secondary-foreground`                     |
+| `ghost`       | `hover:bg-muted hover:text-foreground`                       |
 | `destructive` | `bg-destructive/10 text-destructive hover:bg-destructive/20` |
-| `link` | `text-primary underline-offset-4 hover:underline` |
+| `link`        | `text-primary underline-offset-4 hover:underline`            |
 
 サイズ: `xs` (h-6) / `sm` (h-7) / `default` (h-8) / `lg` (h-9) / `icon` (size-8) / `icon-sm` / `icon-lg`
 
@@ -169,12 +169,12 @@ ring-1 ring-border/70
 
 Tailwind のデフォルト 4px ベースユニットを使用。
 
-| 用途 | クラス |
-|---|---|
-| カード内パディング | `px-4 py-4` |
-| セクション間マージン | `mb-4`, `space-y-4` |
-| サイドバーオフセット（メインコンテンツ） | `pl-28 lg:pl-72` |
-| ページパディング | `pr-4 py-4` |
+| 用途                                     | クラス              |
+| ---------------------------------------- | ------------------- |
+| カード内パディング                       | `px-4 py-4`         |
+| セクション間マージン                     | `mb-4`, `space-y-4` |
+| サイドバーオフセット（メインコンテンツ） | `pl-28 lg:pl-72`    |
+| ページパディング                         | `pr-4 py-4`         |
 
 ### グリッド・コンテナ
 
@@ -186,12 +186,12 @@ Tailwind のデフォルト 4px ベースユニットを使用。
 
 ## 6. Depth & Elevation
 
-| レベル | 適用箇所 | Shadow |
-|---|---|---|
-| 0 | フラットな背景要素 | なし |
-| 1 | Card | `0_1px_2px rgba(60,64,67,0.15), 0_1px_3px_1px rgba(60,64,67,0.08)` |
-| 2 | Sidebar | `shadow-2xl shadow-zinc-900/20` |
-| 3 | ドロップダウン・ポップオーバー | shadcn デフォルト shadow |
+| レベル | 適用箇所                       | Shadow                                                             |
+| ------ | ------------------------------ | ------------------------------------------------------------------ |
+| 0      | フラットな背景要素             | なし                                                               |
+| 1      | Card                           | `0_1px_2px rgba(60,64,67,0.15), 0_1px_3px_1px rgba(60,64,67,0.08)` |
+| 2      | Sidebar                        | `shadow-2xl shadow-zinc-900/20`                                    |
+| 3      | ドロップダウン・ポップオーバー | shadcn デフォルト shadow                                           |
 
 - ダーク時はシャドウを強めに: `shadow-[0_1px_2px_0_rgba(0,0,0,0.35)]`
 - `ring-1 ring-border/70` でカードの境界を補強（シャドウだけに頼らない）
@@ -219,10 +219,10 @@ Tailwind のデフォルト 4px ベースユニットを使用。
 
 ## 8. Responsive Behavior
 
-| ブレークポイント | Tailwind | 主な変化 |
-|---|---|---|
-| モバイル (< 1024px) | デフォルト | サイドバー幅 80px、アイコンのみ表示 |
-| デスクトップ (≥ 1024px) | `lg:` | サイドバー幅 256px、ラベル表示 |
+| ブレークポイント        | Tailwind   | 主な変化                            |
+| ----------------------- | ---------- | ----------------------------------- |
+| モバイル (< 1024px)     | デフォルト | サイドバー幅 80px、アイコンのみ表示 |
+| デスクトップ (≥ 1024px) | `lg:`      | サイドバー幅 256px、ラベル表示      |
 
 - タッチターゲット: サイドバーのナビアイテムは最小 `w-12 h-12` (48×48px)
 - モバイルでのラベル非表示: `hidden lg:block`

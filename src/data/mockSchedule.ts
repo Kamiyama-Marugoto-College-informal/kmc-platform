@@ -198,13 +198,15 @@ function buildExtraClassSeedsForWeek(weekStartDate: Date): ClassSeed[] {
     return []
   }
 
-  const additionalCount = Math.min(remaining, 1 + (Math.abs(weekKey) % remaining))
+  const additionalCount = Math.min(
+    remaining,
+    1 + (Math.abs(weekKey) % remaining),
+  )
   const startIndex = Math.abs(weekKey * 3) % extraClassTemplates.length
 
   return Array.from({ length: additionalCount }, (_, index) => {
-    const template = extraClassTemplates[
-      (startIndex + index) % extraClassTemplates.length
-    ]
+    const template =
+      extraClassTemplates[(startIndex + index) % extraClassTemplates.length]
     return {
       weekOffset: 0,
       dayOffset: targetDay,

@@ -6,8 +6,8 @@ on:
       - '**'
 
 jobs:
-  ci:
-    name: Lint, typecheck, format, test, build
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,14 +22,51 @@ jobs:
       - name: Lint
         run: bun run lint
 
-      - name: Typecheck
-        run: bun run typecheck
-
-      - name: Format check
-        run: bun run format-check
-
-      - name: Test
-        run: bun run test
-
-      - name: Build
-        run: bun run build
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+          
+      - run: bun run typecheck
+      
+  format:
+    name: Format check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+          
+      - run: bun run format-check
+      
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+          
+      - run: bun run test
+      
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+          
+      - run: bun run build
+      

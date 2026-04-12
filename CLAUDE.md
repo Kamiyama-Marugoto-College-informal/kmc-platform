@@ -33,6 +33,7 @@ bun run db:studio        # Drizzle Studio 起動
 - **`App.tsx`**: ルーティング定義。未認証時は `/login` にリダイレクト。認証済みは `AppMainLayout`（Sidebar 分の左余白 `pl-28 lg:pl-72`）でラップされた各ページを表示
 
 ルーティング構造:
+
 ```
 /login               → LoginPage（未認証時のみ）
 /dashboard           → DashboardPage
@@ -80,6 +81,7 @@ bun run db:studio        # Drizzle Studio 起動
 ### 環境変数
 
 `.env.example` を参照。必須:
+
 - `VITE_SUPABASE_URL` / `VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY`
 - `VITE_ALLOWED_DOMAIN`（許可するメールドメイン）
 - `DATABASE_URL`（Drizzle ORM 用）

@@ -24,7 +24,8 @@ export const en = {
     subtitle: 'See today’s schedule and assignment deadlines at a glance.',
     sectionTodaySchedule: 'Today’s schedule',
     sectionAssignments: 'Assignments',
-    assignmentsCardDescription: 'Incomplete assignments sorted by nearest due date.',
+    assignmentsCardDescription:
+      'Incomplete assignments sorted by nearest due date.',
     scheduleEmpty: 'No events scheduled for today.',
     assignmentsEmpty: 'No assignments to show.',
     assignmentDue: {
