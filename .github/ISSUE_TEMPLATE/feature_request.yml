@@ -1,22 +1,20 @@
-name: '✨ Feature Request'
-description: 新機能の提案・改善要望を起票します
-title: 'feat: '
-labels: ['enhancement']
+name: Feature request
+description: 新機能や改善の提案
+title: "[Feature]: "
+labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
       value: |
-        ## 機能要望を投稿する前に
-        - [ ] [既存の Issue](../../issues) を検索して重複がないか確認しましたか？
-        - [ ] この要望がプロジェクトのスコープに合っていると思いますか？
+        新機能の提案ありがとう。
+        「何を」「なぜ」入れたいのかが分かると判断しやすいです。
 
   - type: textarea
-    id: background
+    id: problem
     attributes:
-      label: 背景・課題
-      description: なぜこの機能が必要ですか？現在どのような問題や不便があるか説明してください。
-      placeholder: |
-        例：〇〇をしようとすると、毎回△△という手順を踏む必要があり不便です。
+      label: 解決したい課題
+      description: 今どんな問題がある？
+      placeholder: 例) 現状は一覧の絞り込みができず、目的のデータを探しにくい
     validations:
       required: true
 
@@ -24,42 +22,41 @@ body:
     id: solution
     attributes:
       label: 提案する解決策
-      description: どのような機能・UX を想定していますか？できるだけ具体的に記述してください。
-      placeholder: |
-        例：〇〇ボタンを追加し、クリックすると△△が自動的に実行されるようにしてほしい。
+      description: どんな機能を追加・改善したい？
+      placeholder: 例) タグ・作成日・状態でフィルタできる機能を追加したい
+    validations:
+      required: true
+
+  - type: textarea
+    id: benefit
+    attributes:
+      label: 期待される効果
+      description: その機能で何が良くなる？
+      placeholder: 例) 必要なデータにすぐ辿り着けて作業時間が減る
     validations:
       required: true
 
   - type: textarea
     id: alternatives
     attributes:
-      label: 検討した代替案
-      description: 他に考えた解決策があれば記述してください。（任意）
-      placeholder: |
-        例：ブラウザ拡張機能で代替できるが、ネイティブ対応が望ましい。
-
-  - type: textarea
-    id: mockup
-    attributes:
-      label: モックアップ・参考資料
-      description: UI イメージ、スクリーンショット、参考 URL などがあれば添付してください。（任意）
+      label: 代替案
+      description: 他に考えた方法があれば書いてください
+      placeholder: 例) ソートだけでもある程度対応可能だが不十分
 
   - type: dropdown
     id: priority
     attributes:
-      label: 優先度（主観）
-      description: あなたにとってこの機能はどのくらい重要ですか？
+      label: 優先度
       options:
-        - 'P0 — 現在の作業がブロックされている'
-        - 'P1 — 定期的に困っている'
-        - 'P2 — あると嬉しい'
-        - 'P3 — いつか対応できれば十分'
+        - low
+        - medium
+        - high
     validations:
       required: true
 
-  - type: checkboxes
-    id: contribution
+  - type: textarea
+    id: additional
     attributes:
-      label: コントリビューション
-      options:
-        - label: 自分でこの機能を実装する PR を提出したい
+      label: 補足情報
+      description: 参考リンク、モック、補足など
+      placeholder: Figma, スクショ, 参考Issue など
