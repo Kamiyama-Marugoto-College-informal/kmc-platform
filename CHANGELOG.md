@@ -9,6 +9,8 @@
 
 ### Changed
 
+- [`App.tsx`](src/App.tsx): メイン列を `flex` + `Outlet` を `flex-1` で伸ばし、子ページがビューポート残り高を埋められるようにした
+- [`src/pages/schedule/index.tsx`](src/pages/schedule/index.tsx): 週カレンダーを Google カレンダー風のビジュアルに調整（1 枚のグリッド枠・列ヘッダーで日付を強調・当日は `aria-current` と丸ハイライト・イベントは左アクセント付きの薄塗りブロック）。列ヘッダーの日付は数値のみ（「◯日」の接尾辞なし）。カードがメイン領域の高さ（ビューポートからレイアウトの余白を除いた分）まで最低限伸びるようにした
 - [`src/index.css`](src/index.css): ダーク用セマンティックトークンを `prefers-color-scheme` のメディアクエリから `html.dark` へ移行（手動テーマと Tailwind `dark:` を一致させる）
 - [`App.tsx`](src/App.tsx): 認証後メイン列右上に [`ThemeToggle`](src/components/ThemeToggle.tsx)。未ログインは `/login` のみ（それ以外は `/login` へ）、ログイン済みは `/` を `/dashboard` へリダイレクト。ダッシュボード・通知・プロフィールは認証後ルート（`AppMainLayout` で固定 Sidebar 分の余白）。削除済みの `AppShell` 依存を除去
 - [`main.tsx`](src/main.tsx): [`ThemeProvider`](src/components/theme-provider.tsx) でラップ

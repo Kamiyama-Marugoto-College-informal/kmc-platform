@@ -15,11 +15,13 @@ import SchedulePage from '@/pages/schedule'
 /** 固定 Sidebar（`Sidebar.tsx`）分の左余白 */
 function AppMainLayout() {
   return (
-    <div className="min-h-svh pl-28 lg:pl-72 pr-4 py-4">
-      <div className="mb-4 flex justify-end">
+    <div className="flex min-h-svh flex-col pl-28 lg:pl-72 pr-4 py-4">
+      <div className="mb-4 flex shrink-0 justify-end">
         <ThemeToggle />
       </div>
-      <Outlet />
+      <div className="flex min-h-0 flex-1 flex-col">
+        <Outlet />
+      </div>
     </div>
   )
 }
