@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import type { LucideIcon } from 'lucide-react'
 import {
   LayoutGrid,
@@ -42,7 +43,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
     { id: 'dashboard', label: 'Overview', icon: LayoutGrid },
     { id: 'courses', label: 'Courses', icon: Book },
     { id: 'assignments', label: 'Tasks', icon: CheckSquare },
-    { id: 'calendar', label: 'Schedule', icon: CalendarDays },
+    { id: 'schedule', label: 'Schedule', icon: CalendarDays },
     { id: 'messages', label: 'Chat', icon: MessageCircle, isActive: false },
   ]
 
@@ -66,33 +67,34 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
             const isSelected = activeTab === item.id
             const isEnabled = item.isActive !== false
             return (
-              <Button
-                key={item.id}
-                variant="ghost"
-                disabled={!isEnabled}
-                onClick={() => isEnabled && setActiveTab(item.id)}
-                className={cn(
-                  'w-12 h-12 lg:w-full lg:h-auto flex items-center gap-3 px-0 lg:px-4 py-3 rounded-2xl transition-all duration-200 group relative justify-center lg:justify-start hover:bg-white/10 hover:text-white',
-                  isSelected &&
-                    isEnabled &&
-                    'bg-white text-zinc-900 shadow-lg shadow-white/10 hover:bg-white hover:text-zinc-900',
-                )}
-              >
-                <Icon
+              <Link key={item.id} to={`/${item.id}`}>
+                <Button
+                  variant="ghost"
+                  disabled={!isEnabled}
+                  onClick={() => isEnabled && setActiveTab(item.id)}
                   className={cn(
-                    'w-5 h-5 transition-transform group-hover:scale-110',
-                    isSelected && isEnabled && 'text-zinc-900',
+                    'w-12 h-12 lg:w-full lg:h-auto flex items-center gap-3 px-0 lg:px-4 py-3 rounded-2xl transition-all duration-200 group relative justify-center lg:justify-start hover:bg-white/10 hover:text-white',
+                    isSelected &&
+                      isEnabled &&
+                      'bg-white text-zinc-900 shadow-lg shadow-white/10 hover:bg-white hover:text-zinc-900',
                   )}
-                />
-                <span className="font-medium hidden lg:block">
-                  {item.label}
-                </span>
-
-                {/* Tooltip for mobile/collapsed */}
-                <div className="absolute left-14 bg-zinc-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 lg:hidden pointer-events-none transition-opacity whitespace-nowrap z-50">
-                  {item.label}
-                </div>
-              </Button>
+                >
+                  <Icon
+                    className={cn(
+                      'w-5 h-5 transition-transform group-hover:scale-110',
+                      isSelected && isEnabled && 'text-zinc-900',
+                    )}
+                  />
+                  <span className="font-medium hidden lg:block">
+                    {item.label}
+                  </span>
+  
+                  {/* Tooltip for mobile/collapsed */}
+                  <div className="absolute left-14 bg-zinc-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 lg:hidden pointer-events-none transition-opacity whitespace-nowrap z-50">
+                    {item.label}
+                  </div>
+                </Button>
+              </Link>
             )
           })}
         </nav>
@@ -142,14 +144,6 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
             …
           </div>
         )}
-
-        {/*<Button
-          variant="ghost"
-          className="flex items-center gap-3 px-0 lg:px-4 py-2 text-zinc-500 hover:text-red-400 hover:bg-red-400/10 w-full justify-center lg:justify-start"
-        >
-          <LogOut className="w-5 h-5" />
-          <span className="font-medium hidden lg:block text-sm">Sign Out</span>
-        </Button>*/}
       </div>
     </aside>
   )

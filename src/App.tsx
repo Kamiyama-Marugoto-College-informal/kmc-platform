@@ -2,13 +2,13 @@ import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
 
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { TooltipProvider } from '@/components/ui/tooltip'
-import { MainLanguageProvider } from '@/context/MainLanguageContext'
-import { detectBrowserLanguage, mainLanguageMessages } from '@/lib/mainLanguage'
+import { MainLanguageProvider, detectBrowserLanguage, t } from '@/lib/i18n'
 import { useAuth } from '@/hooks/useAuth'
 import { LoginPage } from '@/pages/(auth)/login'
 import { DashboardPage } from '@/pages/dashboard'
 import { NotificationsPage } from '@/pages/notifications'
 import { ProfileSettingsPage } from '@/pages/profile/settings'
+import SchedulePage from '@/pages/schedule'
 
 /** 固定 Sidebar（`Sidebar.tsx`）分の左余白 */
 function AppMainLayout() {
@@ -26,10 +26,10 @@ function App() {
   const { user, loading, authError } = useAuth()
 
   if (loading) {
-    const t = mainLanguageMessages[detectBrowserLanguage()]
+    const loadingText = t('common.loading', detectBrowserLanguage())
     return (
       <div className="flex min-h-svh items-center justify-center p-4">
-        <p className="text-muted-foreground">{t.loading}</p>
+        <p className="text-muted-foreground">{loadingText}</p>
       </div>
     )
   }
@@ -64,6 +64,7 @@ function App() {
         }
       >
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/schedule" element={<SchedulePage />} />
         <Route path="/notifications" element={<NotificationsPage />} />
         <Route path="/profile/settings" element={<ProfileSettingsPage />} />
       </Route>

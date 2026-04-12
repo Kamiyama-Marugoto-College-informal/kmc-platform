@@ -17,18 +17,14 @@ import {
   EmptyTitle,
 } from '@/components/ui/empty'
 import { Separator } from '@/components/ui/separator'
-import { useAuth } from '@/hooks/useAuth'
-import { useMainLanguage } from '@/context/MainLanguageContext'
 import {
   buildAssignmentItems,
   buildTodayScheduleItems,
   type AssignmentItem,
 } from '@/data/mockDashboard'
-import {
-  formatWelcome,
-  mainLanguageMessages,
-  type MainLanguage,
-} from '@/lib/mainLanguage'
+import { useMainLanguage, useT } from '@/lib/i18n'
+import { formatDisplayDate, formatTimeRange } from '@/lib/utils'
+
 
 function startOfDay(d: Date): Date {
   const x = new Date(d)
@@ -56,31 +52,6 @@ function isInSameCalendarWeek(date: Date, reference: Date): boolean {
   return t >= weekStart && t < weekEnd
 }
 
-function formatDisplayDate(
-  language: MainLanguage,
-  date: Date,
-  withWeekday: boolean,
-): string {
-  return new Intl.DateTimeFormat(language === 'ja' ? 'ja-JP' : 'en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    ...(withWeekday ? { weekday: 'short' } : {}),
-  }).format(date)
-}
-
-function formatTimeRange(
-  language: MainLanguage,
-  start: Date,
-  end: Date,
-): string {
-  const locale = language === 'ja' ? 'ja-JP' : 'en-US'
-  const timeFmt = new Intl.DateTimeFormat(locale, {
-    hour: '2-digit',
-    minute: '2-digit',
-  })
-  return `${timeFmt.format(start)} – ${timeFmt.format(end)}`
-}
 
 type DueKind = 'overdue' | 'today' | 'thisWeek' | 'later'
 
@@ -107,9 +78,8 @@ function dueBadgeVariant(kind: DueKind) {
 }
 
 export function DashboardPage() {
-  const { user } = useAuth()
   const { language } = useMainLanguage()
-  const msg = mainLanguageMessages[language]
+  const t = useT()
 
   const today = useMemo(() => new Date(), [])
 
@@ -126,26 +96,21 @@ export function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="my-0 mb-2 text-2xl font-semibold tracking-tight text-foreground">
-          {msg.dashboardTitle}
+        <h1 className="my-0 mb-2 text-3xl font-semibold tracking-tight text-foreground">
+          {t('dashboard.title')}
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
           {formatDisplayDate(language, today, true)}
         </p>
-        {user ? (
-          <p className="mt-1 text-sm font-medium text-foreground">
-            {formatWelcome(language, user.name)}
-          </p>
-        ) : null}
         <p className="mt-1 text-sm text-muted-foreground">
-          {msg.dashboardSubtitle}
+          {t('dashboard.subtitle')}
         </p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>{msg.sectionTodaySchedule}</CardTitle>
+            <CardTitle>{t('dashboard.sectionTodaySchedule')}</CardTitle>
             <CardDescription>
               {formatDisplayDate(language, today, false)}
             </CardDescription>
@@ -158,10 +123,10 @@ export function DashboardPage() {
                     <CalendarDays aria-hidden />
                   </EmptyMedia>
                   <EmptyTitle className="text-muted-foreground">
-                    {msg.sectionTodaySchedule}
+                    {t('dashboard.sectionTodaySchedule')}
                   </EmptyTitle>
                 </EmptyHeader>
-                <EmptyDescription>{msg.scheduleEmpty}</EmptyDescription>
+                <EmptyDescription>{t('dashboard.scheduleEmpty')}</EmptyDescription>
               </Empty>
             ) : (
               <div className="flex flex-col" role="list">
@@ -190,8 +155,10 @@ export function DashboardPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>{msg.sectionAssignments}</CardTitle>
-            <CardDescription>{msg.assignmentsCardDescription}</CardDescription>
+            <CardTitle>{t('dashboard.sectionAssignments')}</CardTitle>
+            <CardDescription>
+              {t('dashboard.assignmentsCardDescription')}
+            </CardDescription>
           </CardHeader>
           <CardContent className="pt-0">
             {assignments.length === 0 ? (
@@ -201,10 +168,10 @@ export function DashboardPage() {
                     <BookOpen aria-hidden />
                   </EmptyMedia>
                   <EmptyTitle className="text-muted-foreground">
-                    {msg.sectionAssignments}
+                    {t('dashboard.sectionAssignments')}
                   </EmptyTitle>
                 </EmptyHeader>
-                <EmptyDescription>{msg.assignmentsEmpty}</EmptyDescription>
+                <EmptyDescription>{t('dashboard.assignmentsEmpty')}</EmptyDescription>
               </Empty>
             ) : (
               <div className="flex flex-col" role="list">
@@ -213,16 +180,16 @@ export function DashboardPage() {
                   let label: string
                   switch (kind) {
                     case 'overdue':
-                      label = msg.assignmentDueOverdue
+                      label = t('dashboard.assignmentDue.overdue')
                       break
                     case 'today':
-                      label = msg.assignmentDueToday
+                      label = t('dashboard.assignmentDue.today')
                       break
                     case 'thisWeek':
-                      label = msg.assignmentDueThisWeek
+                      label = t('dashboard.assignmentDue.thisWeek')
                       break
                     default:
-                      label = msg.assignmentDueLater
+                      label = t('dashboard.assignmentDue.later')
                   }
                   return (
                     <div

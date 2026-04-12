@@ -1,12 +1,11 @@
 import { Button } from '@/components/ui/button'
-import { useMainLanguage } from '@/context/MainLanguageContext'
-import { formatFooterCopyright, mainLanguageMessages } from '@/lib/mainLanguage'
+import { useMainLanguage, useT } from '@/lib/i18n'
 
 export function SiteFooter() {
   const { language } = useMainLanguage()
+  const t = useT()
   const year = new Date().getFullYear()
-  const copyright = formatFooterCopyright(language, year)
-  const msg = mainLanguageMessages[language]
+  const copyright = t('footer.copyright').replace('{year}', String(year))
 
   return (
     <footer className="border-t border-border bg-muted/30 py-4 text-center text-xs text-muted-foreground">
@@ -22,7 +21,7 @@ export function SiteFooter() {
             className="text-muted-foreground"
             asChild
           >
-            <a href="#">{msg.footerTerms}</a>
+            <a href="#">{t('footer.terms')}</a>
           </Button>
           <Button
             variant="link"
@@ -30,7 +29,7 @@ export function SiteFooter() {
             className="text-muted-foreground"
             asChild
           >
-            <a href="#">{msg.footerPrivacy}</a>
+            <a href="#">{t('footer.privacy')}</a>
           </Button>
         </nav>
       </div>

@@ -5,27 +5,26 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { useMainLanguage } from '@/context/MainLanguageContext'
-import { isMainLanguage, mainLanguageMessages } from '@/lib/mainLanguage'
+import { isMainLanguage, useMainLanguage, useT } from '@/lib/i18n'
 
 export function ProfileSettingsPage() {
   const { language, setLanguage } = useMainLanguage()
-  const t = mainLanguageMessages[language]
+  const t = useT()
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="my-0 mb-2 text-2xl font-semibold tracking-tight text-foreground">
-          {t.profileSettings}
+          {t('profile.settings.title')}
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          {t.settingsPageIntro}
+          {t('profile.settings.intro')}
         </p>
       </div>
       <Card>
         <CardHeader>
-          <CardTitle>{t.mainLanguage}</CardTitle>
-          <CardDescription>{t.languageDescription}</CardDescription>
+          <CardTitle>{t('language.main')}</CardTitle>
+          <CardDescription>{t('language.description')}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -33,7 +32,7 @@ export function ProfileSettingsPage() {
               htmlFor="main-language"
               className="text-sm font-medium text-foreground"
             >
-              {t.mainLanguage}
+              {t('language.main')}
             </label>
             <select
               id="main-language"
@@ -46,8 +45,8 @@ export function ProfileSettingsPage() {
               }}
               className="h-9 max-w-xs rounded-md border border-input bg-background px-3 py-1 text-sm shadow-xs outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
-              <option value="ja">{t.japanese}</option>
-              <option value="en">{t.english}</option>
+              <option value="ja">{t('language.japanese')}</option>
+              <option value="en">{t('language.english')}</option>
             </select>
           </div>
         </CardContent>
