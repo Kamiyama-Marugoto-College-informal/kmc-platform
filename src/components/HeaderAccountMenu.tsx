@@ -14,8 +14,53 @@ import { cn } from '@/lib/utils'
 import type { AppUser } from '@/lib/supabase'
 import { supabase } from '@/lib/supabase'
 
+export type AccountMenuUser = Pick<AppUser, 'name' | 'email'>
+
+/** ドロップダウン内のラベル + ナビ・ログアウト（サイドバー／ヘッダーで共有） */
+export function AccountMenuContent({ user }: { user: AccountMenuUser }) {
+  return (
+    <>
+      <DropdownMenuLabel className="font-normal">
+        <div className="flex flex-col gap-0.5">
+          <span className="truncate text-sm font-medium text-foreground">
+            {user.name}
+          </span>
+          {user.email ? (
+            <span className="truncate text-xs text-muted-foreground">
+              {user.email}
+            </span>
+          ) : null}
+        </div>
+      </DropdownMenuLabel>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem asChild>
+        <Link to="/profile/settings">
+          <Settings2 />
+          設定
+        </Link>
+      </DropdownMenuItem>
+      <DropdownMenuItem asChild>
+        <Link to="/notifications">
+          <Bell />
+          通知
+        </Link>
+      </DropdownMenuItem>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem
+        variant="destructive"
+        onSelect={() => {
+          void supabase.auth.signOut()
+        }}
+      >
+        <LogOut />
+        ログアウト
+      </DropdownMenuItem>
+    </>
+  )
+}
+
 interface HeaderAccountMenuProps {
-  user: Pick<AppUser, 'name' | 'image' | 'role'>
+  user: Pick<AppUser, 'name' | 'image' | 'role' | 'email'>
 }
 
 export function HeaderAccountMenu({ user }: HeaderAccountMenuProps) {
@@ -34,34 +79,7 @@ export function HeaderAccountMenu({ user }: HeaderAccountMenuProps) {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-48">
-        <DropdownMenuLabel className="font-normal">
-          <span className="truncate text-sm font-medium text-foreground">
-            {user.name}
-          </span>
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link to="/profile/settings">
-            <Settings2 />
-            設定
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link to="/notifications">
-            <Bell />
-            通知
-          </Link>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          variant="destructive"
-          onSelect={() => {
-            void supabase.auth.signOut()
-          }}
-        >
-          <LogOut />
-          ログアウト
-        </DropdownMenuItem>
+        <AccountMenuContent user={user} />
       </DropdownMenuContent>
     </DropdownMenu>
   )

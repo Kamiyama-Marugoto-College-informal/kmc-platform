@@ -2,23 +2,71 @@
 
 ## [Unreleased]
 
+### Added
+
+- [`ThemeToggle`](src/components/ThemeToggle.tsx): メイン列右上からライト / ダーク / システムを選べるテーマ切替（[`next-themes`](package.json) + [`ThemeProvider`](src/components/theme-provider.tsx)）
+- [`index.html`](index.html): 初回ペイント前に `localStorage.theme` と `prefers-color-scheme` で `html.dark` を同期し、フラッシュを抑えるインラインスクリプト
+
 ### Changed
 
-- [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx): ドロップダウンのトリガーを `UserAvatar`（プロフィール画像・イニシャル）に変更
+- [`src/index.css`](src/index.css): ダーク用セマンティックトークンを `prefers-color-scheme` のメディアクエリから `html.dark` へ移行（手動テーマと Tailwind `dark:` を一致させる）
+- [`App.tsx`](src/App.tsx): 認証後メイン列右上に [`ThemeToggle`](src/components/ThemeToggle.tsx)。未ログインは `/login` のみ（それ以外は `/login` へ）、ログイン済みは `/` を `/dashboard` へリダイレクト。ダッシュボード・通知・プロフィールは認証後ルート（`AppMainLayout` で固定 Sidebar 分の余白）。削除済みの `AppShell` 依存を除去
+- [`main.tsx`](src/main.tsx): [`ThemeProvider`](src/components/theme-provider.tsx) でラップ
+- [`Root.tsx`](src/Root.tsx): [`BrowserRouter`](src/main.tsx) とログイン時のみ [`Sidebar`](src/components/Sidebar.tsx)（ログイン画面は全幅）をここに集約（`main.tsx` の Fast Refresh 用）
+- [`UserAvatar`](src/components/UserAvatar.tsx): ロール別リングをやめ、`Badge`（1 文字ラベル）をアバター右上に重ねて `--role-*` を表示
+- [`Sidebar`](src/components/Sidebar.tsx): ナビ項目に任意の `isActive`（`false` で無効・クリック不可）を付けられるようにした。選択中かどうかは `isSelected` に分離
+
+### Fixed
+
+- [`Sidebar`](src/components/Sidebar.tsx): 未定義だった `user` / `isMobile` を `useAuth` / `useIsMobile` で補い、`DropdownMenuTrigger` を追加。`AppUser` の `image` を `UserAvatar` に渡し、アカウントメニューは [`AccountMenuContent`](src/components/HeaderAccountMenu.tsx) を再利用。`Link` が効くよう [`BrowserRouter`](src/main.tsx) をエントリで [`App`](src/App.tsx) と共有（`App` 内の重複ラッパーを削除）
+- [`Root.tsx`](src/Root.tsx): `Sidebar` に必須の `activeTab` / `setActiveTab` を渡す `Root` を追加（当初は [`main.tsx`](src/main.tsx) にあった）
+
+### Changed
+
+- [`AppShell`](src/components/layout/AppShell.tsx): 左サイドバー（`SidebarProvider` / `AppSidebar`）をやめ、上段の [`AppToolbar`](src/components/AppToolbar.tsx)（`role="toolbar"` の `NavLink` + [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx)）を主ナビに変更。`Sidebar.tsx` と旧 `Header.tsx` は削除してツールバーに集約
+- [`src/index.css`](src/index.css): Google 系ウェブ UI（公開の Material / Google カラー）に寄せたセマンティックトークン（ライトは `#f8f9fa` 背景・Google Blue 系 `#1a73e8` プライマリ、`prefers-color-scheme: dark` でダークサーフェス）。`--role-*` を定義して [`UserAvatar`](src/components/UserAvatar.tsx) のリングと整合。ベースタイポを 1rem / line-height 1.5 に調整
+- [`src/components/ui/card.tsx`](src/components/ui/card.tsx): Material 風の薄いエレベーション（シャドウ + `ring-border`）
+- [`index.html`](index.html): `lang="ja"`（アプリの主言語に合わせる）
+- [`src/pages/(auth)/login/index.tsx`](<src/pages/(auth)/login/index.tsx>): ログインカードの `shadow-lg` をやめ、カード共通のエレベーションに統一
+
+### Added
+
+- [`@fontsource/zen-kaku-gothic-antique`](package.json): Google Fonts 由来の日本語ウェブフォント（400 / 500 / 700）を Fontsource でバンドル。[`src/index.css`](src/index.css) の `--font-sans` で Geist の直後に置き、欧文は Geist・日本語は Zen Kaku Gothic Antique にフォールバック
+- shadcn `badge`（[`src/components/ui/badge.tsx`](src/components/ui/badge.tsx)）、`empty`（[`src/components/ui/empty.tsx`](src/components/ui/empty.tsx)）
+- [`SiteFooter`](src/components/layout/SiteFooter.tsx): メイン列下部のコピーライト・プレースホルダリンク（利用規約 / プライバシー）
+- [`src/data/mockDashboard.ts`](src/data/mockDashboard.ts): 当日スケジュール・課題締切の型とモックビルダー（`buildTodayScheduleItems` / `buildAssignmentItems`）
+- [`mainLanguage.ts`](src/lib/mainLanguage.ts): ダッシュボード各セクション・締切バッジ・フッター文言（ja/en）と `formatFooterCopyright`
+- shadcn `sidebar` ブロック（[`src/components/ui/sidebar.tsx`](src/components/ui/sidebar.tsx)、依存として `sheet` / `tooltip` / `skeleton` / `input`、`use-mobile` フック）
+
+### Changed
+
+- [`DashboardPage`](src/pages/dashboard/index.tsx): 今日の日付・2 カラム（スケジュール / 課題）、shadcn `Empty` / `Separator` / `Badge` による空状態・区切り・締切区分（期限超過・今日・今週・この先）
+- [`SiteFooter`](src/components/layout/SiteFooter.tsx): リンクを `Button` の `variant="link"` で表示
+- [`AppShell`](src/components/layout/AppShell.tsx): メイン列コンテンツ下に [`SiteFooter`](src/components/layout/SiteFooter.tsx) を配置
+- [`AppShell`](src/components/layout/AppShell.tsx): `SidebarProvider` + `AppSidebar` + `SidebarInset` のサイドバーレイアウトに変更（`AppSidebar` に `email` を含む `user` を渡す）（現行は上記 Unreleased のツールバー構成に置換）
+- `Header`: `SidebarTrigger` のみ（アカウントはサイドバーフッターへ集約）（現行は `AppToolbar` に統合）
+- [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx): `AccountMenuContent` を切り出し（サイドバーと共有）。表示ラベルにメールを任意表示
+- [`UserAvatar`](src/components/UserAvatar.tsx): 任意の `className`（サイドバー行で `size-8` など）
+- [`App.tsx`](src/App.tsx): `shellUser` に `email` を渡すよう変更
+- [`App.tsx`](src/App.tsx): ログイン後ルートを `TooltipProvider` でラップ（サイドバー折りたたみ時のツールチップ用）
+- [`App.tsx`](src/App.tsx): ログイン後を `BrowserRouter` + [`AppShell`](src/components/layout/AppShell.tsx) + 各ページルートに接続（`/dashboard` → `/` リダイレクト、ローディングは Tailwind に統一）
+- メイン言語の保持・`document.documentElement.lang` を [`MainLanguageProvider`](src/context/MainLanguageContext.tsx) に集約し、UI は [`プロフィール設定`](src/pages/profile/settings/index.tsx) に配置（[`mainLanguage.ts`](src/lib/mainLanguage.ts) で文言を共有）
+- [`index.css`](src/index.css): デザインシステム優先に再構成。レガシー（`--text` / `--text-h` / `--bg` / 未使用のソーシャル・アクセント補助変数）をやめ、shadcn トークンのみを `:root` に定義。見出し・`code`・`html`/`body` のベースを `@layer base` でトークン＋`@apply` に統一
+- [`eslint.config.js`](eslint.config.js): `src/context/**` で `react-refresh/only-export-components` を無効化（`MainLanguageProvider` と `useMainLanguage` の同時エクスポート用）
+
+### Removed
+
+- [`src/App.css`](src/App.css): 未 import のまま残っていたレガシースタイルを削除（Tailwind + トークンに統一）
 
 ### Added
 
 - shadcn `dropdown-menu`（[`src/components/ui/dropdown-menu.tsx`](src/components/ui/dropdown-menu.tsx)）
 - [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx): アイコンボタンから設定・通知・ログアウト（Supabase `signOut`）のドロップダウン
 - `react-router-dom` を導入し、ログイン後のみ `BrowserRouter` でルーティング
-- `AppShell`（[`src/components/layout/AppShell.tsx`](src/components/layout/AppShell.tsx)）: ヘッダー + メイン領域 + `Outlet`
+- `AppShell`（[`src/components/layout/AppShell.tsx`](src/components/layout/AppShell.tsx)）: レイアウトラッパ（現行は上記 Changed のサイドバー構成）
 - ルート: `/` ダッシュボード、`/notifications`、`/profile/settings`、`/dashboard` → `/` へリダイレクト
 - [`src/pages/dashboard`](src/pages/dashboard/index.tsx) / [`notifications`](src/pages/notifications/index.tsx) / [`profile/settings`](src/pages/profile/settings/index.tsx): タイトル + `Card` のプレースホルダー
-- [`Header`](src/components/Header.tsx): ロゴ・ダッシュボードの `Link` / `NavLink` と [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx)
-
-### Changed
-
-- [`Header`](src/components/Header.tsx): 通知・設定は `HeaderAccountMenu` に集約（トップナビはダッシュボードのみ）
+- [`Header`](src/components/Header.tsx): （当初）ロゴ・トップナビと [`HeaderAccountMenu`](src/components/HeaderAccountMenu.tsx)（現行は上記 Changed を参照）
 
 ### Fixed
 

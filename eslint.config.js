@@ -21,9 +21,10 @@ export default defineConfig([
     },
   },
   {
-    files: ['src/components/ui/**/*.{ts,tsx}'],
+    files: ['src/components/ui/**/*.{ts,tsx}', 'src/context/**/*.{ts,tsx}'],
     rules: {
       // shadcn: CVA variants are exported alongside components
+      // context: Provider + hook 同一モジュールで Fast Refresh 除外
       'react-refresh/only-export-components': 'off',
     },
   },
