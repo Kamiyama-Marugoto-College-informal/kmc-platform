@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import type { MainLanguage } from '@/lib/i18n'
+import type { MainLanguage } from '~/lib/i18n'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -19,11 +19,7 @@ export function formatDisplayDate(
   }).format(date)
 }
 
-export function formatTimeRange(
-  language: MainLanguage,
-  start: Date,
-  end: Date,
-): string {
+export function formatTimeRange(language: MainLanguage, start: Date, end: Date): string {
   const locale = language === 'ja' ? 'ja-JP' : 'en-US'
   const timeFmt = new Intl.DateTimeFormat(locale, {
     hour: '2-digit',

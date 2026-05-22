@@ -2,6 +2,68 @@
 
 ## [Unreleased]
 
+### Changed
+
+- **リポジトリ構成フラット化**: `frontend/` サブディレクトリを廃止し、ルート直下に `src/` を配置
+  - `frontend/src/` → `src/`、`frontend/app.config.ts` → `app.config.ts`、`frontend/tsconfig.json` → `tsconfig.json` に移動
+  - ルート `package.json` を SolidStart 依存（vinxi, solid-js 等）に一本化、`name` を `kmc-platform` に戻す
+  - `backend/`（Go API）を削除（バックエンドなし SPA 構成に移行）
+  - `drizzle/`, `drizzle.config.ts`, `vite.config.ts`, `tsconfig.app.json`, `tsconfig.node.json`, `components.json`, `index.html` を削除
+  - `eslint.config.js` を React → SolidJS 向け（react-hooks/react-refresh プラグイン削除）に書き換え
+- **`src/lib/stores/auth.ts`**: `/api/me` fetch（旧 Go バックエンド呼び出し）を Supabase `profiles` テーブルへの直接クエリに置き換え
+- **`app.config.ts`**: `/api` → `localhost:3000` プロキシ設定を削除
+
+### Changed
+
+- **フロントエンド**: SvelteKit 2 (Svelte 5) → SolidStart 1.x (SolidJS) に全面移行
+  - ビルドツール: `vite.config.ts` + `svelte.config.js` → `app.config.ts`（vinxi + `@solidjs/start/config`、SPA モード `ssr: false`）
+  - `tsconfig.json`: `jsxImportSource: "solid-js"`、`vite/client` 型、`~/` エイリアス（`src/` を指す）に更新
+  - ルーティング: SvelteKit `+page.svelte` / `+layout.svelte` → SolidStart ファイルベースルーティング（`src/routes/*.tsx`）
+    - `src/routes/(app).tsx`: 認証ガード付き共通レイアウト（`<Sidebar>` + `<ThemeToggle>`）
+    - `src/routes/index.tsx`: `/` → `/dashboard` リダイレクト
+    - `src/routes/login.tsx`: ログインページ
+    - `src/routes/(app)/dashboard.tsx`: ダッシュボード
+    - `src/routes/(app)/notifications.tsx`: 通知
+    - `src/routes/(app)/schedule.tsx`: スケジュール（週カレンダー）
+    - `src/routes/(app)/profile/settings.tsx`: プロフィール設定
+  - 状態管理: Svelte 5 Runes (`$state`, `$derived`) + writable store → SolidJS signals (`createSignal`, `createMemo`)
+    - `src/lib/stores/auth.ts`: `initAuth()` / `destroyAuth()` を `app.tsx` の `onMount` から呼び出す設計に変更
+    - `src/lib/stores/theme.ts`: モジュールロード時にテーマ適用、system テーマ変化を `matchMedia` で監視
+    - `src/lib/i18n/index.ts`: `language` signal + `tStore` createMemo に変換、`setLanguage()` で localStorage と `document.lang` を更新
+    - `src/lib/utils.ts`: インポートパスを `$lib/` → `~/lib/` に変更
+  - UI コンポーネント: `.svelte` → `.tsx`（lucide-svelte → lucide-solid、`{#if}` → `<Show>`、`{#each}` → `<For>`）
+    - `Sidebar.tsx`, `AccountMenu.tsx`, `ThemeToggle.tsx`, `UserAvatar.tsx`
+  - エントリ: `src/app.tsx` を新規作成（`<Router>` + `<FileRoutes />`、`initAuth` を `onMount` で呼び出し）
+  - 削除: `src/app.html`、全 `.svelte` ファイル、`svelte.config.js`、`vite.config.ts`
+  - 依存更新: `svelte` / `@sveltejs/kit` / `lucide-svelte` を削除、`solid-js` / `@solidjs/start` / `@solidjs/router` / `lucide-solid` / `vinxi` を追加
+
+
+
+### Changed
+
+- **フロントエンド**: React 19 + Vite → SvelteKit (Svelte 5) に全面移行
+  - `frontend/` ディレクトリを新設。従来の `src/` / `server/` は legacy として残存（後続で削除予定）
+  - ルーティング: `react-router-dom` → SvelteKit ファイルベースルーティング (`src/routes/`)
+  - 状態管理: React Context / `useState` → Svelte 5 Runes (`$state`, `$derived`, `$effect`) + writable store
+  - 認証: `useAuth` フック → `$lib/stores/auth.ts`（`supabase.auth.onAuthStateChange` を store 化）
+  - i18n: `MainLanguageContext` → `$lib/i18n/index.ts`（`language` writable store + `tStore` derived store）
+  - テーマ: `next-themes` → `$lib/stores/theme.ts`（自前 store、localStorage + `prefers-color-scheme` 同期）
+  - UI コンポーネント: shadcn/ui → 純粋な Tailwind CSS クラスで自前実装（`Sidebar`, `UserAvatar`, `ThemeToggle`, `AccountMenu`）
+  - レイアウト: `Root.tsx` / `App.tsx` → `src/routes/+layout.svelte`（認証ガード + Sidebar 表示制御）
+- **バックエンド**: Hono (Node.js/TS) → Go (Echo) に全面移行
+  - `backend/` ディレクトリを新設
+  - `backend/cmd/api/main.go`: Echo サーバー起動、CORS、ヘルスチェック
+  - `backend/internal/middleware/auth.go`: Supabase JWT 検証ミドルウェア（HS256、`golang-jwt/jwt/v5`）
+  - `backend/internal/middleware/cors.go`: フロントエンド URL からの CORS 許可
+  - `backend/internal/handler/health.go`: ヘルスチェックエンドポイント
+- **プロジェクト構造**: ルート `package.json` の scripts を `frontend/` / `backend/` 向けに更新
+  - `dev`: `cd frontend && bun run dev`
+  - `dev:server`: `cd backend && go run ./cmd/api`
+  - `build`: `cd frontend && bun run build`
+  - `typecheck`: `cd frontend && bun run check`（svelte-check）
+
+## [Unreleased]
+
 ### Added
 
 - [`ThemeToggle`](src/components/ThemeToggle.tsx): メイン列右上からライト / ダーク / システムを選べるテーマ切替（[`next-themes`](package.json) + [`ThemeProvider`](src/components/theme-provider.tsx)）

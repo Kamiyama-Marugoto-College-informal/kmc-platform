@@ -1,30 +1,16 @@
-import {
-  createElement,
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from 'react'
+import { createSignal, createMemo } from 'solid-js'
 
-import { ja } from './ja.ts'
-import { en } from './en.ts'
+import { ja } from './ja'
+import { en } from './en'
 
 export type MainLanguage = 'ja' | 'en'
 
-type MainLanguageMessages = typeof ja
+export type MainLanguageMessages = typeof ja
 
 export const LANG_STORAGE_KEY = 'mainLanguage'
-
-export const mainLanguageMessages: Record<MainLanguage, MainLanguageMessages> =
-  {
-    ja,
-    en,
-  }
-
-function ignoreStorageError(error: unknown) {
-  void error
+export const mainLanguageMessages: Record<MainLanguage, MainLanguageMessages> = {
+  ja,
+  en: en as unknown as MainLanguageMessages,
 }
 
 export function isMainLanguage(value: string): value is MainLanguage {
@@ -32,8 +18,7 @@ export function isMainLanguage(value: string): value is MainLanguage {
 }
 
 export function detectBrowserLanguage(): MainLanguage {
-  const raw =
-    typeof window !== 'undefined' ? (window.navigator.language ?? '') : ''
+  const raw = typeof window !== 'undefined' ? (window.navigator.language ?? '') : ''
   return raw.toLowerCase().startsWith('ja') ? 'ja' : 'en'
 }
 
@@ -46,30 +31,23 @@ export function detectInitialLanguage(): MainLanguage {
     if (savedLanguage && isMainLanguage(savedLanguage)) {
       return savedLanguage
     }
-  } catch (error) {
-    ignoreStorageError(error)
+  } catch {
+    // ignore
   }
   return detectBrowserLanguage()
 }
 
-export function formatWelcome(language: MainLanguage, name: string): string {
-  return mainLanguageMessages[language].common.welcome.replace('{name}', name)
+export function formatWelcome(lang: MainLanguage, name: string): string {
+  return mainLanguageMessages[lang].common.welcome.replace('{name}', name)
 }
 
-export function formatFooterCopyright(
-  language: MainLanguage,
-  year: number,
-): string {
-  return mainLanguageMessages[language].footer.copyright.replace(
-    '{year}',
-    String(year),
-  )
+export function formatFooterCopyright(lang: MainLanguage, year: number): string {
+  return mainLanguageMessages[lang].footer.copyright.replace('{year}', String(year))
 }
 
 export function t(key: string, locale: string): string {
   const keys = key.split('.')
-  let value: unknown =
-    mainLanguageMessages[isMainLanguage(locale) ? locale : 'en']
+  let value: unknown = mainLanguageMessages[isMainLanguage(locale) ? locale : 'en']
   for (const k of keys) {
     if (!value || typeof value !== 'object') {
       return key
@@ -79,43 +57,21 @@ export function t(key: string, locale: string): string {
   return typeof value === 'string' ? value : key
 }
 
-const MainLanguageContext = createContext<{
-  language: MainLanguage
-  setLanguage: (language: MainLanguage) => void
-} | null>(null)
+const [language, setLanguageInternal] = createSignal<MainLanguage>(detectInitialLanguage())
 
-export function MainLanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<MainLanguage>(() =>
-    detectInitialLanguage(),
-  )
-
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(LANG_STORAGE_KEY, language)
-    } catch (error) {
-      ignoreStorageError(error)
-    }
-    document.documentElement.lang = language
-  }, [language])
-
-  return createElement(
-    MainLanguageContext.Provider,
-    { value: { language, setLanguage } },
-    children,
-  )
-}
-
-export function useMainLanguage() {
-  const ctx = useContext(MainLanguageContext)
-  if (!ctx) {
-    throw new Error('useMainLanguage must be used within MainLanguageProvider')
+export function setLanguage(lang: MainLanguage) {
+  try {
+    window.localStorage.setItem(LANG_STORAGE_KEY, lang)
+  } catch {
+    // ignore
   }
-  return ctx
+  document.documentElement.lang = lang
+  setLanguageInternal(lang)
 }
 
-export function useT() {
-  const { language } = useMainLanguage()
-  return useCallback((key: string) => t(key, language), [language])
-}
+export { language }
 
-export { ja, en }
+export const tStore = createMemo(() => {
+  const lang = language()
+  return (key: string) => t(key, lang)
+})
