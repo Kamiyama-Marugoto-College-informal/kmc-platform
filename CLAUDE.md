@@ -68,7 +68,10 @@ SolidJS の signals / memo を使用（React state / Svelte store は不使用�
 
 ### UI コンポーネント (`src/lib/components/`)
 
-- 純粋な **Tailwind CSS** クラスで実装（shadcn/ui は不使用）
+- **Tailwind CSS** クラスで実装（shadcn/ui は不使用）
+- **[@kobalte/core](https://kobalte.dev/)** — SolidJS ネイティブの headless/accessible UI プリミティブ
+  - `DropdownMenu`: AccountMenu・ThemeToggle のドロップダウン
+  - `Tabs`: Schedule ページのタブ切り替え
 - **lucide-solid** をアイコンライブラリとして使用
 - テーマ切り替えは `theme` store で自前管理（next-themes は不使用）
 - `~` エイリアスは `src/` を指す

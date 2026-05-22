@@ -37,7 +37,9 @@ export default function LoginPage() {
         </div>
         <div class="flex flex-col gap-4 p-6 pt-0">
           <Show when={error()}>
-            {(msg) => <p class="text-center text-sm text-destructive">{msg()}</p>}
+            {(msg) => (
+              <p class="text-center text-sm text-destructive">{msg()}</p>
+            )}
           </Show>
           <button
             type="button"

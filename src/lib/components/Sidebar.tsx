@@ -47,7 +47,9 @@ export default function Sidebar(props: SidebarProps) {
         <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm shrink-0">
           <Hexagon class="w-6 h-6 text-white fill-white/20" />
         </div>
-        <span class="font-display font-bold text-xl tracking-tight hidden lg:block">Campus</span>
+        <span class="font-display font-bold text-xl tracking-tight hidden lg:block">
+          Campus
+        </span>
       </div>
 
       {/* Navigation */}
@@ -77,7 +79,9 @@ export default function Sidebar(props: SidebarProps) {
                         isSelected() && isEnabled() && 'text-zinc-900',
                       )}
                     />
-                    <span class="font-medium hidden lg:block">{item.label}</span>
+                    <span class="font-medium hidden lg:block">
+                      {item.label}
+                    </span>
 
                     {/* Tooltip for mobile/collapsed */}
                     {!isEnabled() && (

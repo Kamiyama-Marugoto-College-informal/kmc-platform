@@ -18,16 +18,25 @@ export default function ProfileSettingsPage() {
         <h1 class="my-0 mb-2 text-2xl font-semibold tracking-tight text-foreground">
           {t()('profile.settings.title')}
         </h1>
-        <p class="mt-1 text-sm text-muted-foreground">{t()('profile.settings.intro')}</p>
+        <p class="mt-1 text-sm text-muted-foreground">
+          {t()('profile.settings.intro')}
+        </p>
       </div>
       <div class="rounded-xl border bg-card text-card-foreground shadow">
         <div class="flex flex-col space-y-1.5 p-6">
-          <h3 class="font-semibold leading-none tracking-tight">{t()('language.main')}</h3>
-          <p class="text-sm text-muted-foreground">{t()('language.description')}</p>
+          <h3 class="font-semibold leading-none tracking-tight">
+            {t()('language.main')}
+          </h3>
+          <p class="text-sm text-muted-foreground">
+            {t()('language.description')}
+          </p>
         </div>
         <div class="p-6 pt-0">
           <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
-            <label for="main-language" class="text-sm font-medium text-foreground">
+            <label
+              for="main-language"
+              class="text-sm font-medium text-foreground"
+            >
               {t()('language.main')}
             </label>
             <select

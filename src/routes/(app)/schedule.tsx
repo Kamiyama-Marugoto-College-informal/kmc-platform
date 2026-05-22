@@ -1,12 +1,11 @@
 import { createSignal, createMemo, Show, For } from 'solid-js'
 import { ChevronLeft, ChevronRight } from 'lucide-solid'
+import { Tabs } from '@kobalte/core/tabs'
 import { language, tStore } from '~/lib/i18n'
 import { formatDisplayDate, formatTimeRange } from '~/lib/utils'
 import {
   buildAssignmentCalendarItems,
   buildClassCalendarItems,
-  type AssignmentCalendarItem,
-  type ClassCalendarItem,
 } from '~/lib/data/mockSchedule'
 import { cn } from '~/lib/utils'
 
@@ -46,16 +45,22 @@ export default function SchedulePage() {
   const lang = language
 
   const [activeTab, setActiveTab] = createSignal<ScheduleTab>('classes')
-  const [weekStartDate, setWeekStartDate] = createSignal<Date>(startOfWeekMonday(new Date()))
+  const [weekStartDate, setWeekStartDate] = createSignal<Date>(
+    startOfWeekMonday(new Date()),
+  )
 
   const weekDays = createMemo(() =>
     Array.from({ length: 7 }, (_, index) => addDays(weekStartDate(), index)),
   )
   const classItems = createMemo(() => buildClassCalendarItems(weekStartDate()))
-  const assignmentItems = createMemo(() => buildAssignmentCalendarItems(weekStartDate()))
+  const assignmentItems = createMemo(() =>
+    buildAssignmentCalendarItems(weekStartDate()),
+  )
 
   const classesByDay = createMemo(() =>
-    weekDays().map((day) => classItems().filter((item) => isSameCalendarDay(item.start, day))),
+    weekDays().map((day) =>
+      classItems().filter((item) => isSameCalendarDay(item.start, day)),
+    ),
   )
   const assignmentsByDay = createMemo(() =>
     weekDays().map((day) =>
@@ -90,6 +95,8 @@ export default function SchedulePage() {
   }
 
   function onWeekKeyDown(event: KeyboardEvent) {
+    // Let Kobalte Tabs handle arrow keys when focused inside the tab list
+    if ((event.target as HTMLElement).closest('[role="tablist"]')) return
     if (event.key === 'ArrowLeft') {
       event.preventDefault()
       moveWeek(-1)
@@ -100,13 +107,20 @@ export default function SchedulePage() {
   }
 
   return (
-    <div class="space-y-6" tabIndex={0} role="application" onKeyDown={onWeekKeyDown}>
+    <div
+      class="space-y-6"
+      tabIndex={0}
+      role="application"
+      onKeyDown={onWeekKeyDown}
+    >
       <div>
         <h1 class="my-0 mb-2 text-3xl font-semibold tracking-tight text-foreground">
           {t()('schelude.title')}
         </h1>
         <p class="mt-1 text-sm text-muted-foreground">{weekTitle()}</p>
-        <p class="mt-1 text-sm text-muted-foreground">{t()('schelude.subtitle')}</p>
+        <p class="mt-1 text-sm text-muted-foreground">
+          {t()('schelude.subtitle')}
+        </p>
       </div>
 
       <div class="rounded-xl border bg-card text-card-foreground shadow">
@@ -138,30 +152,33 @@ export default function SchedulePage() {
           </div>
 
           <div class="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              class={cn(
-                'inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-                activeTab() === 'classes'
-                  ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                  : 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-              )}
-              onClick={() => setActiveTab('classes')}
+            <Tabs
+              value={activeTab()}
+              onChange={(v) => setActiveTab(v as ScheduleTab)}
             >
-              {t()('schelude.tabs.classes')}
-            </button>
-            <button
-              type="button"
-              class={cn(
-                'inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-                activeTab() === 'assignments'
-                  ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                  : 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-              )}
-              onClick={() => setActiveTab('assignments')}
-            >
-              {t()('schelude.tabs.assignments')}
-            </button>
+              <Tabs.List class="flex flex-wrap items-center gap-2">
+                <Tabs.Trigger
+                  value="classes"
+                  class={cn(
+                    'inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                    'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+                    'data-[selected]:bg-primary data-[selected]:text-primary-foreground data-[selected]:border-primary data-[selected]:hover:bg-primary/90',
+                  )}
+                >
+                  {t()('schelude.tabs.classes')}
+                </Tabs.Trigger>
+                <Tabs.Trigger
+                  value="assignments"
+                  class={cn(
+                    'inline-flex items-center justify-center rounded-md px-3 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                    'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+                    'data-[selected]:bg-primary data-[selected]:text-primary-foreground data-[selected]:border-primary data-[selected]:hover:bg-primary/90',
+                  )}
+                >
+                  {t()('schelude.tabs.assignments')}
+                </Tabs.Trigger>
+              </Tabs.List>
+            </Tabs>
           </div>
         </div>
 
@@ -179,7 +196,9 @@ export default function SchedulePage() {
                 return (
                   <section class="rounded-lg border border-border bg-card">
                     <div class="px-3 py-2">
-                      <p class="my-0 text-xs text-muted-foreground">{dayLabel(day)}</p>
+                      <p class="my-0 text-xs text-muted-foreground">
+                        {dayLabel(day)}
+                      </p>
                       <p class="my-0 text-sm font-medium text-foreground">
                         {formatDisplayDate(lang(), day, false)}
                       </p>
@@ -190,19 +209,28 @@ export default function SchedulePage() {
                       <Show
                         when={hasItems()}
                         fallback={
-                          <p class="my-0 text-xs text-muted-foreground">{t()('schelude.empty')}</p>
+                          <p class="my-0 text-xs text-muted-foreground">
+                            {t()('schelude.empty')}
+                          </p>
                         }
                       >
                         <Show when={activeTab() === 'classes'}>
                           <For each={classDayItems()}>
                             {(item) => (
                               <article class="rounded-md border border-border p-2">
-                                <p class="my-0 text-sm font-medium text-foreground">{item.title}</p>
-                                <p class="mt-1 text-xs text-muted-foreground">
-                                  {formatTimeRange(lang(), item.start, item.end)}
+                                <p class="my-0 text-sm font-medium text-foreground">
+                                  {item.title}
                                 </p>
                                 <p class="mt-1 text-xs text-muted-foreground">
-                                  {t()('schelude.labels.location')}: {item.location}
+                                  {formatTimeRange(
+                                    lang(),
+                                    item.start,
+                                    item.end,
+                                  )}
+                                </p>
+                                <p class="mt-1 text-xs text-muted-foreground">
+                                  {t()('schelude.labels.location')}:{' '}
+                                  {item.location}
                                 </p>
                                 <a
                                   href={item.remoteUrl}
@@ -220,9 +248,12 @@ export default function SchedulePage() {
                           <For each={assignmentDayItems()}>
                             {(item) => (
                               <article class="rounded-md border border-border p-2">
-                                <p class="my-0 text-sm font-medium text-foreground">{item.title}</p>
+                                <p class="my-0 text-sm font-medium text-foreground">
+                                  {item.title}
+                                </p>
                                 <p class="mt-1 text-xs text-muted-foreground">
-                                  {t()('schelude.labels.dueAt')}: {formatDueDateTime(item.dueAt)}
+                                  {t()('schelude.labels.dueAt')}:{' '}
+                                  {formatDueDateTime(item.dueAt)}
                                 </p>
                                 <a
                                   href={item.taskUrl}
@@ -244,7 +275,9 @@ export default function SchedulePage() {
             </For>
           </div>
 
-          <p class="mt-3 text-xs text-muted-foreground">{t()('schelude.keyboardHint')}</p>
+          <p class="mt-3 text-xs text-muted-foreground">
+            {t()('schelude.keyboardHint')}
+          </p>
         </div>
       </div>
     </div>

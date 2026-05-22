@@ -19,7 +19,11 @@ export function formatDisplayDate(
   }).format(date)
 }
 
-export function formatTimeRange(language: MainLanguage, start: Date, end: Date): string {
+export function formatTimeRange(
+  language: MainLanguage,
+  start: Date,
+  end: Date,
+): string {
   const locale = language === 'ja' ? 'ja-JP' : 'en-US'
   const timeFmt = new Intl.DateTimeFormat(locale, {
     hour: '2-digit',

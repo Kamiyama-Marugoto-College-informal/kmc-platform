@@ -29,7 +29,11 @@ async function applySession(supabaseUser: {
   }
 
   const allowedDomain = import.meta.env.VITE_ALLOWED_DOMAIN as string
-  if (role !== 'admin' && allowedDomain && !email.endsWith(`@${allowedDomain}`)) {
+  if (
+    role !== 'admin' &&
+    allowedDomain &&
+    !email.endsWith(`@${allowedDomain}`)
+  ) {
     await supabase.auth.signOut()
     setUser(null)
     setIsLoading(false)

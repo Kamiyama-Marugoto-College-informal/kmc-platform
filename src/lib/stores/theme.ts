@@ -20,7 +20,9 @@ function getInitialTheme(): Theme {
 function getResolvedTheme(t: Theme): 'light' | 'dark' {
   if (t === 'system') {
     if (typeof window === 'undefined') return 'light'
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light'
   }
   return t
 }
@@ -38,11 +40,13 @@ if (typeof window !== 'undefined') {
   applyTheme(getInitialTheme())
 
   // React to system theme changes when in system mode
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-    if (theme() === 'system') {
-      applyTheme('system')
-    }
-  })
+  window
+    .matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', () => {
+      if (theme() === 'system') {
+        applyTheme('system')
+      }
+    })
 }
 
 export function setTheme(value: Theme) {

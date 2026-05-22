@@ -4,6 +4,15 @@
 
 ### Changed
 
+- **UI ライブラリ移行: 手書き dropdown/tabs → `@kobalte/core` (v0.13.11)**
+  - `AccountMenu.tsx`: 手書きの `createSignal` + `window.addEventListener`（クリーンアップなしのリーク）を廃止し、`DropdownMenu` に置き換え。`useNavigate` で SPA ナビゲーション対応
+  - `ThemeToggle.tsx`: 同様に `DropdownMenu.RadioGroup` + `RadioItem` に置き換え。テーマ選択状態を `data-[checked]` CSS 属性で表現
+  - `schedule.tsx`: 手書き tab buttons を `Tabs.Root` / `Tabs.List` / `Tabs.Trigger` に置き換え（`role="tablist"` / `role="tab"` / キーボード Left/Right ナビゲーション）。週移動の ArrowKey と競合しないよう tablist 内フォーカスを検出してガード追加
+  - `app.css`: Kobalte ポップオーバーコンテンツのフェードアニメーション追加 (`kb-content-show` / `kb-content-hide`)
+  - `CLAUDE.md`: Kobalte を UI スタックに追記
+
+### Changed
+
 - **リポジトリ構成フラット化**: `frontend/` サブディレクトリを廃止し、ルート直下に `src/` を配置
   - `frontend/src/` → `src/`、`frontend/app.config.ts` → `app.config.ts`、`frontend/tsconfig.json` → `tsconfig.json` に移動
   - ルート `package.json` を SolidStart 依存（vinxi, solid-js 等）に一本化、`name` を `kmc-platform` に戻す
@@ -36,8 +45,6 @@
   - エントリ: `src/app.tsx` を新規作成（`<Router>` + `<FileRoutes />`、`initAuth` を `onMount` で呼び出し）
   - 削除: `src/app.html`、全 `.svelte` ファイル、`svelte.config.js`、`vite.config.ts`
   - 依存更新: `svelte` / `@sveltejs/kit` / `lucide-svelte` を削除、`solid-js` / `@solidjs/start` / `@solidjs/router` / `lucide-solid` / `vinxi` を追加
-
-
 
 ### Changed
 

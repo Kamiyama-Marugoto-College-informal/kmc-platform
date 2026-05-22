@@ -25,14 +25,24 @@ type UserAvatarProps = {
 }
 
 export default function UserAvatar(props: UserAvatarProps) {
-  const badge = () => roleBadge[(props.role as Role) ?? 'student'] ?? roleBadge.student
+  const badge = () =>
+    roleBadge[(props.role as Role) ?? 'student'] ?? roleBadge.student
   const initial = () => props.name.charAt(0).toUpperCase()
 
   return (
-    <div class={cn('relative inline-flex items-center justify-center overflow-visible', props.className)}>
+    <div
+      class={cn(
+        'relative inline-flex items-center justify-center overflow-visible',
+        props.className,
+      )}
+    >
       <div class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full bg-muted">
         {props.image ? (
-          <img src={props.image} alt={props.name} class="h-full w-full object-cover" />
+          <img
+            src={props.image}
+            alt={props.name}
+            class="h-full w-full object-cover"
+          />
         ) : (
           <span class="text-sm font-semibold">{initial()}</span>
         )}

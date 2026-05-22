@@ -2,7 +2,9 @@ export default function NotificationsPage() {
   return (
     <div class="space-y-6">
       <div>
-        <h1 class="my-0 mb-2 text-2xl font-semibold tracking-tight text-foreground">通知</h1>
+        <h1 class="my-0 mb-2 text-2xl font-semibold tracking-tight text-foreground">
+          通知
+        </h1>
         <p class="mt-1 text-sm text-muted-foreground">
           お知らせとアラートの一覧をここに表示します。
         </p>

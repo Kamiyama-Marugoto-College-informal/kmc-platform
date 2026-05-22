@@ -5,7 +5,6 @@ import { formatDisplayDate, formatTimeRange } from '~/lib/utils'
 import {
   buildAssignmentItems,
   buildTodayScheduleItems,
-  type AssignmentItem,
 } from '~/lib/data/mockDashboard'
 
 type DueKind = 'overdue' | 'today' | 'thisWeek' | 'later'
@@ -79,7 +78,9 @@ export default function DashboardPage() {
         <p class="mt-1 text-sm text-muted-foreground">
           {formatDisplayDate(lang(), today, true)}
         </p>
-        <p class="mt-1 text-sm text-muted-foreground">{t()('dashboard.subtitle')}</p>
+        <p class="mt-1 text-sm text-muted-foreground">
+          {t()('dashboard.subtitle')}
+        </p>
       </div>
 
       <div class="grid gap-6 md:grid-cols-2">
@@ -102,7 +103,9 @@ export default function DashboardPage() {
                   <p class="mt-2 text-sm font-medium text-muted-foreground">
                     {t()('dashboard.sectionTodaySchedule')}
                   </p>
-                  <p class="text-sm text-muted-foreground">{t()('dashboard.scheduleEmpty')}</p>
+                  <p class="text-sm text-muted-foreground">
+                    {t()('dashboard.scheduleEmpty')}
+                  </p>
                 </div>
               }
             >
@@ -114,7 +117,9 @@ export default function DashboardPage() {
                         <div class="bg-border h-px" />
                       </Show>
                       <div class="py-3">
-                        <p class="my-0 font-medium text-foreground">{item.title}</p>
+                        <p class="my-0 font-medium text-foreground">
+                          {item.title}
+                        </p>
                         <p class="mt-1 text-sm text-muted-foreground">
                           {formatTimeRange(lang(), item.start, item.end)}
                           {item.location ? ` · ${item.location}` : ''}
@@ -147,7 +152,9 @@ export default function DashboardPage() {
                   <p class="mt-2 text-sm font-medium text-muted-foreground">
                     {t()('dashboard.sectionAssignments')}
                   </p>
-                  <p class="text-sm text-muted-foreground">{t()('dashboard.assignmentsEmpty')}</p>
+                  <p class="text-sm text-muted-foreground">
+                    {t()('dashboard.assignmentsEmpty')}
+                  </p>
                 </div>
               }
             >
@@ -170,10 +177,14 @@ export default function DashboardPage() {
                         </Show>
                         <div class="flex flex-wrap items-start justify-between gap-2 py-3">
                           <div class="min-w-0 flex-1">
-                            <p class="my-0 font-medium text-foreground">{a.title}</p>
+                            <p class="my-0 font-medium text-foreground">
+                              {a.title}
+                            </p>
                             <Show when={a.course}>
                               {(course) => (
-                                <p class="mt-0.5 text-sm text-muted-foreground">{course()}</p>
+                                <p class="mt-0.5 text-sm text-muted-foreground">
+                                  {course()}
+                                </p>
                               )}
                             </Show>
                             <p class="mt-1 text-xs text-muted-foreground">
